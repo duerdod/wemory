@@ -6,20 +6,24 @@ import React, {
 } from 'react';
 
 import { memoryCards } from '../constants/memoryCards';
+import { memoryReducer } from '../reducers/memoryReducer';
 
 export interface MemoryCard {
-  id: number;
+  memoryId: number;
   color: string;
   isOpen: boolean;
   isCollected: boolean;
+  uniqueId: string;
 }
 
-type MemoryState = {
+export type MemoryState = {
   cards: MemoryCard[];
-  selectedCards: MemoryCard[];
 };
 
-type Action = { type: 'SELECT'; id: number };
+export type Action = {
+  type: 'SELECT';
+  payload: { memoryId: number; uniqueId: string };
+};
 type MemoryDispatch = (action: Action) => void;
 
 const MemoryStateContext = createContext<MemoryState | undefined>(undefined);
@@ -27,59 +31,8 @@ const MemoryDispatchContext = createContext<MemoryDispatch | undefined>(
   undefined
 );
 
-function memoryReducer(state: MemoryState, action: Action): MemoryState {
-  switch (action.type) {
-    case 'SELECT':
-      const { cards, selectedCards } = state;
-      const currentSelectedCard = cards.find(c => c.id === action.id);
-      const previouslySelectedCard = selectedCards.find(c => c.id);
-
-      // Return early.
-      if (!currentSelectedCard) {
-        return state;
-      }
-
-      // No match
-      if (
-        currentSelectedCard &&
-        previouslySelectedCard &&
-        currentSelectedCard.id !== previouslySelectedCard.id
-      ) {
-        return {
-          ...state,
-          selectedCards: []
-        };
-      }
-
-      // Match!
-      if (
-        previouslySelectedCard &&
-        selectedCards.length < 2 &&
-        previouslySelectedCard.id === currentSelectedCard.id
-      ) {
-        return {
-          ...state,
-          selectedCards: [
-            { ...previouslySelectedCard, isCollected: true },
-            { ...currentSelectedCard, isCollected: true, isOpen: true }
-          ]
-        };
-      }
-
-      // Defaults to select a card
-      return {
-        ...state,
-        selectedCards: [{ ...currentSelectedCard, isOpen: true }]
-      };
-
-    default:
-      throw new Error('Not a valid action type.');
-  }
-}
-
 const initialState: MemoryState = {
-  cards: memoryCards,
-  selectedCards: []
+  cards: memoryCards
 };
 
 const MemoryProvider: FunctionComponent = ({ children }) => {

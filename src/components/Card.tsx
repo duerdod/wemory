@@ -4,6 +4,7 @@ import { MemoryCard, useMemoryDispatch } from '../context/memory-context';
 
 interface StyledCardProps {
   background: string;
+  isCollected: boolean;
 }
 
 const StyledCard = styled.div<StyledCardProps>`
@@ -17,13 +18,32 @@ const StyledCard = styled.div<StyledCardProps>`
   align-items: center;
   cursor: pointer;
   color: #383838;
+  ${({ isCollected }) => isCollected && 'opacity: 0.7'};
 `;
 
-export const Card = ({ id, color }: MemoryCard) => {
+export const Card = ({
+  memoryId,
+  uniqueId,
+  color,
+  isCollected
+}: MemoryCard) => {
   const dispatch = useMemoryDispatch();
-  const selectCard = () => dispatch({ type: 'SELECT', id });
+
+  const selectCard = () =>
+    dispatch({
+      type: 'SELECT',
+      payload: {
+        memoryId,
+        uniqueId
+      }
+    });
+
   return (
-    <StyledCard background={color} onClick={selectCard}>
+    <StyledCard
+      isCollected={isCollected}
+      background={color}
+      onClick={selectCard}
+    >
       Card
     </StyledCard>
   );
