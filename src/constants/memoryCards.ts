@@ -1,26 +1,38 @@
 export const memoryCards = [
     {
         id: 1,
-        color: 'crimson'
+        color: 'tomato',
+        isOpen: false,
+        isCollected: false
     },
     {
         id: 2,
-        color: 'darkgrey'
+        color: 'darkgrey',
+        isOpen: false,
+        isCollected: false
     },
     {
         id: 3,
-        color: 'darkseagreen'
+        color: 'darkseagreen',
+        isOpen: false,
+        isCollected: false
     },
     {
         id: 4,
-        color: 'goldenrod'
+        color: 'gold',
+        isOpen: false,
+        isCollected: false
     },
     {
         id: 5,
-        color: 'lavenderblush'
+        color: 'lavenderblush',
+        isOpen: false,
+        isCollected: false
     },
     {
         id: 6,
-        color: 'hotpink'
+        color: 'hotpink',
+        isOpen: false,
+        isCollected: false
     },
 ]

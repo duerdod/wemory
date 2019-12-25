@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MemoryCard } from '../context/memory-context';
+import { MemoryCard, useMemoryDispatch } from '../context/memory-context';
 
 interface StyledCardProps {
   background: string;
@@ -15,9 +15,16 @@ const StyledCard = styled.div<StyledCardProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* color: white; */
+  cursor: pointer;
+  color: #383838;
 `;
 
 export const Card = ({ id, color }: MemoryCard) => {
-  return <StyledCard background={color}>Card</StyledCard>;
+  const dispatch = useMemoryDispatch();
+  const selectCard = () => dispatch({ type: 'SELECT', id });
+  return (
+    <StyledCard background={color} onClick={selectCard}>
+      Card
+    </StyledCard>
+  );
 };
