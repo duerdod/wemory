@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import 'reset-css';
 import { ThemeProvider } from 'styled-components';
 import { MemoryProvider } from './context/memory-context';
 import * as Themeing from './Theme';

@@ -2,11 +2,7 @@ import React from 'react';
 import { Board } from './components/Board';
 
 const App: React.FC = () => {
-  return (
-    <div>
-      <Board />
-    </div>
-  );
+  return <Board />;
 };
 
 export default App;

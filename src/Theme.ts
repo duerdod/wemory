@@ -13,6 +13,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Arial Black';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -20,15 +21,8 @@ export const GlobalStyle = createGlobalStyle`
   html {
     font-size: 16px;
   }
-  html, body, #root {
+  html, body, #root  {
     background: cornflowerblue;
-    background: linear-gradient(
-    180deg,
-    cornflowerblue 60%,
-    #3676e8 40%
-);
-    height: 5px;
-    width: 5px;
   }
 
   button {

@@ -5,8 +5,10 @@ import React, {
   FunctionComponent
 } from 'react';
 
+import { memoryCards } from '../constants/memoryCards';
+
 export interface MemoryCard {
-  id: string;
+  id: number;
   color: string;
 }
 
@@ -33,7 +35,7 @@ function memoryReducer(state: MemoryState, action: Action): MemoryState {
 }
 
 const initialState: MemoryState = {
-  cards: [],
+  cards: memoryCards,
   selectedCards: []
 };
 
