@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useSpring, animated, config } from 'react-spring';
 import { MemoryCard, useMemoryDispatch } from '../context/memory-context';
+import { theme } from '../Theme';
 
 interface StyledCardProps {
   background: string;
@@ -17,10 +18,11 @@ const StyledCard = styled(animated.div)<StyledCardProps>`
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 2px -2px 5px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   color: #383838;
   ${({ isOpen, background }) =>
-    isOpen ? `background: ${background}` : 'background: blanchedalmond'};
+    isOpen ? `background: ${background}` : `background: ${theme.cardColor}`};
   ${({ isCollected, background }) =>
     isCollected &&
     `
@@ -37,10 +39,12 @@ export const Card = ({
 }: MemoryCard) => {
   const dispatch = useMemoryDispatch();
 
-  const { transform } = useSpring({
+  // BOX SHADOW SHOULD ALSO BE ANIMATED.
+  const { transform, boxShadow } = useSpring({
     transform: `perspective(600px) rotateX(${
       isOpen || isCollected ? 180 : 0
     }deg)`,
+    boxShadow: 'none',
     config: config.wobbly
   });
 
@@ -60,6 +64,7 @@ export const Card = ({
       background={color}
       onClick={selectCard}
       style={{
+        boxShadow,
         transform: transform.interpolate(
           transform => `${transform} rotateX(180deg)`
         )

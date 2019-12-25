@@ -25,10 +25,17 @@ export type MemoryState = {
 };
 
 // Pass the card as payload.
-export type Action = {
-  type: 'SELECT';
-  payload: { memoryId: number; uniqueId: string };
-};
+export type Action =
+  | {
+      type: 'SELECT';
+      payload: { memoryId: number; uniqueId: string };
+    }
+  | {
+      type: 'ADD_IMAGES';
+      payload: {
+        cards: MemoryCard[];
+      };
+    };
 
 type MemoryDispatch = (action: Action) => void;
 

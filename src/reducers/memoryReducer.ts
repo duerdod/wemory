@@ -64,6 +64,11 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                 cards: [...selectCard]
             };
 
+        case 'ADD_IMAGES': {
+            console.log(action)
+            return state
+        }
+
         default:
             throw new Error('Not a valid action type.');
     }

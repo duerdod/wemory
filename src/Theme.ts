@@ -1,13 +1,16 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const theme = {
-  fontStyle: 'Roboto, sans-serif',
-  fontWeight: ['400', '900']
+  fontFamily: 'Bowlby One SC, sans-serif',
+  fontWeight: ['400', '900'],
+  backgroundColor: 'rgb(3, 152, 216)',
+  cardColor: 'rgb(27, 183, 244)',
+  titleColor: 'rgb(255, 53, 12)'
 };
 
 export const GlobalStyle = createGlobalStyle`
 
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC&display=swap');
 
   * {
     box-sizing: border-box;
@@ -22,7 +25,7 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 16px;
   }
   html, body, #root  {
-    background: cornflowerblue;
+    background: ${theme.backgroundColor}
   }
 
   button {
