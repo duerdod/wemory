@@ -21,8 +21,14 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 16px;
   }
   html, body, #root {
-    min-height: 100%;
     background: cornflowerblue;
+    background: linear-gradient(
+    180deg,
+    cornflowerblue 60%,
+    #3676e8 40%
+);
+    height: 5px;
+    width: 5px;
   }
 
   button {

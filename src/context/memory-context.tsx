@@ -5,12 +5,15 @@ import React, {
   FunctionComponent
 } from 'react';
 
-interface MemoryCard {
+export interface MemoryCard {
   id: string;
   color: string;
 }
 
-type MemoryState = MemoryCard[];
+type MemoryState = {
+  cards: MemoryCard[];
+  selectedCards: MemoryCard[];
+};
 
 type Action = { type: 'SELECT'; id: number };
 type MemoryDispatch = (action: Action) => void;
@@ -29,8 +32,13 @@ function memoryReducer(state: MemoryState, action: Action): MemoryState {
   }
 }
 
+const initialState: MemoryState = {
+  cards: [],
+  selectedCards: []
+};
+
 const MemoryProvider: FunctionComponent = ({ children }) => {
-  const [memoryState, memoryDispatch] = useReducer(memoryReducer, []);
+  const [memoryState, memoryDispatch] = useReducer(memoryReducer, initialState);
   return (
     <MemoryStateContext.Provider value={memoryState}>
       <MemoryDispatchContext.Provider value={memoryDispatch}>
@@ -40,4 +48,10 @@ const MemoryProvider: FunctionComponent = ({ children }) => {
   );
 };
 
-export { MemoryProvider };
+function useMemoryState() {
+  const state = useContext(MemoryStateContext);
+  if (!state) throw new Error('UseMemoryState is not inside MemoryProvider');
+  return state;
+}
+
+export { MemoryProvider, useMemoryState };
