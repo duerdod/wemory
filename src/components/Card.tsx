@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSpring, animated, config } from 'react-spring';
 import { MemoryCard, useMemoryDispatch } from '../context/memory-context';
 
 interface StyledCardProps {
@@ -8,7 +9,7 @@ interface StyledCardProps {
   isCollected: boolean;
 }
 
-const StyledCard = styled.div<StyledCardProps>`
+const StyledCard = styled(animated.div)<StyledCardProps>`
   height: 150px;
   border-radius: 3px;
   padding: 20px;
@@ -36,6 +37,13 @@ export const Card = ({
 }: MemoryCard) => {
   const dispatch = useMemoryDispatch();
 
+  const { transform } = useSpring({
+    transform: `perspective(600px) rotateX(${
+      isOpen || isCollected ? 180 : 0
+    }deg)`,
+    config: config.wobbly
+  });
+
   const selectCard = () =>
     dispatch({
       type: 'SELECT',
@@ -51,8 +59,13 @@ export const Card = ({
       isOpen={isOpen}
       background={color}
       onClick={selectCard}
+      style={{
+        transform: transform.interpolate(
+          transform => `${transform} rotateX(180deg)`
+        )
+      }}
     >
-      {memoryId}
+      {/* {memoryId} */}
     </StyledCard>
   );
 };

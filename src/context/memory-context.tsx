@@ -10,6 +10,8 @@ import { memoryReducer } from '../reducers/memoryReducer';
 
 // In order to have number of cards as a setting,
 // the reducer payload must be of type MemoryCard.
+// ie. the MemoryCard inteface have to include itself...?
+// Or maybe be extended?
 export interface MemoryCard {
   memoryId: number;
   color: string;
@@ -22,10 +24,12 @@ export type MemoryState = {
   cards: MemoryCard[];
 };
 
+// Pass the card as payload.
 export type Action = {
   type: 'SELECT';
   payload: { memoryId: number; uniqueId: string };
 };
+
 type MemoryDispatch = (action: Action) => void;
 
 const MemoryStateContext = createContext<MemoryState | undefined>(undefined);
