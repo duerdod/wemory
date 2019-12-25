@@ -8,6 +8,8 @@ import React, {
 import { memoryCards } from '../constants/memoryCards';
 import { memoryReducer } from '../reducers/memoryReducer';
 
+// In order to have number of cards as a setting,
+// the reducer payload must be of type MemoryCard.
 export interface MemoryCard {
   memoryId: number;
   color: string;

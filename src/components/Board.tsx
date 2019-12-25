@@ -12,7 +12,7 @@ const Container = styled.div`
 
 export const Board: React.FC = () => {
   const { cards } = useMemoryState();
-  console.table(cards);
+
   return (
     <Container>
       {cards.map((card: MemoryCard) => (

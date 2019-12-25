@@ -1,5 +1,7 @@
 import { MemoryState, Action } from '../context/memory-context'
 
+// In order to have number of cards as a setting, 
+// the reducer payload must be of type MemoryCard.
 export function memoryReducer(state: MemoryState, action: Action): MemoryState {
     switch (action.type) {
         case 'SELECT':
@@ -13,8 +15,12 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                 return state;
             }
 
-            // No match
-            if (previouslySelectedCard && previouslySelectedCard.memoryId !== currentSelectedCard.memoryId) {
+            // No match...
+            // Have to have an previously selected card.
+            if (
+                previouslySelectedCard &&
+                previouslySelectedCard.memoryId !== currentSelectedCard.memoryId
+            ) {
                 const restoredCards = cards.map(card => {
                     if (!card.isCollected) {
                         card.isOpen = false;
@@ -32,11 +38,8 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                 previouslySelectedCard?.memoryId === currentSelectedCard.memoryId &&
                 previouslySelectedCard.uniqueId !== currentSelectedCard.uniqueId
             ) {
-                const setSelectedCards = cards.map(card => {
-                    if (card.uniqueId === currentSelectedCard.uniqueId) {
-                        card.isCollected = true;
-                    }
-                    if (card.memoryId === currentSelectedCard.memoryId) {
+                const selectedCards = cards.map(card => {
+                    if (card.uniqueId === currentSelectedCard.uniqueId || card.memoryId === currentSelectedCard.memoryId) {
                         card.isCollected = true;
                     }
 
@@ -45,7 +48,7 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                 });
 
                 return {
-                    cards: [...setSelectedCards]
+                    cards: [...selectedCards]
                 };
             }
 

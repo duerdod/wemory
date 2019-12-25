@@ -4,11 +4,11 @@ import { MemoryCard, useMemoryDispatch } from '../context/memory-context';
 
 interface StyledCardProps {
   background: string;
+  isOpen: boolean;
   isCollected: boolean;
 }
 
 const StyledCard = styled.div<StyledCardProps>`
-  background: ${p => p.background};
   height: 150px;
   border-radius: 3px;
   padding: 20px;
@@ -18,13 +18,20 @@ const StyledCard = styled.div<StyledCardProps>`
   align-items: center;
   cursor: pointer;
   color: #383838;
-  ${({ isCollected }) => isCollected && 'opacity: 0.7'};
+  ${({ isOpen, background }) =>
+    isOpen ? `background: ${background}` : 'background: blanchedalmond'};
+  ${({ isCollected, background }) =>
+    isCollected &&
+    `
+    background: ${background};
+  `};
 `;
 
 export const Card = ({
   memoryId,
   uniqueId,
   color,
+  isOpen,
   isCollected
 }: MemoryCard) => {
   const dispatch = useMemoryDispatch();
@@ -41,10 +48,11 @@ export const Card = ({
   return (
     <StyledCard
       isCollected={isCollected}
+      isOpen={isOpen}
       background={color}
       onClick={selectCard}
     >
-      Card
+      {memoryId}
     </StyledCard>
   );
 };
