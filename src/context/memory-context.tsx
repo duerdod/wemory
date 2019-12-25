@@ -8,6 +8,8 @@ import React, {
 import { memoryCards } from '../constants/memoryCards';
 import { memoryReducer } from '../reducers/memoryReducer';
 
+import { shuffle } from '../utils/shuffe';
+
 // In order to have number of cards as a setting,
 // the reducer payload must be of type MemoryCard.
 // ie. the MemoryCard inteface have to include itself...?
@@ -45,7 +47,7 @@ const MemoryDispatchContext = createContext<MemoryDispatch | undefined>(
 );
 
 const initialState: MemoryState = {
-  cards: memoryCards
+  cards: shuffle(memoryCards)
 };
 
 const MemoryProvider: FunctionComponent = ({ children }) => {
