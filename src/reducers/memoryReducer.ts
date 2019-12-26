@@ -26,6 +26,7 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                 const [c1, c2] = selectedCards;
 
                 if (isEqual(c1.memoryId, c2.memoryId) && !isEqual(c1.uniqueId, c2.uniqueId)) {
+
                     // Match!
                     const collectedCards = cards.map(c => {
                         if (isEqual(c1.uniqueId, c.uniqueId) || isEqual(c2.uniqueId, c.uniqueId)) {
@@ -33,17 +34,15 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                         }
                         return c;
                     })
+
                     return {
                         cards: collectedCards,
                         selectedCards: []
                     }
-                }
 
+                }
                 // Otherwise, close all but selected.
-                const closeUnSelectedCards = cards.map(c => {
-                    c.isOpen = false;
-                    return c;
-                })
+                const closeUnSelectedCards = cards.map(c => ({ ...c, isOpen: false }))
 
                 return {
                     cards: closeUnSelectedCards,
