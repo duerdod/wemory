@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { Card } from './Card';
 import { useMemoryState, MemoryCard } from '../context/memory-context';
 
-import uuid from 'uuid';
-
 const Container = styled.div`
   padding: 2rem;
   display: grid;
@@ -20,7 +18,7 @@ export const Board: React.FC = () => {
   const { cards } = useMemoryState();
 
   /*
-
+  TODO: Use when card count is a setting.
   const deck = React.useMemo(
     () =>
       cards.reduce(

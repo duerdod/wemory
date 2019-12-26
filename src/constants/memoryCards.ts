@@ -2,8 +2,9 @@ import uuid from "uuid";
 
 /*
 
-// // // THIS BASTARD CAN CREATE AN ARRAY OF MEMORY CARDS THAT FIT MY NEEDS!!!!!
+// // // THIS BASTARD CAN CREATE AN ARRAY OF MEMORY CARDS.
 
+// On a second thouht... no it won't. Colors aren't right.
 const deck = [];
 const qty = 12;
 for (let i = 0; i < qty; i++) {

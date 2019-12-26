@@ -84,7 +84,7 @@ export const Card = (card: MemoryCard) => {
         )
       }}
     >
-      {card.memoryId}
+      {/* {card.memoryId} */}
     </StyledCard>
   );
 };
