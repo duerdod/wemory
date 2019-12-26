@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { useSpring, animated, config } from 'react-spring';
-import { MemoryCard, useMemoryDispatch } from '../context/memory-context';
 import { theme } from '../Theme';
+import {
+  MemoryCard,
+  useMemoryDispatch,
+  useMemoryState
+} from '../context/memory-context';
+
+import { hasLength } from '../utils/hasLength';
 
 interface StyledCardProps {
   background: string;
@@ -10,7 +16,7 @@ interface StyledCardProps {
   isCollected: boolean;
 }
 
-const StyledCard = styled(animated.div)<StyledCardProps>`
+const StyledCard = styled(animated.button)<StyledCardProps>`
   height: 150px;
   border-radius: 3px;
   padding: 20px;
@@ -30,31 +36,48 @@ const StyledCard = styled(animated.div)<StyledCardProps>`
   `};
 `;
 
+const wait = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
+
 export const Card = (card: MemoryCard) => {
   const dispatch = useMemoryDispatch();
+  const { selectedCards } = useMemoryState();
+  const { isCollected, isOpen, color } = card;
 
   // BOX SHADOW SHOULD ALSO BE ANIMATED.
   const { transform, boxShadow } = useSpring({
     transform: `perspective(600px) rotateX(${
-      card.isOpen || card.isCollected ? 180 : 0
+      isOpen || isCollected ? 180 : 0
     }deg)`,
     boxShadow: 'none',
     config: config.wobbly
   });
 
-  const selectCard = () =>
-    dispatch({
-      type: 'SELECT',
-      payload: {
-        selectedCard: card
-      }
-    });
+  useEffect(() => {
+    if (hasLength(selectedCards, 2)) {
+      wait(500).then((): void =>
+        dispatch({ type: 'CLOSE_CARDS', payload: { selectedCards } })
+      );
+    }
+  }, [selectedCards, dispatch]);
+
+  const selectCard = useCallback(
+    e => {
+      e.preventDefault();
+      dispatch({
+        type: 'SELECT',
+        payload: {
+          selectedCard: card
+        }
+      });
+    },
+    [card, dispatch]
+  );
 
   return (
     <StyledCard
-      isCollected={card.isCollected}
-      isOpen={card.isOpen}
-      background={card.color}
+      isCollected={isCollected}
+      isOpen={isOpen}
+      background={color}
       onClick={selectCard}
       style={{
         boxShadow,

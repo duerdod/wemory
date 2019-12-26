@@ -35,9 +35,9 @@ export type Action =
       payload: { selectedCard: MemoryCard };
     }
   | {
-      type: 'ADD_IMAGES';
+      type: 'CLOSE_CARDS';
       payload: {
-        cards: MemoryCard[];
+        selectedCards: MemoryCard[];
       };
     };
 

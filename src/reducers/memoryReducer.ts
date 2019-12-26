@@ -18,7 +18,10 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
             }
 
             // Prevent from selecting the same card over and over.
-            if (hasLength(selectedCards, 1) && card.uniqueId === selectedCards.find(c => isEqual(c.uniqueId, card.uniqueId))?.uniqueId) {
+            if (
+                hasLength(selectedCards, 1)
+                && card.uniqueId === selectedCards.find(c => isEqual(c.uniqueId, card.uniqueId))?.uniqueId
+            ) {
                 return state;
             }
 
@@ -26,7 +29,6 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                 const [c1, c2] = selectedCards;
 
                 if (isEqual(c1.memoryId, c2.memoryId) && !isEqual(c1.uniqueId, c2.uniqueId)) {
-
                     // Match!
                     const collectedCards = cards.map(c => {
                         if (isEqual(c1.uniqueId, c.uniqueId) || isEqual(c2.uniqueId, c.uniqueId)) {
@@ -62,6 +64,29 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                 cards: openCard,
                 selectedCards: hasLength(selectedCards, 2) ? [] : [...selectedCards, card]
             }
+
+        case 'CLOSE_CARDS': {
+            const { cards } = state;
+            const { selectedCards } = action.payload
+            const [c1, c2] = selectedCards;
+            // Match!
+            if (isEqual(c1.memoryId, c2.memoryId) && !isEqual(c1.uniqueId, c2.uniqueId)) {
+                return state
+            }
+
+            const allButCollected = cards.map(card => {
+                if (card.isCollected) {
+                    card.isOpen = true
+                }
+                card.isOpen = false;
+                return card
+            })
+
+            return {
+                cards: allButCollected,
+                selectedCards: []
+            }
+        }
 
         default:
             throw new Error('Not a valid action type.');
