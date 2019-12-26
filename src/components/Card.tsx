@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { useSpring, animated, config } from 'react-spring';
+import { useSpring, animated } from 'react-spring';
 import { theme } from '../Theme';
 import {
   MemoryCard,
@@ -8,7 +8,7 @@ import {
   useMemoryState
 } from '../context/memory-context';
 
-import { hasLength } from '../utils/hasLength';
+import { wait, hasLength } from '../utils/index';
 
 interface StyledCardProps {
   background: string;
@@ -36,8 +36,6 @@ const StyledCard = styled(animated.button)<StyledCardProps>`
   `};
 `;
 
-const wait = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
-
 export const Card = (card: MemoryCard) => {
   const dispatch = useMemoryDispatch();
   const { selectedCards } = useMemoryState();
@@ -49,12 +47,12 @@ export const Card = (card: MemoryCard) => {
       isOpen || isCollected ? 180 : 0
     }deg)`,
     boxShadow: 'none',
-    config: config.wobbly
+    config: { tension: 240, friction: 12 }
   });
 
   useEffect(() => {
     if (hasLength(selectedCards, 2)) {
-      wait(500).then((): void =>
+      wait(600).then((): void =>
         dispatch({ type: 'CLOSE_CARDS', payload: { selectedCards } })
       );
     }

@@ -1,5 +1,21 @@
 import uuid from "uuid";
 
+/*
+
+// // // THIS BASTARD CAN CREATE AN ARRAY OF MEMORY CARDS THAT FIT MY NEEDS!!!!!
+
+const deck = [];
+const qty = 12;
+for (let i = 0; i < qty; i++) {
+  deck.push({
+    memoryId: i % 2 === 0 ? i : deck.length - 1,
+    color: 'crimson',
+    uniqueId: uuid()
+  });
+}
+
+*/
+
 export const memoryCards = [
     {
         memoryId: 1,
@@ -10,14 +26,14 @@ export const memoryCards = [
     },
     {
         memoryId: 2,
-        color: 'darkgrey',
+        color: 'orange',
         uniqueId: uuid(),
         isOpen: false,
         isCollected: false
     },
     {
         memoryId: 3,
-        color: 'darkseagreen',
+        color: 'springgreen',
         uniqueId: uuid(),
         isOpen: false,
         isCollected: false
@@ -31,7 +47,7 @@ export const memoryCards = [
     },
     {
         memoryId: 5,
-        color: 'lavenderblush',
+        color: 'snow',
         uniqueId: uuid(),
         isOpen: false,
         isCollected: false
@@ -52,14 +68,14 @@ export const memoryCards = [
     },
     {
         memoryId: 2,
-        color: 'darkgrey',
+        color: 'orange',
         uniqueId: uuid(),
         isOpen: false,
         isCollected: false
     },
     {
         memoryId: 3,
-        color: 'darkseagreen',
+        color: 'springgreen',
         uniqueId: uuid(),
         isOpen: false,
         isCollected: false
@@ -73,7 +89,7 @@ export const memoryCards = [
     },
     {
         memoryId: 5,
-        color: 'lavenderblush',
+        color: 'snow',
         uniqueId: uuid(),
         isOpen: false,
         isCollected: false
