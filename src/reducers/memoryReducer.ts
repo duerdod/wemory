@@ -1,5 +1,5 @@
 import { MemoryState, Action } from '../context/memory-context'
-import { isLength } from '../utils/isLength'
+import { hasLength } from '../utils/hasLength'
 
 const isEqual = (itemOne: string | number, itemTwo: string | number) => itemOne === itemTwo
 
@@ -18,11 +18,11 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
             }
 
             // Prevent from selecting the same card over and over.
-            if (isLength(selectedCards, 1) && card.uniqueId === selectedCards.find(c => isEqual(c.uniqueId, card.uniqueId))?.uniqueId) {
+            if (hasLength(selectedCards, 1) && card.uniqueId === selectedCards.find(c => isEqual(c.uniqueId, card.uniqueId))?.uniqueId) {
                 return state;
             }
 
-            if (isLength(selectedCards, 2)) {
+            if (hasLength(selectedCards, 2)) {
                 const [c1, c2] = selectedCards;
 
                 if (isEqual(c1.memoryId, c2.memoryId) && !isEqual(c1.uniqueId, c2.uniqueId)) {
@@ -60,7 +60,7 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
 
             return {
                 cards: openCard,
-                selectedCards: isLength(selectedCards, 2) ? [] : [...selectedCards, card]
+                selectedCards: hasLength(selectedCards, 2) ? [] : [...selectedCards, card]
             }
 
         default:

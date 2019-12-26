@@ -1,1 +1,0 @@
-export const isLength = (array: any[], length: number): boolean => array.length === length
