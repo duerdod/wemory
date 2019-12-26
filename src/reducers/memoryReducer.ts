@@ -1,73 +1,66 @@
 import { MemoryState, Action } from '../context/memory-context'
+import { isLength } from '../utils/isLength'
 
 // In order to have number of cards as a setting, 
 // the reducer payload must be of type MemoryCard.
 export function memoryReducer(state: MemoryState, action: Action): MemoryState {
     switch (action.type) {
         case 'SELECT':
-            const { cards } = state;
 
-            const currentSelectedCard = cards.find(c => c.uniqueId === action.payload.uniqueId);
-            const previouslySelectedCard = cards.find(c => c.isOpen);
+            const { card } = action.payload.selectedCard
+            const { cards, selectedCards } = state
 
-            // Return early.
-            if (!currentSelectedCard) {
+            // Nullc heck.
+            if (!card) {
                 return state;
             }
 
-            // No match...
-            // Have to have an previously selected card.
-            if (
-                previouslySelectedCard &&
-                previouslySelectedCard.memoryId !== currentSelectedCard.memoryId
-            ) {
-                const restoredCards = cards.map(card => {
-                    if (!card.isCollected) {
-                        card.isOpen = false;
-                    }
-                    return card;
-                });
-
-                return {
-                    cards: restoredCards
-                };
+            // Prevent from selecting the same card over and over.
+            if (isLength(selectedCards, 1) && card.uniqueId === selectedCards.find(c => c.uniqueId === card.uniqueId)?.uniqueId) {
+                return state;
             }
 
-            // Match!
-            if (
-                previouslySelectedCard?.memoryId === currentSelectedCard.memoryId &&
-                previouslySelectedCard.uniqueId !== currentSelectedCard.uniqueId
-            ) {
-                const selectedCards = cards.map(card => {
-                    if (card.uniqueId === currentSelectedCard.uniqueId || card.memoryId === currentSelectedCard.memoryId) {
-                        card.isCollected = true;
+            if (isLength(selectedCards, 2)) {
+                const [c1, c2] = selectedCards;
+
+                if (c1.memoryId === c2.memoryId && c1.uniqueId !== c2.uniqueId) {
+                    // Match!
+                    const collectedCards = cards.map(c => {
+                        if (c1.uniqueId === c.uniqueId || c2.uniqueId === c.uniqueId) {
+                            c.isCollected = true
+                        }
+                        return c;
+                    })
+                    return {
+                        cards: collectedCards,
+                        selectedCards: []
                     }
-
-                    card.isOpen = false;
-                    return card;
-                });
-
-                return {
-                    cards: [...selectedCards]
-                };
-            }
-
-            // Return default to select a card.
-            const selectCard = cards.map(card => {
-                if (card.uniqueId === currentSelectedCard.uniqueId) {
-                    card.isOpen = true;
                 }
-                return card;
-            });
+
+                // Otherwise, close all but selected.
+                const closeUnSelectedCards = cards.map(c => {
+                    c.isOpen = false;
+                    return c;
+                })
+
+                return {
+                    cards: closeUnSelectedCards,
+                    selectedCards: []
+                }
+            }
+
+            // Always open at least one card.
+            const openCard = cards.map(c => {
+                if (c.uniqueId === card.uniqueId) {
+                    c.isOpen = true;
+                }
+                return c;
+            })
 
             return {
-                cards: [...selectCard]
-            };
-
-        case 'ADD_IMAGES': {
-            console.log(action)
-            return state
-        }
+                cards: openCard,
+                selectedCards: isLength(selectedCards, 2) ? [] : [...selectedCards, card]
+            }
 
         default:
             throw new Error('Not a valid action type.');

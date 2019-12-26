@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import { Card } from './Card';
 import { useMemoryState, MemoryCard } from '../context/memory-context';
 
+interface ExtendedMemoryCard {
+  card: MemoryCard;
+}
+
 const Container = styled.div`
   padding: 2rem;
   display: grid;
@@ -16,11 +20,11 @@ const Container = styled.div`
 
 export const Board: React.FC = () => {
   const { cards } = useMemoryState();
-
+  // console.table(cards);
   return (
     <Container>
       {cards.map((card: MemoryCard) => (
-        <Card key={card.uniqueId} {...card} />
+        <Card key={card.uniqueId} card={card} {...card} />
       ))}
     </Container>
   );

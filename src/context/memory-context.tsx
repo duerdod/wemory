@@ -20,17 +20,19 @@ export interface MemoryCard {
   isOpen: boolean;
   isCollected: boolean;
   uniqueId: string;
+  card?: MemoryCard;
 }
 
 export type MemoryState = {
   cards: MemoryCard[];
+  selectedCards: MemoryCard[];
 };
 
 // Pass the card as payload.
 export type Action =
   | {
       type: 'SELECT';
-      payload: { memoryId: number; uniqueId: string };
+      payload: { selectedCard: MemoryCard };
     }
   | {
       type: 'ADD_IMAGES';
@@ -47,7 +49,8 @@ const MemoryDispatchContext = createContext<MemoryDispatch | undefined>(
 );
 
 const initialState: MemoryState = {
-  cards: shuffle(memoryCards)
+  cards: shuffle(memoryCards),
+  selectedCards: []
 };
 
 const MemoryProvider: FunctionComponent = ({ children }) => {

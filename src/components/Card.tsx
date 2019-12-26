@@ -30,19 +30,13 @@ const StyledCard = styled(animated.div)<StyledCardProps>`
   `};
 `;
 
-export const Card = ({
-  memoryId,
-  uniqueId,
-  color,
-  isOpen,
-  isCollected
-}: MemoryCard) => {
+export const Card = (card: MemoryCard) => {
   const dispatch = useMemoryDispatch();
 
   // BOX SHADOW SHOULD ALSO BE ANIMATED.
   const { transform, boxShadow } = useSpring({
     transform: `perspective(600px) rotateX(${
-      isOpen || isCollected ? 180 : 0
+      card.isOpen || card.isCollected ? 180 : 0
     }deg)`,
     boxShadow: 'none',
     config: config.wobbly
@@ -52,16 +46,15 @@ export const Card = ({
     dispatch({
       type: 'SELECT',
       payload: {
-        memoryId,
-        uniqueId
+        selectedCard: card
       }
     });
 
   return (
     <StyledCard
-      isCollected={isCollected}
-      isOpen={isOpen}
-      background={color}
+      isCollected={card.isCollected}
+      isOpen={card.isOpen}
+      background={card.color}
       onClick={selectCard}
       style={{
         boxShadow,
@@ -70,7 +63,7 @@ export const Card = ({
         )
       }}
     >
-      {/* {memoryId} */}
+      {card.memoryId}
     </StyledCard>
   );
 };
