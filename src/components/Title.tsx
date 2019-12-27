@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useMemoryDispatch, initialState } from '../context/memory-context';
 
 interface TitleProps {
   title: string;
@@ -20,8 +21,16 @@ const StyledTitle = styled.h1`
   letter-spacing: 2px;
   color: ${p => p.theme.titleColor};
   font-family: ${p => p.theme.fontFamily};
+  cursor: pointer;
 `;
 
-export const Title = ({ title }: TitleProps) => (
-  <StyledTitle>{title}</StyledTitle>
-);
+export const Title = ({ title }: TitleProps) => {
+  const dispatch = useMemoryDispatch();
+  return (
+    <StyledTitle
+      onClick={() => dispatch({ type: 'RESET', payload: { initialState } })}
+    >
+      {title}
+    </StyledTitle>
+  );
+};

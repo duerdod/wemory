@@ -1,21 +1,4 @@
-import uuid from "uuid";
-
-/*
-
-// // // THIS BASTARD CAN CREATE AN ARRAY OF MEMORY CARDS.
-
-// On a second thouht... no it won't. Colors aren't right.
-const deck = [];
-const qty = 12;
-for (let i = 0; i < qty; i++) {
-  deck.push({
-    memoryId: i % 2 === 0 ? i : deck.length - 1,
-    color: 'crimson',
-    uniqueId: uuid()
-  });
-}
-
-*/
+import uuid from 'uuid';
 
 export const memoryCards = [
     {

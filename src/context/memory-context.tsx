@@ -5,10 +5,8 @@ import React, {
   FunctionComponent
 } from 'react';
 
-import { memoryCards } from '../constants/memoryCards';
+import { generateCards } from '../utils/generateCards';
 import { memoryReducer } from '../reducers/memoryReducer';
-
-import { shuffle } from '../utils/index';
 
 // In order to have number of cards as a setting,
 // the reducer payload must be of type MemoryCard.
@@ -55,7 +53,7 @@ const MemoryDispatchContext = createContext<MemoryDispatch | undefined>(
 );
 
 export const initialState: MemoryState = {
-  cards: shuffle(memoryCards),
+  cards: generateCards(12),
   selectedCards: []
 };
 

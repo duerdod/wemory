@@ -3,11 +3,8 @@ import { hasLength } from '../utils/index'
 
 const isEqual = (itemOne: string | number, itemTwo: string | number) => itemOne === itemTwo
 
-// In order to have number of cards as a setting, 
-// the reducer payload must be of type MemoryCard.
 export function memoryReducer(state: MemoryState, action: Action): MemoryState {
     switch (action.type) {
-
         case 'SELECT':
             const { card } = action.payload.selectedCard
             const { cards, selectedCards } = state
@@ -27,9 +24,9 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
 
             if (hasLength(selectedCards, 2)) {
                 const [c1, c2] = selectedCards;
-
                 if (isEqual(c1.memoryId, c2.memoryId) && !isEqual(c1.uniqueId, c2.uniqueId)) {
-                    // Match!
+                    // Match! 
+                    // Make this automated!
                     const collectedCards = cards.map(c => {
                         if (isEqual(c1.uniqueId, c.uniqueId) || isEqual(c2.uniqueId, c.uniqueId)) {
                             c.isCollected = true
@@ -70,7 +67,8 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
             const { cards } = state;
             const { selectedCards } = action.payload
             const [c1, c2] = selectedCards;
-            // Match!
+
+            // Match. Do nothing.
             if (isEqual(c1.memoryId, c2.memoryId) && !isEqual(c1.uniqueId, c2.uniqueId)) {
                 return state
             }
@@ -79,12 +77,21 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                 if (card.isCollected) {
                     card.isOpen = true
                 }
+
                 card.isOpen = false;
                 return card
             })
 
             return {
                 cards: allButCollected,
+                selectedCards: []
+            }
+        }
+
+        case 'RESET': {
+            const { cards } = state
+            return {
+                cards: cards.map(c => ({ ...c, isOpen: false, isCollected: false })),
                 selectedCards: []
             }
         }
