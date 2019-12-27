@@ -3,5 +3,8 @@
 Exploring Typescript, still. 
 
 
-### 🎰🎯🎳 Memory available at https://memory.okbry.cool
+### 🎰🎯🎳 Memory available at https://dogs-memory.okbry.cool/
+
+### Todo
+1. Add images of dogs. 
 
