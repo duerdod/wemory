@@ -12,7 +12,7 @@ const Container = styled.div<ContainerProps>`
   max-width: 80em;
   margin: 0 auto;
   display: grid;
-  grid-gap: 0.6rem;
+  grid-gap: 0.9rem;
   justify-content: center;
   ${({ columns = 3 }) =>
     `grid-template-columns: repeat(${Math.trunc(

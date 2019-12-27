@@ -14,6 +14,7 @@ interface StyledCardProps {
   background: string;
   isOpen: boolean;
   isCollected: boolean;
+  className: string;
 }
 
 const StyledCard = styled(animated.button)<StyledCardProps>`
@@ -24,7 +25,9 @@ const StyledCard = styled(animated.button)<StyledCardProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 2px -2px 5px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 2px -2px 5px rgba(0, 0, 0, 0.2); */
+  box-shadow: 1px -1px 0px #027aad, 2px -2px 0px #027aad, 3px -3px 0px #027aad,
+    4px -4px 0px #027aad, 5px -5px 0px #027aad, 6px -6px 0px #027aad;
   cursor: pointer;
   color: #383838;
   ${({ isOpen, background }) =>
@@ -34,6 +37,11 @@ const StyledCard = styled(animated.button)<StyledCardProps>`
     `
     background: ${background};
   `};
+
+  &.open {
+    box-shadow: 1px 1px 0px #027aad, 2px 2px 0px #027aad, 3px 3px 0px #027aad,
+      4px 4px 0px #027aad, 5px 5px 0px #027aad, 6px 6px 0px #027aad;
+  }
 `;
 
 export const Card = (card: MemoryCard) => {
@@ -42,11 +50,11 @@ export const Card = (card: MemoryCard) => {
   const { isCollected, isOpen, color } = card;
 
   // BOX SHADOW SHOULD ALSO BE ANIMATED.
-  const { transform, boxShadow } = useSpring({
+  const { transform } = useSpring({
     transform: `perspective(600px) rotateX(${
       isOpen || isCollected ? 180 : 0
     }deg)`,
-    boxShadow: 'none',
+    // boxShadow: 'none',
     config: { tension: 240, friction: 12 }
   });
 
@@ -73,12 +81,13 @@ export const Card = (card: MemoryCard) => {
 
   return (
     <StyledCard
+      className={isOpen ? 'open' : ''}
       isCollected={isCollected}
       isOpen={isOpen}
       background={color}
       onClick={selectCard}
       style={{
-        boxShadow,
+        // boxShadow,
         transform: transform.interpolate(
           transform => `${transform} rotateX(180deg)`
         )
