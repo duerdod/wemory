@@ -81,7 +81,7 @@ export const Card = (card: MemoryCard) => {
 
   return (
     <StyledCard
-      className={isOpen ? 'open' : ''}
+      className={isOpen || isCollected ? 'open' : ''}
       isCollected={isCollected}
       isOpen={isOpen}
       background={color}

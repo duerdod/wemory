@@ -5,7 +5,8 @@ export const theme = {
   fontWeight: ['400', '900'],
   backgroundColor: 'rgb(3, 152, 216)',
   cardColor: 'rgb(27, 183, 244)',
-  titleColor: 'rgb(255, 53, 12)'
+  titleColor: 'rgb(255, 53, 12)',
+  transition: 'all 0.2s ease'
 };
 
 export const GlobalStyle = createGlobalStyle`
@@ -16,7 +17,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Arial Black';
+    font-family: 'Bowlby One SC';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

@@ -1,10 +1,18 @@
 import { MemoryState, Action } from '../context/memory-context'
-import { hasLength } from '../utils/index'
+import { hasLength, generateCards } from '../utils/index'
 
 const isEqual = (itemOne: string | number, itemTwo: string | number) => itemOne === itemTwo
 
 export function memoryReducer(state: MemoryState, action: Action): MemoryState {
     switch (action.type) {
+        case 'INIT': {
+            const { cardCount } = action.payload;
+            return {
+                cards: generateCards(cardCount),
+                selectedCards: []
+            }
+        }
+
         case 'SELECT':
             const { card } = action.payload.selectedCard
             const { cards, selectedCards } = state

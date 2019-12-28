@@ -29,6 +29,10 @@ export type MemoryState = {
 // Pass the card as payload.
 export type Action =
   | {
+      type: 'INIT';
+      payload: { cardCount: number };
+    }
+  | {
       type: 'SELECT';
       payload: { selectedCard: MemoryCard };
     }

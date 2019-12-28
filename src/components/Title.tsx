@@ -1,15 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useMemoryDispatch, initialState } from '../context/memory-context';
+import { theme } from '../Theme';
 
 interface TitleProps {
   title: string;
+  size: string;
 }
 
-const StyledTitle = styled.h1`
-  font-size: 3.4rem;
-  text-align: center;
-  margin: 0;
+interface Styled {
+  size: string;
+}
+
+const StyledTitle = styled.button(
+  ({ size }: Styled) => `
+  font-size: ${size};
   font-weight: 800;
   margin: 2.5rem auto 0.5rem auto;
   text-shadow: 3px 3px 0 rgba(142, 0, 107, 0.3),
@@ -19,18 +24,26 @@ const StyledTitle = styled.h1`
   line-height: 3.2rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: ${p => p.theme.titleColor};
-  font-family: ${p => p.theme.fontFamily};
+  color: ${theme.titleColor};
+  font-family: ${theme.fontFamily};
   cursor: pointer;
-`;
+
+  @media screen and (max-width: 40em) {
+    font-size: 4rem;
+  }
+`
+);
 
 export const Title = ({ title }: TitleProps) => {
   const dispatch = useMemoryDispatch();
   return (
-    <StyledTitle
-      onClick={() => dispatch({ type: 'RESET', payload: { initialState } })}
-    >
-      {title}
-    </StyledTitle>
+    <div style={{ textAlign: 'center' }}>
+      <StyledTitle
+        size="6rem"
+        onClick={() => dispatch({ type: 'RESET', payload: { initialState } })}
+      >
+        {title}
+      </StyledTitle>
+    </div>
   );
 };
