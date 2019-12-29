@@ -13,7 +13,9 @@ const Container = styled.div`
 
 const Title = styled.h2`
   text-align: center;
-  color: ${({ theme }) => theme.cardColor};
+  color: ${({ theme }) => theme.backgroundColor};
+  font-size: 1.4rem;
+  letter-spacing: 2px;
 `;
 
 const StyledForm = styled.form`
@@ -48,7 +50,7 @@ const RangeInput = styled.input`
 const ModalButton = styled.button`
   span {
     font-size: 3rem;
-    color: #0375a6;
+    color: ${({ theme }) => theme.cardColor};
   }
 `;
 
@@ -94,7 +96,7 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
   return (
     <Modal {...modalProps}>
       <Container>
-        <Title>Yo settings</Title>
+        <Title>How many cards?</Title>
         <StyledForm>
           <Ranges>
             {ranges.map(range => (

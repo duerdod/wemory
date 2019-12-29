@@ -36,14 +36,16 @@ const StyledButton = styled.button(
     border-radius: 4px;
     transition: ${theme.transition};
     padding: ${padding[size]};
+    color: whitesmoke;
+    font-size: 1.2rem;
 
     ${color === 'success'
       ? `
     background: ${hslBackground.hsl('125', '44.5')};
-    border: 3px solid ${hslBackground.hsl('125', '40.5')};
+    border: 3px solid ${hslBackground.hsl('125', '43.5')};
     &:hover {
-      background: ${hslBackground.hsl('124.7', '39')};
-      border: 3px solid ${hslBackground.hsl('124.7', '35')};
+      background: ${hslBackground.hsl('125', '43.5')};
+      border: 3px solid ${hslBackground.hsl('125', '43.5')};
     }`
       : ''}
 

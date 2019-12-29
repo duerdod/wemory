@@ -25,23 +25,17 @@ const StyledCard = styled(animated.button)<StyledCardProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 1px -1px 0px #027aad, 2px -2px 0px #027aad, 3px -3px 0px #027aad,
-    4px -4px 0px #027aad, 5px -5px 0px #027aad, 6px -6px 0px #027aad;
   cursor: pointer;
   color: #383838;
 
   ${({ isOpen, background, isCollected }) =>
     isOpen || isCollected
-      ? `background: ${background};`
-      : `background: ${theme.cardColor}`};
-
-  ${({ isOpen, isCollected }) =>
-    isOpen || isCollected
-      ? `
-    box-shadow: 1px 1px 0px #027aad, 2px 2px 0px #027aad, 3px 3px 0px #027aad,
-        4px 4px 0px #027aad, 5px 5px 0px #027aad, 6px 6px 0px #027aad;
-  `
-      : null}
+      ? `background: ${background}; box-shadow: 1px 1px 0px ${background}, 2px 2px 0px ${background}, 3px 3px 0px ${background},
+        4px 4px 0px ${background}, 5px 5px 0px ${background}, 6px 6px 0px ${background};`
+      : //
+        `background: ${theme.cardColor}; box-shadow: 1px -1px 0px ${theme.boxShadow}, 2px -2px 0px ${theme.boxShadow},
+    3px -3px 0px ${theme.boxShadow}, 4px -4px 0px ${theme.boxShadow},
+    5px -5px 0px ${theme.boxShadow}, 6px -6px 0px ${theme.boxShadow};`};
 
   @media screen and (max-width: 35em) {
     height: 60px;
@@ -53,12 +47,10 @@ export const Card = (card: MemoryCard) => {
   const { selectedCards } = useMemoryState();
   const { isCollected, isOpen, color } = card;
 
-  // BOX SHADOW SHOULD ALSO BE ANIMATED.
   const { transform } = useSpring({
     transform: `perspective(600px) rotateX(${
       isOpen || isCollected ? 180 : 0
     }deg)`,
-    // boxShadow: 'none',
     config: { tension: 240, friction: 12 }
   });
 
@@ -91,7 +83,6 @@ export const Card = (card: MemoryCard) => {
       background={color}
       onClick={selectCard}
       style={{
-        // boxShadow,
         transform: transform.interpolate(
           transform => `${transform} rotateX(180deg)`
         )

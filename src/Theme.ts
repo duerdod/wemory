@@ -3,9 +3,10 @@ import { createGlobalStyle } from 'styled-components';
 export const theme = {
   fontFamily: 'Bowlby One SC, sans-serif',
   fontWeight: ['400', '900'],
-  backgroundColor: 'rgb(3, 152, 216)',
-  cardColor: 'rgb(27, 183, 244)',
-  titleColor: 'rgb(255, 53, 12)',
+  backgroundColor: 'rgb(105, 87, 152)',
+  cardColor: 'rgb(90, 71, 132)',
+  titleColor: 'rgb(250, 73, 56)',
+  boxShadow: '#4F3B75',
   transition: 'all 0.2s ease'
 };
 
