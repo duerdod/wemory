@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { theme } from '../../Theme';
 
 type Type = 'submit' | 'button';
@@ -31,14 +31,13 @@ interface StyledButtonProps {
 }
 
 const StyledButton = styled.button(
-  ({ size, color }: StyledButtonProps) => `
-  margin: 0.5rem;
-  border-radius: 4px;
-  transition: ${theme.transition};
-  padding: ${padding[size]};
+  ({ size, color }: StyledButtonProps) => css`
+    margin: 0.5rem;
+    border-radius: 4px;
+    transition: ${theme.transition};
+    padding: ${padding[size]};
 
-  ${
-    color === 'success'
+    ${color === 'success'
       ? `
     background: ${hslBackground.hsl('125', '44.5')};
     border: 3px solid ${hslBackground.hsl('125', '40.5')};
@@ -46,11 +45,9 @@ const StyledButton = styled.button(
       background: ${hslBackground.hsl('124.7', '39')};
       border: 3px solid ${hslBackground.hsl('124.7', '35')};
     }`
-      : ''
-  }
+      : ''}
 
-  ${
-    color === 'disappointment'
+    ${color === 'disappointment'
       ? `
     background: ${hslBackground.hsl('354', '47.3')};
     border: 3px solid ${hslBackground.hsl('354', '44.3')};
@@ -58,10 +55,8 @@ const StyledButton = styled.button(
       background: ${hslBackground.hsl('355', '41.8')};
       border: 3px solid ${hslBackground.hsl('355', '37.8')};
     }`
-      : ''
-  }
-  
-`
+      : ''}
+  `
 );
 
 export const Button = ({

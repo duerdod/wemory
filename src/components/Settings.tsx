@@ -11,6 +11,11 @@ const Container = styled.div`
   color: ${({ theme }) => theme.backgroundColor};
 `;
 
+const Title = styled.h2`
+  text-align: center;
+  color: ${({ theme }) => theme.cardColor};
+`;
+
 const StyledForm = styled.form`
   max-width: 400px;
   margin: 1rem auto 1rem auto;
@@ -31,8 +36,8 @@ const Range = styled.span<{ range: number; current: number }>`
     font-size: 2rem;
     transition: ${({ theme }) => theme.transition};
     content: '${p => p.range}';
-    ${({ current, range, theme }) =>
-      current === range ? `color: ${theme.cardColor}` : 'color: inherit'}
+    ${({ current, range }) =>
+      current === range ? 'opacity: 1' : 'opacity: 0.4'}
   }
 `;
 
@@ -89,7 +94,7 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
   return (
     <Modal {...modalProps}>
       <Container>
-        <h2>Settings</h2>
+        <Title>Yo settings</Title>
         <StyledForm>
           <Ranges>
             {ranges.map(range => (

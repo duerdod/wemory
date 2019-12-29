@@ -25,22 +25,26 @@ const StyledCard = styled(animated.button)<StyledCardProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* box-shadow: 2px -2px 5px rgba(0, 0, 0, 0.2); */
   box-shadow: 1px -1px 0px #027aad, 2px -2px 0px #027aad, 3px -3px 0px #027aad,
     4px -4px 0px #027aad, 5px -5px 0px #027aad, 6px -6px 0px #027aad;
   cursor: pointer;
   color: #383838;
-  ${({ isOpen, background }) =>
-    isOpen ? `background: ${background}` : `background: ${theme.cardColor}`};
-  ${({ isCollected, background }) =>
-    isCollected &&
-    `
-    background: ${background};
-  `};
 
-  &.open {
+  ${({ isOpen, background, isCollected }) =>
+    isOpen || isCollected
+      ? `background: ${background};`
+      : `background: ${theme.cardColor}`};
+
+  ${({ isOpen, isCollected }) =>
+    isOpen || isCollected
+      ? `
     box-shadow: 1px 1px 0px #027aad, 2px 2px 0px #027aad, 3px 3px 0px #027aad,
-      4px 4px 0px #027aad, 5px 5px 0px #027aad, 6px 6px 0px #027aad;
+        4px 4px 0px #027aad, 5px 5px 0px #027aad, 6px 6px 0px #027aad;
+  `
+      : null}
+
+  @media screen and (max-width: 35em) {
+    height: 60px;
   }
 `;
 
