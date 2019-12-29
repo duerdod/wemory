@@ -37,6 +37,10 @@ export type Action =
       payload: { selectedCard: MemoryCard };
     }
   | {
+      type: 'CHECK_MATCH';
+      payload: { selectedCards: MemoryCard[] };
+    }
+  | {
       type: 'CLOSE_CARDS';
       payload: {
         selectedCards: MemoryCard[];
@@ -74,14 +78,17 @@ const MemoryProvider: FunctionComponent = ({ children }) => {
 
 function useMemoryState() {
   const state = useContext(MemoryStateContext);
-  if (!state) throw new Error('UseMemoryState is not inside MemoryProvider');
+  if (!state) {
+    throw new Error('UseMemoryState is not inside MemoryProvider');
+  }
   return state;
 }
 
 function useMemoryDispatch() {
   const dispatch = useContext(MemoryDispatchContext);
-  if (!dispatch)
+  if (!dispatch) {
     throw new Error('UseMemoryDispatch is not inside MemoryProvider');
+  }
   return dispatch;
 }
 

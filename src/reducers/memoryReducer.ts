@@ -4,6 +4,7 @@ import { hasLength, generateCards } from '../utils/index'
 const isEqual = (itemOne: string | number, itemTwo: string | number) => itemOne === itemTwo
 
 export function memoryReducer(state: MemoryState, action: Action): MemoryState {
+
     switch (action.type) {
         case 'INIT': {
             const { cardCount } = action.payload;
@@ -18,43 +19,8 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
             const { cards, selectedCards } = state
 
             // Nullc heck.
-            if (!card) {
+            if (!card || card.isCollected || card.isOpen) {
                 return state;
-            }
-
-            // Prevent from selecting the same card over and over.
-            if (
-                hasLength(selectedCards, 1)
-                && card.uniqueId === selectedCards.find(c => isEqual(c.uniqueId, card.uniqueId))?.uniqueId
-            ) {
-                return state;
-            }
-
-            if (hasLength(selectedCards, 2)) {
-                const [c1, c2] = selectedCards;
-                if (isEqual(c1.memoryId, c2.memoryId) && !isEqual(c1.uniqueId, c2.uniqueId)) {
-                    // Match! 
-                    // Make this automated!
-                    const collectedCards = cards.map(c => {
-                        if (isEqual(c1.uniqueId, c.uniqueId) || isEqual(c2.uniqueId, c.uniqueId)) {
-                            c.isCollected = true
-                        }
-                        return c;
-                    })
-
-                    return {
-                        cards: collectedCards,
-                        selectedCards: []
-                    }
-
-                }
-                // Otherwise, close all but selected.
-                const closeUnSelectedCards = cards.map(c => ({ ...c, isOpen: false }))
-
-                return {
-                    cards: closeUnSelectedCards,
-                    selectedCards: []
-                }
             }
 
             // Always open at least one card.
@@ -69,6 +35,35 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                 cards: openCard,
                 selectedCards: hasLength(selectedCards, 2) ? [] : [...selectedCards, card]
             }
+
+        case 'CHECK_MATCH': {
+            const { cards } = state;
+            const { selectedCards } = action.payload
+
+            if (hasLength(selectedCards, 2)) {
+                const [c1, c2] = selectedCards;
+                if (isEqual(c1.memoryId, c2.memoryId) && !isEqual(c1.uniqueId, c2.uniqueId)) {
+                    // Match!
+                    const collectedCards = cards.map(c => {
+                        if (isEqual(c1.uniqueId, c.uniqueId) || isEqual(c2.uniqueId, c.uniqueId)) {
+                            c.isCollected = true
+                        }
+                        return c;
+                    })
+
+                    return {
+                        cards: collectedCards,
+                        selectedCards: []
+                    }
+
+                }
+            }
+            // Otherwise
+            return {
+                ...state,
+                selectedCards: []
+            }
+        }
 
         case 'CLOSE_CARDS': {
             // This could be rewritten.

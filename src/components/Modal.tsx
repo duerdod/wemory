@@ -10,6 +10,8 @@ const Backdrop = styled.div`
   z-index: 100;
   background: black;
   opacity: 0.2;
+  top: 0;
+  bottom: 0;
 `;
 
 const ModalContainer = styled(animated.div)`
@@ -80,7 +82,7 @@ export const Modal = ({
             return (
               item && (
                 <ModalContainer key={key} style={props}>
-                  {children}
+                  <div>{children}</div>
                 </ModalContainer>
               )
             );

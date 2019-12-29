@@ -8,7 +8,7 @@ import {
   useMemoryState
 } from '../context/memory-context';
 
-import { wait, hasLength } from '../utils/index';
+import { wait, hasLength, darken } from '../utils/index';
 
 interface StyledCardProps {
   background: string;
@@ -25,17 +25,29 @@ const StyledCard = styled(animated.button)<StyledCardProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   color: #383838;
+  cursor: pointer;
 
   ${({ isOpen, background, isCollected }) =>
     isOpen || isCollected
-      ? `background: ${background}; box-shadow: 1px 1px 0px ${background}, 2px 2px 0px ${background}, 3px 3px 0px ${background},
-        4px 4px 0px ${background}, 5px 5px 0px ${background}, 6px 6px 0px ${background};`
-      : //
-        `background: ${theme.cardColor}; box-shadow: 1px -1px 0px ${theme.boxShadow}, 2px -2px 0px ${theme.boxShadow},
-    3px -3px 0px ${theme.boxShadow}, 4px -4px 0px ${theme.boxShadow},
-    5px -5px 0px ${theme.boxShadow}, 6px -6px 0px ${theme.boxShadow};`};
+      ? ` background: ${background}; 
+          box-shadow: 
+          1px 1px 0px ${darken(background)},
+          2px 2px 0px ${darken(background)}, 
+          3px 3px 0px ${darken(background)},
+          4px 4px 0px ${darken(background)}, 
+          5px 5px 0px ${darken(background)}, 
+          6px 6px 0px ${darken(background)};
+          `
+      : `background: ${theme.cardColor}; 
+          box-shadow: 
+          1px -1px 0px ${theme.boxShadow}, 
+          2px -2px 0px ${theme.boxShadow},
+          3px -3px 0px ${theme.boxShadow}, 
+          4px -4px 0px ${theme.boxShadow},
+          5px -5px 0px ${theme.boxShadow}, 
+          6px -6px 0px ${theme.boxShadow};
+      `};
 
   @media screen and (max-width: 35em) {
     height: 60px;
@@ -54,11 +66,18 @@ export const Card = (card: MemoryCard) => {
     config: { tension: 240, friction: 12 }
   });
 
+  // Move these to hooks.
   useEffect(() => {
     if (hasLength(selectedCards, 2)) {
       wait(600).then((): void =>
         dispatch({ type: 'CLOSE_CARDS', payload: { selectedCards } })
       );
+    }
+  }, [selectedCards, dispatch]);
+
+  useEffect(() => {
+    if (hasLength(selectedCards, 2)) {
+      dispatch({ type: 'CHECK_MATCH', payload: { selectedCards } });
     }
   }, [selectedCards, dispatch]);
 

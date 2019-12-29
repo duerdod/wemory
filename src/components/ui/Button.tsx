@@ -2,6 +2,8 @@ import React, { ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 import { theme } from '../../Theme';
 
+// This is crap.
+
 type Type = 'submit' | 'button';
 
 type Color = 'success' | 'disappointment';
