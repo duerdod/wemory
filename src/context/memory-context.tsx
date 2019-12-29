@@ -15,6 +15,7 @@ import { memoryReducer } from '../reducers/memoryReducer';
 export interface MemoryCard {
   memoryId: number;
   color: string;
+  identifier?: string;
   isOpen: boolean;
   isCollected: boolean;
   uniqueId: string;

@@ -49,6 +49,11 @@ const StyledCard = styled(animated.button)<StyledCardProps>`
           6px -6px 0px ${theme.boxShadow};
       `};
 
+  span {
+    background: whitesmoke;
+    padding: 0.2rem 0.8rem;
+  }
+
   @media screen and (max-width: 35em) {
     height: 60px;
   }
@@ -57,7 +62,7 @@ const StyledCard = styled(animated.button)<StyledCardProps>`
 export const Card = (card: MemoryCard) => {
   const dispatch = useMemoryDispatch();
   const { selectedCards } = useMemoryState();
-  const { isCollected, isOpen, color } = card;
+  const { isCollected, isOpen, color, identifier } = card;
 
   const { transform } = useSpring({
     transform: `perspective(600px) rotateX(${
@@ -107,7 +112,7 @@ export const Card = (card: MemoryCard) => {
         )
       }}
     >
-      {/* {card.memoryId} */}
+      {identifier && <span>{(isOpen || isCollected) && card.identifier}</span>}
     </StyledCard>
   );
 };
