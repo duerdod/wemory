@@ -1,4 +1,4 @@
-import React, { useState, useCallback, ChangeEvent } from 'react';
+import React, { useState, useCallback, FormEvent } from 'react';
 import styled from 'styled-components';
 import { useMemoryDispatch } from '../context/memory-context';
 import { Modal, ModalState } from './Modal';
@@ -34,17 +34,17 @@ const LabelContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 0.8rem;
-  height: 55px;
+  height: 85px;
 
   label {
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    font-size: 2rem;
-    width: 55px;
-    height: 55px;
-    padding: 1rem;
+    font-size: 3rem;
+    width: 85px;
+    height: 85px;
+    padding: 1.5rem;
   }
 
   input[type='radio'] {
@@ -102,38 +102,51 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
   const dispatch = useMemoryDispatch();
   const [cardCount, setCardCount] = useState<number>(12);
 
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      e.preventDefault();
-      setCardCount(Number(e.target.value));
+  // const handleChange = useCallback(
+  //   (e: ChangeEvent<HTMLInputElement>) => {
+  //     e.preventDefault();
+  //     setCardCount(Number(e.target.value));
 
-      dispatch({
-        type: 'INIT',
-        payload: { cardCount: Number(e.target.value) }
-      });
-    },
-    [dispatch]
-  );
+  //     dispatch({
+  //       type: 'INIT',
+  //       payload: { cardCount: Number(e.target.value), cardType: 'foods' }
+  //     });
+  //   },
+  //   [dispatch]
+  // );
 
-  // function handleSumbit(e: FormEvent<HTMLFormElement>) {
-  //   e.preventDefault();
-  //   dispatch({
-  //     type: 'INIT',
-  //     payload: { cardCount }
-  //   });
-  // }
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setCardCount(Number(e.target.value));
+  }, []);
+
+  const handleSumbit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch({
+      type: 'INIT',
+      payload: {
+        cardCount: Number(e.currentTarget.cardCount.value),
+        cardType: e.currentTarget.cardType.value
+      }
+    });
+    setShowModal(false);
+  };
 
   const modalProps = { showModal, setShowModal };
 
   return (
     <Modal {...modalProps}>
       <Container>
-        <StyledForm>
+        <StyledForm onSubmit={handleSumbit}>
           <FormSection>
-            <Title>Card type</Title>
+            {/* <Title>Card</Title> */}
             <LabelContainer>
-              <div style={{ opacity: '0.2' }}>
-                <input type="radio" name="cardType" id="emoji-none" disabled />
+              <div>
+                <input
+                  type="radio"
+                  name="cardType"
+                  id="emoji-none"
+                  value={undefined}
+                />
                 <label htmlFor="emoji-none">
                   <span role="img" aria-label="Type of card">
                     🎨
@@ -145,7 +158,8 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
                   type="radio"
                   name="cardType"
                   id="emoji-animals"
-                  checked
+                  value="animals"
+                  defaultChecked={true}
                 />
                 <label htmlFor="emoji-animals">
                   <span role="img" aria-label="Type of card">
@@ -153,8 +167,13 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
                   </span>
                 </label>
               </div>
-              <div style={{ opacity: '0.2' }}>
-                <input type="radio" name="cardType" id="emoji-foods" disabled />
+              <div>
+                <input
+                  type="radio"
+                  name="cardType"
+                  id="emoji-foods"
+                  value="foods"
+                />
                 <label htmlFor="emoji-foods">
                   <span role="img" aria-label="Type of card">
                     🌭
@@ -180,12 +199,7 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
               onChange={handleChange}
             />
             <div>
-              <Button
-                onClick={() => setShowModal(false)}
-                size="large"
-                color="success"
-                type="button"
-              >
+              <Button size="large" color="success" type="submit">
                 OK
               </Button>
             </div>

@@ -7,10 +7,18 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
 
     switch (action.type) {
         case 'INIT': {
-            const { cardCount } = action.payload;
+            const { cardCount, cardType } = action.payload;
             return {
-                cards: generateCards(cardCount),
-                selectedCards: []
+                cards: generateCards(cardCount, cardType),
+                selectedCards: [],
+                isFinished: false
+            }
+        }
+
+        case 'SET_FINISHED': {
+            return {
+                ...state,
+                isFinished: true
             }
         }
 
@@ -44,6 +52,7 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
             })
 
             return {
+                ...state,
                 cards: openCard,
                 selectedCards: [...selectedCards, card]
             }
@@ -65,6 +74,7 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                     })
 
                     return {
+                        ...state,
                         cards: collectedCards,
                         selectedCards: []
                     }
@@ -99,6 +109,7 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
             })
 
             return {
+                ...state,
                 cards: allButCollected,
                 selectedCards: []
             }
@@ -107,6 +118,7 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
         case 'RESET': {
             const { cards } = state
             return {
+                ...state,
                 cards: cards.map(c => ({ ...c, isOpen: false, isCollected: false })),
                 selectedCards: []
             }

@@ -4,11 +4,16 @@ import uuid from 'uuid';
 import { shuffle } from './index'
 import { MemoryCard } from '../context/memory-context'
 
-import { animals } from '../constants/emojis'
+import { animals, foods } from '../constants/emojis'
 
-type EmojiType = 'foods' | 'animals' | null
+export type EmojiType = 'foods' | 'animals'
 
-export function generateCards(qty: number, emoji?: EmojiType | null): MemoryCard[] {
+const emojis = {
+    animals,
+    foods
+}
+
+export function generateCards(qty: number, emoji?: EmojiType): MemoryCard[] {
     const deck: MemoryCard[] = [];
     const colors = randomcolors({ count: qty, luminosity: 'light', format: 'hsl' });
 
@@ -18,7 +23,7 @@ export function generateCards(qty: number, emoji?: EmojiType | null): MemoryCard
         deck.push({
             memoryId: index,
             color: colors[index],
-            identifier: animals[index],
+            identifier: emoji ? emojis[emoji][index] : null,
             uniqueId: uuid(),
             isCollected: false,
             isOpen: false

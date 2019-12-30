@@ -6,6 +6,7 @@ import { Settings, ShowModalButton } from './components/Settings';
 const App: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const modalProps = { showModal, setShowModal };
+
   return (
     <>
       <Title size="6rem" title="memory" />

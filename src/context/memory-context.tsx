@@ -5,7 +5,7 @@ import React, {
   FunctionComponent
 } from 'react';
 
-import { generateCards } from '../utils/generateCards';
+import { generateCards, EmojiType } from '../utils/generateCards';
 import { memoryReducer } from '../reducers/memoryReducer';
 
 // In order to have number of cards as a setting,
@@ -15,7 +15,7 @@ import { memoryReducer } from '../reducers/memoryReducer';
 export interface MemoryCard {
   memoryId: number;
   color: string;
-  identifier?: string;
+  identifier?: string[] | null;
   isOpen: boolean;
   isCollected: boolean;
   uniqueId: string;
@@ -25,13 +25,17 @@ export interface MemoryCard {
 export type MemoryState = {
   cards: MemoryCard[];
   selectedCards: MemoryCard[];
+  isFinished: boolean;
 };
 
 // Pass the card as payload.
 export type Action =
   | {
       type: 'INIT';
-      payload: { cardCount: number };
+      payload: { cardCount: number; cardType: EmojiType };
+    }
+  | {
+      type: 'SET_FINISHED';
     }
   | {
       type: 'SELECT';
@@ -62,8 +66,9 @@ const MemoryDispatchContext = createContext<MemoryDispatch | undefined>(
 );
 
 export const initialState: MemoryState = {
-  cards: generateCards(12),
-  selectedCards: []
+  cards: generateCards(12, 'animals'),
+  selectedCards: [],
+  isFinished: false
 };
 
 const MemoryProvider: FunctionComponent = ({ children }) => {

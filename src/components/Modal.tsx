@@ -75,7 +75,7 @@ export const Modal = ({
     setShowModal(false);
   }
 
-  return root
+  return root && showModal
     ? createPortal(
         <>
           {transition.map(({ item, key, props }) => {
