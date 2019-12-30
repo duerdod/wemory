@@ -13,7 +13,7 @@ const Container = styled.div`
 
 const Title = styled.h2`
   text-align: center;
-  color: ${({ theme }) => theme.backgroundColor};
+  color: ${({ theme }) => theme.titleColor};
   font-size: 1.4rem;
   letter-spacing: 2px;
   margin: 0;
@@ -48,7 +48,7 @@ const LabelContainer = styled.div`
   }
 
   input[type='radio'] {
-    appearance: none;
+    visibility: hidden;
     &:checked ~ label {
       border: 6px solid ${({ theme }) => theme.backgroundColor};
       border-radius: 100%;
@@ -133,7 +133,7 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
             <Title>Card type</Title>
             <LabelContainer>
               <div style={{ opacity: '0.2' }}>
-                <input type="radio" name="cardType" id="emoji-none" />
+                <input type="radio" name="cardType" id="emoji-none" disabled />
                 <label htmlFor="emoji-none">
                   <span role="img" aria-label="Type of card">
                     🎨
@@ -154,7 +154,7 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
                 </label>
               </div>
               <div style={{ opacity: '0.2' }}>
-                <input type="radio" name="cardType" id="emoji-foods" />
+                <input type="radio" name="cardType" id="emoji-foods" disabled />
                 <label htmlFor="emoji-foods">
                   <span role="img" aria-label="Type of card">
                     🌭

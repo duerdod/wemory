@@ -17,11 +17,22 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
         case 'SELECT':
             const { card } = action.payload.selectedCard
             const { cards, selectedCards } = state
+            const openCards = cards.filter(card => card.isOpen)
 
             // Null check and prevent selecting the same card over and over.
-            if (!card || hasLength(selectedCards, 2) || card.isCollected || card.isOpen) {
+            if (!card || card.isCollected || card.isOpen) {
                 return state;
             }
+
+            if (openCards.length >= 2) {
+                return {
+                    ...state,
+                    selectedCards: []
+                }
+            }
+
+
+
 
             // Always open at least one card. 
             // Maybe not? 
@@ -49,6 +60,7 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                         if (isEqual(c1.uniqueId, c.uniqueId) || isEqual(c2.uniqueId, c.uniqueId)) {
                             c.isCollected = true
                         }
+                        c.isOpen = false;
                         return c;
                     })
 

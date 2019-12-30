@@ -17,7 +17,7 @@ const Backdrop = styled.div`
 const ModalContainer = styled(animated.div)`
   background: whitesmoke;
   position: absolute;
-  z-index: 200;
+  z-index: 999;
   width: 420px;
   border-radius: 4px;
   max-width: 100%;

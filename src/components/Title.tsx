@@ -16,7 +16,8 @@ const StyledTitle = styled.button(
   ({ size }: Styled) => css`
     font-size: ${size};
     font-weight: 800;
-    margin: 2.5rem auto 0.5rem auto;
+    margin: 0.5rem auto 0rem auto;
+    padding: 2rem;
     transform: skew(0deg, -2deg);
     max-width: 600px;
     line-height: 3.2rem;
@@ -33,6 +34,7 @@ const StyledTitle = styled.button(
 
     @media screen and (max-width: 40em) {
       font-size: 4rem;
+      transform: none;
     }
   `
 );
