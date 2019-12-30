@@ -43,11 +43,11 @@ const StyledButton = styled.button(
 
     ${color === 'success'
       ? `
-    background: ${hslBackground.hsl('125', '44.5')};
-    border: 3px solid ${hslBackground.hsl('125', '43.5')};
+    background: rgb(242, 92, 154);
+    border: 3px solid rgb(220, 60, 123);
     &:hover {
-      background: ${hslBackground.hsl('125', '43.5')};
-      border: 3px solid ${hslBackground.hsl('125', '43.5')};
+      background: rgb(220, 60, 123);
+      border: 3px solid rgb(194, 30, 90);
     }`
       : ''}
 

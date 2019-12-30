@@ -8,7 +8,7 @@ import { rangeSliderStyle } from './ui/RangeSlider';
 
 const Container = styled.div`
   font-family: ${({ theme }) => theme.fontFamily};
-  color: ${({ theme }) => theme.backgroundColor};
+  color: ${({ theme }) => theme.cardColor};
 `;
 
 const Title = styled.h2`
@@ -16,12 +16,44 @@ const Title = styled.h2`
   color: ${({ theme }) => theme.backgroundColor};
   font-size: 1.4rem;
   letter-spacing: 2px;
+  margin: 0;
 `;
 
 const StyledForm = styled.form`
   max-width: 400px;
   margin: 1rem auto 1rem auto;
   text-align: center;
+`;
+
+const FormSection = styled.section`
+  margin: 1.5rem 0;
+`;
+
+const LabelContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  height: 55px;
+
+  label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 2rem;
+    width: 55px;
+    height: 55px;
+    padding: 1rem;
+  }
+
+  input[type='radio'] {
+    appearance: none;
+    &:checked ~ label {
+      border: 6px solid ${({ theme }) => theme.backgroundColor};
+      border-radius: 100%;
+    }
+  }
 `;
 
 const Ranges = styled.div`
@@ -96,32 +128,68 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
   return (
     <Modal {...modalProps}>
       <Container>
-        <Title>How many cards?</Title>
         <StyledForm>
-          <Ranges>
-            {ranges.map(range => (
-              <Range range={range} key={range} current={cardCount} />
-            ))}
-          </Ranges>
-          <RangeInput
-            type="range"
-            defaultValue={cardCount}
-            min="6"
-            max="36"
-            step="6"
-            name="cardCount"
-            onChange={handleChange}
-          />
-          <div>
-            <Button
-              onClick={() => setShowModal(false)}
-              size="large"
-              color="success"
-              type="button"
-            >
-              OK
-            </Button>
-          </div>
+          <FormSection>
+            <Title>Card type</Title>
+            <LabelContainer>
+              <div style={{ opacity: '0.2' }}>
+                <input type="radio" name="cardType" id="emoji-none" />
+                <label htmlFor="emoji-none">
+                  <span role="img" aria-label="Type of card">
+                    🎨
+                  </span>
+                </label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name="cardType"
+                  id="emoji-animals"
+                  checked
+                />
+                <label htmlFor="emoji-animals">
+                  <span role="img" aria-label="Type of card">
+                    🐶
+                  </span>
+                </label>
+              </div>
+              <div style={{ opacity: '0.2' }}>
+                <input type="radio" name="cardType" id="emoji-foods" />
+                <label htmlFor="emoji-foods">
+                  <span role="img" aria-label="Type of card">
+                    🌭
+                  </span>
+                </label>
+              </div>
+            </LabelContainer>
+          </FormSection>
+          <FormSection>
+            <Title>How many cards?</Title>
+            <Ranges>
+              {ranges.map(range => (
+                <Range range={range} key={range} current={cardCount} />
+              ))}
+            </Ranges>
+            <RangeInput
+              type="range"
+              defaultValue={cardCount}
+              min="6"
+              max="36"
+              step="6"
+              name="cardCount"
+              onChange={handleChange}
+            />
+            <div>
+              <Button
+                onClick={() => setShowModal(false)}
+                size="large"
+                color="success"
+                type="button"
+              >
+                OK
+              </Button>
+            </div>
+          </FormSection>
         </StyledForm>
       </Container>
     </Modal>

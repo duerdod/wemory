@@ -3,11 +3,11 @@ import { createGlobalStyle } from 'styled-components';
 export const theme = {
   fontFamily: 'Bowlby One SC, sans-serif',
   fontWeight: ['400', '900'],
-  backgroundColor: 'rgb(255, 190, 37)',
-  cardColor: 'rgb(253, 174, 0)',
-  boxShadow: 'rgb(216, 144, 0)',
-  titleColor: 'rgb(255, 64, 37)',
-  titleTextShadow: 'rgb(220, 23, 0)',
+  backgroundColor: 'rgb(166, 224, 201)',
+  cardColor: 'rgb(144, 205, 180)',
+  boxShadow: 'rgb(112, 177, 149)',
+  titleColor: 'rgb(242, 92, 154)',
+  titleTextShadow: 'rgb(220, 60, 123)',
   transition: 'all 0.2s ease'
 };
 

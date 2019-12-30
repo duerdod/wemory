@@ -10,7 +10,7 @@ type EmojiType = 'foods' | 'animals' | null
 
 export function generateCards(qty: number, emoji?: EmojiType | null): MemoryCard[] {
     const deck: MemoryCard[] = [];
-    const colors = randomcolors({ count: qty, luminosity: 'bright', format: 'hsl' });
+    const colors = randomcolors({ count: qty, luminosity: 'light', format: 'hsl' });
 
     for (let i = 0; i < qty; i++) {
         const index: number = i % 2 === 0 ? i : deck.length - 1;

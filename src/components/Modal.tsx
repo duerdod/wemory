@@ -18,7 +18,7 @@ const ModalContainer = styled(animated.div)`
   background: whitesmoke;
   position: absolute;
   z-index: 200;
-  width: 450px;
+  width: 420px;
   border-radius: 4px;
   max-width: 100%;
   max-height: 100%;
