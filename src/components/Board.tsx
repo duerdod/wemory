@@ -13,6 +13,7 @@ const Container = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   @media screen and (max-width: 35em) {
     grid-template-columns: repeat(auto-fit, minmax(80px, 60px));
+    grid-template-rows: repeat(9, 60px);
   }
 `;
 

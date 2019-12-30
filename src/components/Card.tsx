@@ -14,19 +14,23 @@ interface StyledCardProps {
   background: string;
   isOpen: boolean;
   isCollected: boolean;
-  className: string;
+  className?: string;
 }
 
 const StyledCard = styled(animated.button)<StyledCardProps>`
   height: 150px;
   border-radius: 3px;
-  padding: 20px;
+  /* padding: 20px; */
   font-size: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #383838;
   cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-content: center;
 
   ${({ isOpen, background, isCollected }) =>
     isOpen || isCollected
@@ -50,12 +54,16 @@ const StyledCard = styled(animated.button)<StyledCardProps>`
       `};
 
   span {
-    background: whitesmoke;
-    padding: 0.2rem 0.8rem;
+    font-size: 7rem;
+    /* padding: 5px; */
   }
 
   @media screen and (max-width: 35em) {
     height: 60px;
+    span {
+      font-size: 2.7rem;
+    }
+    /* height: 100%; */
   }
 `;
 
@@ -101,7 +109,6 @@ export const Card = (card: MemoryCard) => {
 
   return (
     <StyledCard
-      className={isOpen || isCollected ? 'open' : ''}
       isCollected={isCollected}
       isOpen={isOpen}
       background={color}
@@ -112,7 +119,10 @@ export const Card = (card: MemoryCard) => {
         )
       }}
     >
-      {identifier && <span>{(isOpen || isCollected) && card.identifier}</span>}
+      {identifier && (
+        <span>{(isOpen || isCollected) && card.identifier}</span>
+        // <span>{card.identifier}</span>
+      )}
     </StyledCard>
   );
 };
