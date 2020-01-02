@@ -26,11 +26,17 @@ export const GlobalStyle = createGlobalStyle`
 
   html {
     font-size: 16px;
-    background: linear-gradient(to right top, #ffbe25, #feba1e, #feb616, #fdb20d, #fdae00);
+    
   }
   html, body, #root  {
     background: ${theme.backgroundColor};
   }
+
+  #root {
+    min-height: 100vh;
+    background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAAKklEQVQYlWNgQAMTzm75jy6GAWCK8CpGl8SqGJcJKOKE3ESUm8lSTDQAAILMHqF/VghBAAAAAElFTkSuQmCC) repeat;
+}
+
 
   button {
     cursor: pointer;

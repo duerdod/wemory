@@ -5,8 +5,9 @@ import React, {
   FunctionComponent
 } from 'react';
 
-import { generateCards, EmojiType } from '../utils/generateCards';
+import { generateCards } from '../utils/generateCards';
 import { memoryReducer } from '../reducers/memoryReducer';
+import { Action } from '../reducers/actions';
 
 // In order to have number of cards as a setting,
 // the reducer payload must be of type MemoryCard.
@@ -14,8 +15,8 @@ import { memoryReducer } from '../reducers/memoryReducer';
 // Or maybe be extended?
 export interface MemoryCard {
   memoryId: number;
-  color: string;
-  identifier?: string[] | null;
+  bgColor: string;
+  identifier: string[] | null;
   isOpen: boolean;
   isCollected: boolean;
   uniqueId: string;
@@ -25,38 +26,8 @@ export interface MemoryCard {
 export type MemoryState = {
   cards: MemoryCard[];
   selectedCards: MemoryCard[];
-  isFinished: boolean;
+  isGameWon: boolean;
 };
-
-// Pass the card as payload.
-export type Action =
-  | {
-      type: 'INIT';
-      payload: { cardCount: number; cardType: EmojiType };
-    }
-  | {
-      type: 'SET_FINISHED';
-    }
-  | {
-      type: 'SELECT';
-      payload: { selectedCard: MemoryCard };
-    }
-  | {
-      type: 'CHECK_MATCH';
-      payload: { selectedCards: MemoryCard[] };
-    }
-  | {
-      type: 'CLOSE_CARDS';
-      payload: {
-        selectedCards: MemoryCard[];
-      };
-    }
-  | {
-      type: 'RESET';
-      payload: {
-        initialState: MemoryState;
-      };
-    };
 
 type MemoryDispatch = (action: Action) => void;
 
@@ -68,7 +39,7 @@ const MemoryDispatchContext = createContext<MemoryDispatch | undefined>(
 export const initialState: MemoryState = {
   cards: generateCards(12, 'animals'),
   selectedCards: [],
-  isFinished: false
+  isGameWon: false
 };
 
 const MemoryProvider: FunctionComponent = ({ children }) => {

@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Card } from './Card';
-import { useMemoryState, MemoryCard } from '../context/memory-context';
+import { Card, CardContent } from './Card';
+import {
+  useMemoryState,
+  MemoryCard,
+  useMemoryDispatch
+} from '../context/memory-context';
+
+import { WonGame } from './WonGame';
 
 const Container = styled.div`
+  position: relative;
+  overflow: hidden;
   padding: 2rem;
   max-width: 80em;
   margin: 0 auto;
@@ -18,28 +26,29 @@ const Container = styled.div`
 `;
 
 export const Board: React.FC = () => {
-  const { cards } = useMemoryState();
+  const { cards, selectedCards, isGameWon } = useMemoryState();
+  const dispatch = useMemoryDispatch();
+  const gridRef = useRef(null);
 
-  /*
+  // useEffect(() => )
 
-  TODO: Use when card count is a setting.
-  const deck = React.useMemo(
-    () =>
-      cards.reduce(
-        (arr: MemoryCard[], current: MemoryCard) =>
-          current.memoryId <= 99 ? [...arr, current] : arr,
-        []
-      ),
-    [cards]
-  );
-
-  */
+  useEffect(() => {
+    if (selectedCards.length >= 2) {
+      dispatch({ type: 'TRY_WIN' });
+    }
+  }, [selectedCards, dispatch]);
 
   return (
-    <Container>
-      {cards.map((card: MemoryCard) => (
-        <Card key={card.uniqueId} card={card} {...card} />
-      ))}
+    <Container ref={gridRef}>
+      {isGameWon ? (
+        <WonGame grid={gridRef} />
+      ) : (
+        cards.map((card: MemoryCard) => (
+          <Card key={card.uniqueId} card={card} {...card}>
+            <CardContent {...card} />
+          </Card>
+        ))
+      )}
     </Container>
   );
 };

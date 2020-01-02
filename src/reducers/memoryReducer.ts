@@ -1,5 +1,6 @@
-import { MemoryState, Action } from '../context/memory-context'
+import { MemoryState } from '../context/memory-context'
 import { hasLength, generateCards } from '../utils/index'
+import { Action } from './actions'
 
 const isEqual = (itemOne: string | number, itemTwo: string | number) => itemOne === itemTwo
 
@@ -11,14 +12,20 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
             return {
                 cards: generateCards(cardCount, cardType),
                 selectedCards: [],
-                isFinished: false
+                isGameWon: false
             }
         }
 
-        case 'SET_FINISHED': {
+        case 'TRY_WIN': {
+            const isGameWon = state.cards.every(card => card.isCollected)
+
+            if (!isGameWon) {
+                return state;
+            }
+
             return {
                 ...state,
-                isFinished: true
+                isGameWon: true
             }
         }
 
@@ -39,11 +46,6 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                 }
             }
 
-
-
-
-            // Always open at least one card. 
-            // Maybe not? 
             const openCard = cards.map(c => {
                 if (isEqual(c.uniqueId, card.uniqueId)) {
                     c.isOpen = true;
@@ -118,9 +120,9 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
         case 'RESET': {
             const { cards } = state
             return {
-                ...state,
                 cards: cards.map(c => ({ ...c, isOpen: false, isCollected: false })),
-                selectedCards: []
+                selectedCards: [],
+                isGameWon: false
             }
         }
 

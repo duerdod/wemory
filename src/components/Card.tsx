@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, ReactNode } from 'react';
 import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 import { theme } from '../Theme';
@@ -12,12 +12,11 @@ import { wait, hasLength, darken } from '../utils/index';
 
 interface StyledCardProps {
   background: string;
-  isOpen: boolean;
-  isCollected: boolean;
+  discovered: boolean;
   className?: string;
 }
 
-const StyledCard = styled(animated.button)<StyledCardProps>`
+export const StyledCard = styled(animated.button)<StyledCardProps>`
   height: 150px;
   border-radius: 3px;
   /* padding: 20px; */
@@ -32,8 +31,8 @@ const StyledCard = styled(animated.button)<StyledCardProps>`
   justify-content: center;
   align-content: center;
 
-  ${({ isOpen, background, isCollected }) =>
-    isOpen || isCollected
+  ${({ discovered, background }) =>
+    discovered
       ? ` background: ${background}; 
           box-shadow: 
           1px 1px 0px ${darken(background)},
@@ -67,10 +66,28 @@ const StyledCard = styled(animated.button)<StyledCardProps>`
   }
 `;
 
-export const Card = (card: MemoryCard) => {
+interface CardContentProps {
+  isOpen: boolean;
+  isCollected: boolean;
+  identifier: string[] | null;
+}
+
+interface IMemoryCard extends MemoryCard {
+  children?: React.ReactNode;
+}
+
+export const CardContent = ({
+  isOpen,
+  isCollected,
+  identifier
+}: CardContentProps) => {
+  return identifier && <span>{(isOpen || isCollected) && identifier}</span>;
+};
+
+export const Card = (card: IMemoryCard) => {
   const dispatch = useMemoryDispatch();
   const { selectedCards } = useMemoryState();
-  const { isCollected, isOpen, color, identifier } = card;
+  const { isCollected, isOpen, bgColor } = card;
 
   const { transform } = useSpring({
     transform: `perspective(600px) rotateX(${
@@ -109,9 +126,8 @@ export const Card = (card: MemoryCard) => {
 
   return (
     <StyledCard
-      isCollected={isCollected}
-      isOpen={isOpen}
-      background={color}
+      discovered={isCollected || isOpen}
+      background={bgColor}
       onClick={selectCard}
       style={{
         transform: transform.interpolate(
@@ -119,10 +135,7 @@ export const Card = (card: MemoryCard) => {
         )
       }}
     >
-      {identifier && (
-        <span>{(isOpen || isCollected) && card.identifier}</span>
-        // <span>{card.identifier}</span>
-      )}
+      {card.children}
     </StyledCard>
   );
 };

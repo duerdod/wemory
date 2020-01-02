@@ -6,17 +6,19 @@ import { Modal, ModalState } from './Modal';
 import { Button } from './ui/Button';
 import { rangeSliderStyle } from './ui/RangeSlider';
 
+import { theme } from '../Theme';
+
 const Container = styled.div`
-  font-family: ${({ theme }) => theme.fontFamily};
-  color: ${({ theme }) => theme.cardColor};
+  font-family: ${theme.fontFamily};
+  color: ${theme.cardColor};
 `;
 
 const Title = styled.h2`
   text-align: center;
-  color: ${({ theme }) => theme.titleColor};
+  color: ${theme.titleColor};
   font-size: 1.4rem;
   letter-spacing: 2px;
-  margin: 0;
+  margin: 1rem 0;
 `;
 
 const StyledForm = styled.form`
@@ -45,12 +47,15 @@ const LabelContainer = styled.div`
     width: 85px;
     height: 85px;
     padding: 1.5rem;
+    -webkit-tap-highlight-color: transparent;
+    transition: ${theme.transition};
   }
 
   input[type='radio'] {
     visibility: hidden;
     &:checked ~ label {
-      border: 6px solid ${({ theme }) => theme.backgroundColor};
+      border: 6px solid ${theme.backgroundColor};
+      background: #e1e1e1;
       border-radius: 100%;
     }
   }
@@ -67,11 +72,12 @@ const Ranges = styled.div`
 const Range = styled.span<{ range: number; current: number }>`
   &::after {
     font-family: inherit;
-    font-size: 2rem;
-    transition: ${({ theme }) => theme.transition};
+    font-size: 1.6rem;
+    transition: ${theme.transition};
+
     content: '${p => p.range}';
     ${({ current, range }) =>
-      current === range ? 'opacity: 1' : 'opacity: 0.4'}
+      current === range ? `color: ${theme.titleColor};` : 'opacity: 0.4'}
   }
 `;
 
@@ -82,7 +88,7 @@ const RangeInput = styled.input`
 const ModalButton = styled.button`
   span {
     font-size: 3rem;
-    color: ${({ theme }) => theme.cardColor};
+    color: ${theme.cardColor};
   }
 `;
 
@@ -98,25 +104,23 @@ export const ShowModalButton = ({ setShowModal }: ModalState) => (
 
 const ranges = [6, 12, 18, 24, 30, 36];
 
+interface ISettings {
+  cardCount: number;
+  cardType: string;
+}
+
 export const Settings = ({ showModal, setShowModal }: ModalState) => {
   const dispatch = useMemoryDispatch();
-  const [cardCount, setCardCount] = useState<number>(12);
+  const [settings, setSettings] = useState<ISettings>({
+    cardCount: 12,
+    cardType: 'animals'
+  });
 
-  // const handleChange = useCallback(
-  //   (e: ChangeEvent<HTMLInputElement>) => {
-  //     e.preventDefault();
-  //     setCardCount(Number(e.target.value));
-
-  //     dispatch({
-  //       type: 'INIT',
-  //       payload: { cardCount: Number(e.target.value), cardType: 'foods' }
-  //     });
-  //   },
-  //   [dispatch]
-  // );
-
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setCardCount(Number(e.target.value));
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLFormElement>) => {
+    setSettings({
+      cardCount: Number(e.currentTarget.cardCount.value),
+      cardType: e.currentTarget.cardType.value
+    });
   }, []);
 
   const handleSumbit = (e: FormEvent<HTMLFormElement>) => {
@@ -136,7 +140,7 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
   return (
     <Modal {...modalProps}>
       <Container>
-        <StyledForm onSubmit={handleSumbit}>
+        <StyledForm onSubmit={handleSumbit} onChange={handleChange}>
           <FormSection>
             {/* <Title>Card</Title> */}
             <LabelContainer>
@@ -146,6 +150,7 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
                   name="cardType"
                   id="emoji-none"
                   value={undefined}
+                  defaultChecked={settings.cardType === undefined}
                 />
                 <label htmlFor="emoji-none">
                   <span role="img" aria-label="Type of card">
@@ -159,7 +164,7 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
                   name="cardType"
                   id="emoji-animals"
                   value="animals"
-                  defaultChecked={true}
+                  defaultChecked={settings.cardType === 'animals'}
                 />
                 <label htmlFor="emoji-animals">
                   <span role="img" aria-label="Type of card">
@@ -173,6 +178,7 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
                   name="cardType"
                   id="emoji-foods"
                   value="foods"
+                  defaultChecked={settings.cardType === 'foods'}
                 />
                 <label htmlFor="emoji-foods">
                   <span role="img" aria-label="Type of card">
@@ -186,17 +192,16 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
             <Title>How many cards?</Title>
             <Ranges>
               {ranges.map(range => (
-                <Range range={range} key={range} current={cardCount} />
+                <Range range={range} key={range} current={settings.cardCount} />
               ))}
             </Ranges>
             <RangeInput
               type="range"
-              defaultValue={cardCount}
+              defaultValue={settings.cardCount}
               min="6"
               max="36"
               step="6"
               name="cardCount"
-              onChange={handleChange}
             />
             <div>
               <Button size="large" color="success" type="submit">

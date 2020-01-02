@@ -45,9 +45,11 @@ const StyledButton = styled.button(
       ? `
     background: rgb(242, 92, 154);
     border: 3px solid rgb(220, 60, 123);
+    box-shadow: 0 3px 5px -1px rgb(220, 60, 123);
     &:hover {
       background: rgb(220, 60, 123);
       border: 3px solid rgb(194, 30, 90);
+      box-shadow: 0 1px 1px 0px rgb(220, 60, 123);
     }`
       : ''}
 
@@ -55,6 +57,7 @@ const StyledButton = styled.button(
       ? `
     background: ${hslBackground.hsl('354', '47.3')};
     border: 3px solid ${hslBackground.hsl('354', '44.3')};
+    box-shadow: 0 1px 2px 0px ${hslBackground.hsl('354', '47.3')};
     &:hover {
       background: ${hslBackground.hsl('355', '41.8')};
       border: 3px solid ${hslBackground.hsl('355', '37.8')};
