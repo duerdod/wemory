@@ -76,14 +76,6 @@ interface IMemoryCard extends MemoryCard {
   children?: React.ReactNode;
 }
 
-export const CardContent = ({
-  isOpen,
-  isCollected,
-  identifier
-}: CardContentProps) => {
-  return identifier && <span>{(!isOpen || !isCollected) && identifier}</span>;
-};
-
 export const Card = (card: IMemoryCard) => {
   const dispatch = useMemoryDispatch();
   const { selectedCards } = useMemoryState();
@@ -138,4 +130,12 @@ export const Card = (card: IMemoryCard) => {
       {card.children}
     </StyledCard>
   );
+};
+
+export const CardContent = ({
+  isOpen,
+  isCollected,
+  identifier
+}: CardContentProps) => {
+  return identifier && <span>{(isOpen || isCollected) && identifier}</span>;
 };

@@ -28,7 +28,7 @@ const Container = styled.div`
 export const Board: React.FC = () => {
   const { cards, selectedCards, isGameWon } = useMemoryState();
   const dispatch = useMemoryDispatch();
-  const gridRef = useRef(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
 
   // useEffect(() => )
 

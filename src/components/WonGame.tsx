@@ -17,7 +17,7 @@ import { Button } from './ui/Button';
 
 import { darken } from '../utils/index';
 
-// This is crap
+// The complete component is crap.
 
 const random = (offset: number) => {
   let int = Math.floor(
@@ -59,8 +59,21 @@ const ButtonContainer = styled(animated.div)`
   }
 `;
 
+interface TransitionProps {
+  item: {
+    bgColor: string;
+    isOpen: boolean;
+    isCollected: boolean;
+    identifier: string;
+  };
+  key: string;
+  props: {};
+}
+
 // TODO: Add types.
-export const WonGame = ({ grid }: any): any => {
+export const WonGame: React.FC<{
+  grid: React.MutableRefObject<any>;
+}> = ({ grid }): any => {
   const { cards } = useMemoryState();
   const dispatch = useMemoryDispatch();
   const { clientHeight, clientWidth } = grid.current;
@@ -159,7 +172,7 @@ export const WonGame = ({ grid }: any): any => {
           item: { bgColor, isOpen, isCollected, identifier },
           key,
           props
-        }: any): any => {
+        }: TransitionProps): any => {
           return (
             <StyledCard
               key={key}
