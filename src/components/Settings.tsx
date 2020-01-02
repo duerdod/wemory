@@ -88,7 +88,6 @@ const RangeInput = styled.input`
 const ModalButton = styled.button`
   span {
     font-size: 3rem;
-    color: ${theme.cardColor};
   }
 `;
 
