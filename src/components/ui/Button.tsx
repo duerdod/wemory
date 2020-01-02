@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, CSSProperties } from 'react';
 import styled, { css } from 'styled-components';
 import { theme } from '../../Theme';
-
+import { darken } from '../../utils/index';
 // This is crap.
 
 type Type = 'submit' | 'button';
@@ -14,16 +14,13 @@ const padding = {
   large: '0.9rem 2.5rem'
 };
 
-const hslBackground = {
-  hsl: (hue: string, light: string) => `hsl(${hue}, 100%, ${light}%)`
-};
-
 interface ButtonProps {
   children: string | ReactNode;
   type: Type;
   color?: Color;
   size: keyof typeof padding;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  style?: CSSProperties;
 }
 
 interface StyledButtonProps {
@@ -43,24 +40,25 @@ const StyledButton = styled.button(
 
     ${color === 'success'
       ? `
-    background: rgb(242, 92, 154);
-    border: 3px solid rgb(220, 60, 123);
-    box-shadow: 0 3px 5px -1px rgb(220, 60, 123);
+    background: ${theme.titleColor};
+    border: 3px solid ${darken(theme.titleColor, 1)};
+    box-shadow: 0 3px 5px -1px ${darken(theme.titleColor, 1)};
     &:hover {
-      background: rgb(220, 60, 123);
-      border: 3px solid rgb(194, 30, 90);
-      box-shadow: 0 1px 1px 0px rgb(220, 60, 123);
+      background: ${darken(theme.titleColor, 3)};
+      border: 3px solid ${darken(theme.titleColor, 2)};
+      box-shadow: 0 2px 2px 0px ${darken(theme.titleColor, 5)};
     }`
       : ''}
 
     ${color === 'disappointment'
       ? `
-    background: ${hslBackground.hsl('354', '47.3')};
-    border: 3px solid ${hslBackground.hsl('354', '44.3')};
-    box-shadow: 0 1px 2px 0px ${hslBackground.hsl('354', '47.3')};
+    background: ${theme.backgroundColor};
+    border: 3px solid ${darken(theme.backgroundColor, 1)};
+    box-shadow: 0 3px 5px -1px ${darken(theme.backgroundColor, 1)};
     &:hover {
-      background: ${hslBackground.hsl('355', '41.8')};
-      border: 3px solid ${hslBackground.hsl('355', '37.8')};
+      background: ${darken(theme.backgroundColor, 3)};
+      border: 3px solid ${darken(theme.backgroundColor, 2)};
+      box-shadow: 0 3px 5px -1px ${darken(theme.backgroundColor, 2)};
     }`
       : ''}
   `

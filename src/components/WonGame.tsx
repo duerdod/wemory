@@ -7,15 +7,15 @@ import {
   useSpring,
   animated
 } from 'react-spring';
-import {
-  useMemoryState,
-  useMemoryDispatch,
-  initialState
-} from '../context/memory-context';
+import { useMemoryState, useMemoryDispatch } from '../context/memory-context';
 import { StyledCard } from './Card';
 
-import { TitleStyle } from './ui/TitleStyle';
+import { coolBoxShadow } from './ui/TitleStyle';
 import { theme } from '../Theme';
+
+import { Button } from './ui/Button';
+
+import { darken } from '../utils/index';
 
 // This is crap
 
@@ -32,18 +32,31 @@ const random = (offset: number) => {
 };
 
 const Congrats = styled(animated.h2)`
-  ${TitleStyle}
   font-size: 4rem;
-  padding: 10rem 0;
+  padding: 9rem 0 4rem 0;
   cursor: auto;
+  color: ${theme.secondaryColor};
+  ${coolBoxShadow(darken(theme.secondaryColor, 20))}
+
+  @media screen and (max-width: 40em) {
+    font-size: 2.5rem;
+    padding: 25px;
+  }
 `;
 
-const PlayAgain = styled(animated.button)`
-  color: ${theme.titleColor};
+const ButtonContainer = styled(animated.div)`
   position: absolute;
   left: 50%;
-  top: 70%;
+  top: 75%;
   transform: translateX(-50%);
+  @media screen and (max-width: 40em) {
+    font-size: 1rem;
+    padding: 0;
+    top: 25%;
+    button {
+      white-space: nowrap;
+    }
+  }
 `;
 
 // TODO: Add types.
@@ -58,16 +71,17 @@ export const WonGame = ({ grid }: any): any => {
   //@ts-ignore
   const { opacity, transform } = useSpring({
     ref: firstSpringRef,
-    config: { ...config.wobbly, friction: 1, tension: 250 },
+    config: { ...config.wobbly, friction: 2 },
     from: {
       opacity: 0,
-      transform: 'translate3d(-10px, 40px, 20px) scale(4) rotate(180deg)'
+      transform:
+        'translate3d(-10px, 40px, 20px) scale(4) rotate(300deg) skew(300deg, 20deg)'
     },
     to: {
       opacity: showCongrats ? 1 : 0,
-      transform: 'translate3d(0px, 0px, 0px) scale(1.2) rotate(0deg)'
+      transform: 'translate3d(0px, 0px, 0px) scale(1.2) rotate(0deg) skew(0, 0)'
     },
-    delay: cards.length * 40
+    delay: cards.length * 30
   });
 
   const secondSpringRef = useRef();
@@ -81,7 +95,7 @@ export const WonGame = ({ grid }: any): any => {
     to: {
       opacity: showCongrats ? 1 : 0
     },
-    delay: 5000
+    delay: 1500
   });
 
   const transitionRef = useRef();
@@ -111,7 +125,7 @@ export const WonGame = ({ grid }: any): any => {
   );
 
   useEffect(() => {
-    const timeout = setTimeout(() => setWonCards([]), 1000);
+    const timeout = setTimeout(() => setWonCards([]), 400);
     return () => clearTimeout(timeout);
   }, []);
 
@@ -123,14 +137,21 @@ export const WonGame = ({ grid }: any): any => {
       {showCongrats && (
         <div style={{ textAlign: 'center' }}>
           <Congrats style={{ opacity, transform }}>WINNER!!!</Congrats>
-          <PlayAgain
-            onClick={() =>
-              dispatch({ type: 'RESET', payload: { initialState } })
-            }
-            style={secondSpring}
-          >
-            Play again
-          </PlayAgain>
+          <ButtonContainer style={secondSpring}>
+            <Button
+              size="large"
+              type="button"
+              color="success"
+              onClick={() =>
+                dispatch({
+                  type: 'INIT',
+                  payload: { cardCount: 12, cardType: 'foods' }
+                })
+              }
+            >
+              <span>Play again</span>
+            </Button>
+          </ButtonContainer>
         </div>
       )}
       {transition.map(

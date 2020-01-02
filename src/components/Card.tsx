@@ -81,7 +81,7 @@ export const CardContent = ({
   isCollected,
   identifier
 }: CardContentProps) => {
-  return identifier && <span>{(isOpen || isCollected) && identifier}</span>;
+  return identifier && <span>{(!isOpen || !isCollected) && identifier}</span>;
 };
 
 export const Card = (card: IMemoryCard) => {
