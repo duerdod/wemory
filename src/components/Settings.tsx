@@ -1,6 +1,10 @@
 import React, { useState, useCallback, FormEvent } from 'react';
 import styled from 'styled-components';
-import { useMemoryDispatch } from '../context/memory-context';
+import {
+  useMemoryDispatch,
+  useMemoryState,
+  EmojiType
+} from '../context/memory-context';
 import { Modal, ModalState } from './Modal';
 
 import { Button } from './ui/Button';
@@ -48,7 +52,7 @@ const LabelContainer = styled.div`
     height: 85px;
     padding: 1.5rem;
     -webkit-tap-highlight-color: transparent;
-    transition: ${theme.transition};
+    transition: all ${theme.transition};
   }
 
   input[type='radio'] {
@@ -73,7 +77,8 @@ const Range = styled.span<{ range: number; current: number }>`
   &::after {
     font-family: inherit;
     font-size: 1.6rem;
-    transition: ${theme.transition};
+    transition: all ${theme.transition};
+
 
     content: '${p => p.range}';
     ${({ current, range }) =>
@@ -105,14 +110,16 @@ const ranges = [6, 12, 18, 24, 30, 36];
 
 interface ISettings {
   cardCount: number;
-  cardType: string;
+  cardType: EmojiType;
 }
 
 export const Settings = ({ showModal, setShowModal }: ModalState) => {
   const dispatch = useMemoryDispatch();
+  const { cards, cardType } = useMemoryState();
+
   const [settings, setSettings] = useState<ISettings>({
-    cardCount: 12,
-    cardType: 'animals'
+    cardCount: cards.length,
+    cardType: cardType as EmojiType
   });
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLFormElement>) => {
@@ -204,7 +211,7 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
             />
             <div>
               <Button size="large" color="success" type="submit">
-                OK
+                play
               </Button>
             </div>
           </FormSection>

@@ -27,7 +27,10 @@ export type MemoryState = {
   cards: MemoryCard[];
   selectedCards: MemoryCard[];
   isGameWon: boolean;
+  cardType: EmojiType;
 };
+
+export type EmojiType = 'foods' | 'animals' | null;
 
 type MemoryDispatch = (action: Action) => void;
 
@@ -37,9 +40,10 @@ const MemoryDispatchContext = createContext<MemoryDispatch | undefined>(
 );
 
 export const initialState: MemoryState = {
-  cards: generateCards(12, 'animals'),
+  cards: generateCards(18, 'animals'),
   selectedCards: [],
-  isGameWon: false
+  isGameWon: false,
+  cardType: 'animals'
 };
 
 const MemoryProvider: FunctionComponent = ({ children }) => {

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useTransition, animated, config } from 'react-spring';
 import styled from 'styled-components';
@@ -53,7 +53,6 @@ export interface ModalState {
 }
 
 interface ModalInterface extends ModalState {
-  show?: boolean;
   children: ReactNode;
 }
 
@@ -62,8 +61,7 @@ export const Modal = ({
   showModal,
   setShowModal
 }: ModalInterface) => {
-  const root: HTMLElement | null = document.getElementById('root');
-
+  const root = document.getElementById('root') as HTMLElement;
   const transition = useTransition(showModal, null, {
     config: { ...config.wobbly, tension: 200 },
     from: { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 },
@@ -75,7 +73,13 @@ export const Modal = ({
     setShowModal(false);
   }
 
-  return root && showModal
+  useEffect(() => {
+    root.classList.add('scroll-lock');
+
+    return () => root.classList.remove('scroll-lock');
+  }, [showModal]);
+
+  return showModal
     ? createPortal(
         <>
           {transition.map(({ item, key, props }) => {

@@ -2,11 +2,9 @@ import randomcolors from 'randomcolor';
 import uuid from 'uuid';
 
 import { shuffle } from './index'
-import { MemoryCard } from '../context/memory-context'
+import { MemoryCard, EmojiType } from '../context/memory-context'
 
 import { animals, foods } from '../constants/emojis'
-
-export type EmojiType = 'foods' | 'animals' | null
 
 const emojis = {
     animals,

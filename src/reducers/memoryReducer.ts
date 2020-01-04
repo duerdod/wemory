@@ -10,6 +10,7 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
         case 'INIT': {
             const { cardCount, cardType } = action.payload;
             return {
+                cardType,
                 cards: generateCards(cardCount, cardType),
                 selectedCards: [],
                 isGameWon: false
@@ -120,6 +121,7 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
         case 'RESET': {
             const { cards } = state
             return {
+                ...state,
                 cards: cards.map(c => ({ ...c, isOpen: false, isCollected: false })),
                 selectedCards: [],
                 isGameWon: false

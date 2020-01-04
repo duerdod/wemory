@@ -1,18 +1,12 @@
 import React, { ReactNode, CSSProperties } from 'react';
 import styled, { css } from 'styled-components';
 import { theme } from '../../Theme';
-import { darken } from '../../utils/index';
-// This is crap.
+import { adjustLightness } from '../../utils/index';
 
+// This is all crap.
 type Type = 'submit' | 'button';
 
-type Color = 'success' | 'disappointment';
-
-const padding = {
-  small: '0.9rem 0.8rem',
-  medium: '0.9rem 1rem',
-  large: '0.9rem 2.5rem'
-};
+type Color = 'success' | 'disappointment' | 'neutral';
 
 interface ButtonProps {
   children: string | ReactNode;
@@ -25,42 +19,84 @@ interface ButtonProps {
 
 interface StyledButtonProps {
   size: keyof typeof padding;
-  color: Color;
+  color: keyof typeof buttonColors;
   hsl?: (hsl: string, string: string) => string;
 }
 
+const buttonColors = {
+  success: theme.titleColor,
+  disappointment: theme.backgroundColor,
+  neutral: theme.secondaryColor
+};
+
+const padding = {
+  small: '0.9rem 0.8rem',
+  medium: '0.9rem 1rem',
+  large: '0.9rem 3.4rem'
+};
+
 const StyledButton = styled.button(
   ({ size, color }: StyledButtonProps) => css`
-    margin: 0.5rem;
-    border-radius: 4px;
-    transition: ${theme.transition};
-    padding: ${padding[size]};
     color: whitesmoke;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: ${padding[size]};
+    background: ${adjustLightness(buttonColors[color], 0)};
+    box-shadow: inset 0 0 0 2px ${adjustLightness(buttonColors[color], 7)};
+    border-radius: 0.55rem;
+    transform-style: preserve-3d;
+    transition: transform 150ms ${theme.transition}, filter 150ms ${
+    theme.transition
+  };
 
-    ${color === 'success'
-      ? `
-    background: ${theme.titleColor};
-    border: 3px solid ${darken(theme.titleColor, 1)};
-    box-shadow: 0 3px 5px -1px ${darken(theme.titleColor, 1)};
-    &:hover {
-      background: ${darken(theme.titleColor, 3)};
-      border: 3px solid ${darken(theme.titleColor, 2)};
-      box-shadow: 0 2px 2px 0px ${darken(theme.titleColor, 5)};
-    }`
-      : ''}
+    &::before {
+      content: 'HUGS ME';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: ${adjustLightness(buttonColors[color], 5)};
+      box-shadow: inset 0 0 0 2px ${adjustLightness(buttonColors[color], 7)};
+      border-radius: inherit;
+      transform: translate3d(0, 0.75rem, -1rem);
+      filter: drop-shadow(
+        2px 2px 6px ${adjustLightness(buttonColors[color], 1)}
+      );
+      transition: transform 150ms ${theme.transition}, filter 150ms ${
+    theme.transition
+  };
 
-    ${color === 'disappointment'
-      ? `
-    background: ${theme.backgroundColor};
-    border: 3px solid ${darken(theme.backgroundColor, 1)};
-    box-shadow: 0 3px 5px -1px ${darken(theme.backgroundColor, 1)};
+    }
+
     &:hover {
-      background: ${darken(theme.backgroundColor, 3)};
-      border: 3px solid ${darken(theme.backgroundColor, 2)};
-      box-shadow: 0 3px 5px -1px ${darken(theme.backgroundColor, 2)};
-    }`
-      : ''}
+      background: ${adjustLightness(buttonColors[color], -3)};
+      transform: translate(0, 0.25rem);
+
+      &::before {
+        transform: translate3d(0, 0.5rem, -1rem);
+        filter: drop-shadow(
+        2px 1px 4px ${adjustLightness(buttonColors[color], 1)}
+      );
+
+    }
+
+    &:active {
+      background: ${adjustLightness(buttonColors[color], -3)};
+      transform: translate(0em, 0.75rem);
+
+      &::before {
+        transform: translate3d(0, 0, -1rem);
+        filter: drop-shadow(
+        0px 0px 0px ${adjustLightness(buttonColors[color], 1)}
+      );
+
+    }
+  }
+
   `
 );
 

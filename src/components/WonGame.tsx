@@ -9,13 +9,9 @@ import {
 } from 'react-spring';
 import { useMemoryState, useMemoryDispatch } from '../context/memory-context';
 import { StyledCard } from './Card';
-
-import { coolBoxShadow } from './ui/TitleStyle';
 import { theme } from '../Theme';
-
 import { Button } from './ui/Button';
-
-import { darken } from '../utils/index';
+import { adjustLightness, coolShadow } from '../utils/index';
 
 // The complete component is crap.
 
@@ -33,14 +29,29 @@ const random = (offset: number) => {
 
 const Congrats = styled(animated.h2)`
   font-size: 4rem;
-  padding: 9rem 0 4rem 0;
+  padding: 4rem 0 1rem 0;
   cursor: auto;
+  transition: text-shadow ${theme.transition};
   color: ${theme.secondaryColor};
-  ${coolBoxShadow(darken(theme.secondaryColor, 20))}
+  text-shadow: ${coolShadow(adjustLightness(theme.secondaryColor, 20), 13)};
+  &:hover {
+    text-shadow: ${coolShadow(adjustLightness(theme.secondaryColor, 15), 110)};
+  }
+
+  &.second {
+    font-size: 2rem;
+    padding-bottom: 6rem;
+    padding-top: 0;
+    color: ${theme.titleColor};
+    text-shadow: ${coolShadow(adjustLightness(theme.titleColor, 20), 6)};
+  }
 
   @media screen and (max-width: 40em) {
     font-size: 2.5rem;
     padding: 25px;
+    &.second {
+      font-size: 1.2rem;
+    }
   }
 `;
 
@@ -49,10 +60,11 @@ const ButtonContainer = styled(animated.div)`
   left: 50%;
   top: 75%;
   transform: translateX(-50%);
+
   @media screen and (max-width: 40em) {
     font-size: 1rem;
     padding: 0;
-    top: 25%;
+    top: 40%;
     button {
       white-space: nowrap;
     }
@@ -88,7 +100,7 @@ export const WonGame: React.FC<{
     from: {
       opacity: 0,
       transform:
-        'translate3d(-10px, 40px, 20px) scale(4) rotate(300deg) skew(300deg, 20deg)'
+        'translate3d(-10px, 40px, 20px) scale(4) rotate(200deg) skew(300deg, 20deg)'
     },
     to: {
       opacity: showCongrats ? 1 : 0,
@@ -148,8 +160,11 @@ export const WonGame: React.FC<{
   return (
     <>
       {showCongrats && (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', gridColumn: '1 / 20' }}>
           <Congrats style={{ opacity, transform }}>WINNER!!!</Congrats>
+          <Congrats className="second" style={{ opacity, transform }}>
+            YOU ARE AMAZING
+          </Congrats>
           <ButtonContainer style={secondSpring}>
             <Button
               size="large"

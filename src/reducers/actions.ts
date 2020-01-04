@@ -1,5 +1,4 @@
-import { EmojiType } from '../utils/generateCards';
-import { MemoryCard, MemoryState } from '../context/memory-context'
+import { MemoryCard, MemoryState, EmojiType } from '../context/memory-context'
 
 export type Action =
     | {

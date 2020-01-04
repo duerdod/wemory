@@ -9,12 +9,17 @@ export const theme = {
   titleColor: 'hsl(335, 85%, 65%)',
   titleTextShadow: 'hsl(335, 85%, 55%)',
   secondaryColor: 'hsl(49.8, 100%, 64.1%)',
-  transition: 'all 0.2s ease'
+  transition: '150ms cubic-bezier(0, 0, 0.58, 1)',
 };
 
 export const GlobalStyle = createGlobalStyle`
 
 @import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC&display=swap');
+
+@keyframes anim {
+	from { background-position: 0 0px; }
+	to { background-position: 100% 0px; }
+}
 
   * {
     box-sizing: border-box;
@@ -27,15 +32,25 @@ export const GlobalStyle = createGlobalStyle`
 
   html {
     font-size: 16px;
-    
   }
+
   html, body, #root  {
     background: ${theme.backgroundColor};
   }
-
+  
   #root {
     min-height: 100vh;
-    background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAAKklEQVQYlWNgQAMTzm75jy6GAWCK8CpGl8SqGJcJKOKE3ESUm8lSTDQAAILMHqF/VghBAAAAAElFTkSuQmCC) repeat;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAAI0lEQVQYlWNgIAe0Xd36H4bxKsLHxy2ILo7XGiLkyVdMNAAA/OEelx+AVZ8AAAAASUVORK5CYII=) repeat;
+    background-position: 0px 0px;
+	  background-repeat: repeat;
+    animation: anim 60s linear infinite;
+    
+    &.scroll-lock {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+    }
+
 }
 
 

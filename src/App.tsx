@@ -11,7 +11,7 @@ const App: React.FC = () => {
     <>
       <Title size="6rem" title="memory" />
       <ShowModalButton {...modalProps} />
-      <Settings {...modalProps} />
+      {showModal && <Settings {...modalProps} />}
       <Board />
     </>
   );
