@@ -1,4 +1,4 @@
-import React, { ReactNode, CSSProperties } from 'react';
+import React, { ReactNode, CSSProperties, MutableRefObject } from 'react';
 import styled, { css } from 'styled-components';
 import { theme } from '../../Theme';
 import { adjustLightness } from '../../utils/index';
@@ -15,6 +15,7 @@ interface ButtonProps {
   size: keyof typeof padding;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   style?: CSSProperties;
+  ref?: MutableRefObject<any>;
 }
 
 interface StyledButtonProps {
@@ -38,7 +39,7 @@ const padding = {
 const StyledButton = styled.button(
   ({ size, color }: StyledButtonProps) => css`
     color: whitesmoke;
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     letter-spacing: 2px;
     text-transform: uppercase;
     padding: ${padding[size]};
@@ -104,11 +105,18 @@ export const Button = ({
   children,
   type,
   onClick,
+  style,
   size = 'medium',
   color = 'success'
 }: ButtonProps) => {
   return (
-    <StyledButton onClick={onClick} type={type} size={size} color={color}>
+    <StyledButton
+      onClick={onClick}
+      type={type}
+      style={style}
+      size={size}
+      color={color}
+    >
       {children}
     </StyledButton>
   );

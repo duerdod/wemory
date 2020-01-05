@@ -13,14 +13,15 @@ import { rangeSliderStyle } from './ui/RangeSlider';
 import { theme } from '../Theme';
 
 const Container = styled.div`
-  font-family: ${theme.fontFamily};
+  font-family: ${theme.secondFont};
   color: ${theme.cardColor};
 `;
 
 const Title = styled.h2`
   text-align: center;
   color: ${theme.titleColor};
-  font-size: 1.4rem;
+  font-family: ${theme.secondFont};
+  font-size: 2.3rem;
   letter-spacing: 2px;
   margin: 1rem 0;
 `;
@@ -76,10 +77,8 @@ const Ranges = styled.div`
 const Range = styled.span<{ range: number; current: number }>`
   &::after {
     font-family: inherit;
-    font-size: 1.6rem;
+    font-size: 2.1rem;
     transition: all ${theme.transition};
-
-
     content: '${p => p.range}';
     ${({ current, range }) =>
       current === range ? `color: ${theme.titleColor};` : 'opacity: 0.4'}
@@ -97,7 +96,7 @@ const ModalButton = styled.button`
 `;
 
 export const ShowModalButton = ({ setShowModal }: ModalState) => (
-  <div style={{ textAlign: 'center' }}>
+  <div style={{ textAlign: 'center', marginTop: '1rem' }}>
     <ModalButton onClick={() => setShowModal(true)}>
       <span role="img" aria-label="settings">
         ⚙

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { useMemoryDispatch } from '../context/memory-context';
+import { useMemoryDispatch, useMemoryState } from '../context/memory-context';
 import { TitleStyle } from './ui/TitleStyle';
 
 interface TitleProps {
@@ -21,14 +21,15 @@ const StyledTitle = styled.button(
 
 export const Title = ({ title }: TitleProps) => {
   const dispatch = useMemoryDispatch();
+  const { cards, cardType } = useMemoryState();
   return (
     <div style={{ textAlign: 'center' }}>
       <StyledTitle
-        size="6rem"
+        size="9rem"
         onClick={() =>
           dispatch({
             type: 'INIT',
-            payload: { cardType: 'foods', cardCount: 12 }
+            payload: { cardType, cardCount: cards.length }
           })
         }
       >

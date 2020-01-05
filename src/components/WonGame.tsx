@@ -1,11 +1,12 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import {
   config,
   useTransition,
   useChain,
   useSpring,
-  animated
+  animated,
+  interpolate
 } from 'react-spring';
 import { useMemoryState, useMemoryDispatch } from '../context/memory-context';
 import { StyledCard } from './Card';
@@ -13,11 +14,11 @@ import { theme } from '../Theme';
 import { Button } from './ui/Button';
 import { adjustLightness, coolShadow } from '../utils/index';
 
-// The complete component is crap.
+// The complete component is bull crap.
 
 const random = (offset: number) => {
   let int = Math.floor(
-    Math.floor(offset + Math.random() * (offset * 2 - offset + 1))
+    Math.floor(offset + Math.random() * (offset * 3 - offset + 1))
   );
 
   if (int % 2 === 0) {
@@ -27,46 +28,50 @@ const random = (offset: number) => {
   return int;
 };
 
+const CongratsContainer = styled.div`
+  grid-column: 1 / 8;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+`;
+
 const Congrats = styled(animated.h2)`
-  font-size: 4rem;
-  padding: 4rem 0 1rem 0;
+  font-size: 5rem;
+  padding: 0 0 1rem 0;
   cursor: auto;
+  text-align: center;
   transition: text-shadow ${theme.transition};
   color: ${theme.secondaryColor};
-  text-shadow: ${coolShadow(adjustLightness(theme.secondaryColor, 20), 13)};
+  text-shadow: ${coolShadow(adjustLightness(theme.secondaryColor, 20), 11)};
   &:hover {
-    text-shadow: ${coolShadow(adjustLightness(theme.secondaryColor, 15), 110)};
+    text-shadow: ${coolShadow(adjustLightness(theme.secondaryColor, 20), 110)};
   }
 
   &.second {
-    font-size: 2rem;
-    padding-bottom: 6rem;
+    font-size: 2.5rem;
+    padding-bottom: 1.5rem;
     padding-top: 0;
     color: ${theme.titleColor};
     text-shadow: ${coolShadow(adjustLightness(theme.titleColor, 20), 6)};
   }
 
   @media screen and (max-width: 40em) {
-    font-size: 2.5rem;
-    padding: 25px;
+    font-size: 3rem;
     &.second {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
     }
   }
 `;
 
 const ButtonContainer = styled(animated.div)`
-  position: absolute;
-  left: 50%;
-  top: 75%;
-  transform: translateX(-50%);
-
   @media screen and (max-width: 40em) {
     font-size: 1rem;
     padding: 0;
-    top: 40%;
     button {
       white-space: nowrap;
+      font-size: 1rem;
     }
   }
 `;
@@ -94,32 +99,34 @@ export const WonGame: React.FC<{
 
   const firstSpringRef = useRef();
   //@ts-ignore
-  const { opacity, transform } = useSpring({
+  const { opacity, rotate, scale } = useSpring({
     ref: firstSpringRef,
-    config: config.molasses,
+    config: { ...config.molasses, duration: 3000 },
     from: {
-      opacity: 0,
-      transform: 'rotateY(10turn) scale(0.1) '
+      rotate: 0,
+      scale: '0'
     },
     to: {
-      opacity: showCongrats ? 1 : 0,
-      transform: 'rotateY(0) scale(1.3) '
+      rotate: 10,
+      scale: '1.3'
     },
-    delay: cards.length * 30
+    delay: cards.length * 20
   });
 
   const secondSpringRef = useRef();
   //@ts-ignore
   const secondSpring = useSpring({
     ref: secondSpringRef,
-    config: { ...config.wobbly },
+    config: { ...config.wobbly, friction: 6 },
     from: {
-      opacity: 0
+      opacity: 0,
+      transform: 'scale(0.1)'
     },
     to: {
-      opacity: showCongrats ? 1 : 0
+      opacity: 1,
+      transform: 'scale(1)'
     },
-    delay: 1600
+    delay: 2000
   });
 
   const transitionRef = useRef();
@@ -148,6 +155,13 @@ export const WonGame: React.FC<{
     }
   );
 
+  const handleClick = useCallback(() => {
+    dispatch({
+      type: 'INIT',
+      payload: { cardCount: cards.length, cardType }
+    });
+  }, [cards.length, cardType, dispatch]);
+
   useEffect(() => {
     const timeout = setTimeout(() => setWonCards([]), 400);
     return () => clearTimeout(timeout);
@@ -159,9 +173,28 @@ export const WonGame: React.FC<{
   return (
     <>
       {showCongrats && (
-        <div style={{ textAlign: 'center', gridColumn: '1 / 20' }}>
-          <Congrats style={{ opacity, transform }}>WINNER!!!</Congrats>
-          <Congrats className="second" style={{ opacity, transform }}>
+        <CongratsContainer>
+          <Congrats
+            style={{
+              opacity,
+              transform: interpolate(
+                [rotate, scale],
+                (r, s) => `rotateZ(-${r}turn) scale(${s})`
+              )
+            }}
+          >
+            WINNER!!!
+          </Congrats>
+          <Congrats
+            className="second"
+            style={{
+              opacity,
+              transform: interpolate(
+                [rotate, scale],
+                (r, s) => `rotateY(${r}turn) scale(${s})`
+              )
+            }}
+          >
             YOU ARE AMAZING
           </Congrats>
           <ButtonContainer style={secondSpring}>
@@ -169,17 +202,12 @@ export const WonGame: React.FC<{
               size="large"
               type="button"
               color="success"
-              onClick={() =>
-                dispatch({
-                  type: 'INIT',
-                  payload: { cardCount: cards.length, cardType }
-                })
-              }
+              onClick={handleClick}
             >
               <span>Play again</span>
             </Button>
           </ButtonContainer>
-        </div>
+        </CongratsContainer>
       )}
       {transition.map(
         ({

@@ -11,18 +11,16 @@ import { WonGame } from './WonGame';
 
 const Container = styled.div`
   position: relative;
-  overflow: hidden;
-  padding: 2rem;
+  /* overflow: hidden; */
+  padding: 1rem 2rem;
   max-width: 80em;
   margin: 0 auto;
   display: grid;
   grid-gap: 0.9rem;
   justify-content: center;
-  /* grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); */
   grid-template-columns: repeat(6, 1fr);
   @media screen and (max-width: 35em) {
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    grid-template-rows: repeat(9, 60px);
   }
 `;
 

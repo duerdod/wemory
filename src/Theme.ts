@@ -1,7 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const theme = {
-  fontFamily: 'Bowlby One SC, sans-serif',
+  fontFamily: 'Passion One, Baloo Bhai, sans-serif',
+  secondFont: 'Baloo Bhai, sans-serif',
   fontWeight: ['400', '900'],
   backgroundColor: 'hsl(156, 48%, 76%)',
   cardColor: 'hsl(156, 48%, 68%)',
@@ -14,7 +15,9 @@ export const theme = {
 
 export const GlobalStyle = createGlobalStyle`
 
-@import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC&display=swap');
+/* @import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css?family=&display=swap'); */
+@import url('https://fonts.googleapis.com/css?family=Passion+One:400,900|Baloo+Bhai&display=swap');
 
 @keyframes anim {
 	from { background-position: 0 0px; }
@@ -25,13 +28,14 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Bowlby One SC';
+    font-family: ${theme.fontFamily};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   html {
     font-size: 16px;
+    overflow-x: hidden;
   }
 
   html, body, #root  {
@@ -44,6 +48,7 @@ export const GlobalStyle = createGlobalStyle`
     background-position: 0px 0px;
 	  background-repeat: repeat;
     animation: anim 60s linear infinite;
+    will-change: background;
     
     &.scroll-lock {
       overflow: hidden;

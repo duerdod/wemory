@@ -13,13 +13,20 @@ export const TitleStyle = css`
   color: ${theme.titleColor};
   font-family: ${theme.fontFamily};
   cursor: pointer;
-  text-shadow: ${coolShadow(theme.titleTextShadow, 15)};
+  text-shadow: ${coolShadow(theme.titleTextShadow, 13)};
   transition: all ${theme.transition};
+  margin-top: 2rem;
+
+  &:hover {
+    text-shadow: ${coolShadow(theme.titleTextShadow, 6)};
+    transform: translate3d(7px, 2px, 2px) skew(0deg, 0deg);
+  }
 
   @media screen and (max-width: 40em) {
-    font-size: 3.6rem;
+    margin-top: 1rem;
     letter-spacing: 2px;
     transform: none;
+    font-size: 6rem;
     text-shadow: ${coolShadow(theme.titleTextShadow, 7)};
   }
 `;
