@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useTransition, animated, config } from 'react-spring';
 import styled from 'styled-components';
@@ -73,6 +73,7 @@ export const Modal = ({
     setShowModal(false);
   }
 
+  /* eslint-disable */
   useEffect(() => {
     root.classList.add('scroll-lock');
 

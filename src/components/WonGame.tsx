@@ -86,7 +86,7 @@ interface TransitionProps {
 export const WonGame: React.FC<{
   grid: React.MutableRefObject<any>;
 }> = ({ grid }): any => {
-  const { cards } = useMemoryState();
+  const { cards, cardType } = useMemoryState();
   const dispatch = useMemoryDispatch();
   const { clientHeight, clientWidth } = grid.current;
   const [wonCards, setWonCards] = useState(cards);
@@ -96,15 +96,14 @@ export const WonGame: React.FC<{
   //@ts-ignore
   const { opacity, transform } = useSpring({
     ref: firstSpringRef,
-    config: { ...config.wobbly, friction: 2 },
+    config: config.molasses,
     from: {
       opacity: 0,
-      transform:
-        'translate3d(-10px, 40px, 20px) scale(4) rotate(200deg) skew(300deg, 20deg)'
+      transform: 'rotateY(10turn) scale(0.1) '
     },
     to: {
       opacity: showCongrats ? 1 : 0,
-      transform: 'translate3d(0px, 0px, 0px) scale(1.2) rotate(0deg) skew(0, 0)'
+      transform: 'rotateY(0) scale(1.3) '
     },
     delay: cards.length * 30
   });
@@ -120,7 +119,7 @@ export const WonGame: React.FC<{
     to: {
       opacity: showCongrats ? 1 : 0
     },
-    delay: 1500
+    delay: 1600
   });
 
   const transitionRef = useRef();
@@ -173,7 +172,7 @@ export const WonGame: React.FC<{
               onClick={() =>
                 dispatch({
                   type: 'INIT',
-                  payload: { cardCount: 12, cardType: 'foods' }
+                  payload: { cardCount: cards.length, cardType }
                 })
               }
             >

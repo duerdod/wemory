@@ -8,7 +8,7 @@ import {
   useMemoryState
 } from '../context/memory-context';
 
-import { wait, hasLength, adjustLightness } from '../utils/index';
+import { wait, hasLength, adjustLightness, coolShadow } from '../utils/index';
 
 interface StyledCardProps {
   background: string;
@@ -34,13 +34,8 @@ export const StyledCard = styled(animated.button)<StyledCardProps>`
   ${({ discovered, background }) =>
     discovered
       ? ` background: ${background}; 
-          box-shadow: 
-          1px 1px 0px ${adjustLightness(background)},
-          2px 2px 0px ${adjustLightness(background)}, 
-          3px 3px 0px ${adjustLightness(background)},
-          4px 4px 0px ${adjustLightness(background)}, 
-          5px 5px 0px ${adjustLightness(background)}, 
-          6px 6px 0px ${adjustLightness(background)};
+          box-shadow: ${coolShadow(adjustLightness(background, 12), 6)};
+
           `
       : `background: ${theme.cardColor}; 
           box-shadow: 
