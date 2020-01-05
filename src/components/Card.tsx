@@ -83,7 +83,6 @@ export const Card = (card: IMemoryCard) => {
     config: { tension: 240, friction: 12 }
   });
 
-  // Move these to hooks.
   useEffect(() => {
     if (hasLength(selectedCards, 2)) {
       wait(600).then((): void =>
@@ -132,5 +131,5 @@ export const CardContent = ({
   isCollected,
   identifier
 }: CardContentProps) => {
-  return identifier && <span>{(!isOpen || !isCollected) && identifier}</span>;
+  return identifier && <span>{(isOpen || isCollected) && identifier}</span>;
 };

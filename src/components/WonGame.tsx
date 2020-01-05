@@ -108,7 +108,7 @@ export const WonGame: React.FC<{
               opacity,
               transform: interpolate(
                 [rotate, scale],
-                (r, s) => `rotateZ(-${r}turn) scale(${s})`
+                (r, s) => `rotate(-${r}turn) scale(${s})`
               )
             }}
           >
@@ -120,7 +120,7 @@ export const WonGame: React.FC<{
               opacity,
               transform: interpolate(
                 [rotate, scale],
-                (r, s) => `rotateY(${r}turn) scale(${s})`
+                (r, s) => `rotateY(${r + 10}turn) scale(${s})`
               )
             }}
           >

@@ -9,7 +9,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Title size="6rem" title="memory" />
+      <Title />
       <ShowModalButton {...modalProps} />
       {showModal && <Settings {...modalProps} />}
       <Board />

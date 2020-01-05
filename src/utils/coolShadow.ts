@@ -11,12 +11,7 @@ export const coolShadow = (color: string, number: number) =>
         .reduce(
             (string, current, index) => {
                 const properShadowPixel = index + 1
-                return string + `
-                    ${properShadowPixel}px 
-                    ${properShadowPixel}px 
-                    0px 
-                    ${current} 
-                    ${number === properShadowPixel ? ';' : ','}`
+                return string + `${properShadowPixel}px ${properShadowPixel}px 0px ${current} ${number === properShadowPixel ? ';' : ','}`
             }, '');
 
 // EASY TO READ HUH!!!!

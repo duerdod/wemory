@@ -40,7 +40,7 @@ const MemoryDispatchContext = createContext<MemoryDispatch | undefined>(
 );
 
 export const initialState: MemoryState = {
-  cards: generateCards(2, 'animals'),
+  cards: generateCards(18, 'animals'),
   selectedCards: [],
   isGameWon: false,
   cardType: 'animals'

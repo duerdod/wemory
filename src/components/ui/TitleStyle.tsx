@@ -3,9 +3,6 @@ import { theme } from '../../Theme';
 import { coolShadow } from '../../utils/coolShadow';
 
 export const TitleStyle = css`
-  margin: 0.5rem auto 0rem auto;
-  padding: 2rem;
-  transform: skew(0deg, -2deg);
   max-width: 600px;
   line-height: 3.2rem;
   text-transform: uppercase;
@@ -27,6 +24,10 @@ export const TitleStyle = css`
     letter-spacing: 2px;
     transform: none;
     font-size: 6rem;
-    text-shadow: ${coolShadow(theme.titleTextShadow, 7)};
+    text-shadow: ${coolShadow(theme.titleTextShadow, 6)};
+    &:hover {
+      text-shadow: initial;
+      transform: none;
+    }
   }
 `;
