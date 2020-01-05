@@ -26,7 +26,7 @@ export const StyledCard = styled(animated.button)<StyledCardProps>`
   align-items: center;
   color: #383838;
   cursor: pointer;
-
+  outline: 0;
   display: flex;
   justify-content: center;
   align-content: center;

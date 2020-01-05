@@ -36,7 +36,7 @@ const ModalContainer = styled(animated.div)`
   @media screen and (max-width: 40em) {
     left: 0%;
     right: 0%;
-    top: 2%;
+    top: 15%;
     &&& {
       transform: translate(0%, 0%) !important;
     }

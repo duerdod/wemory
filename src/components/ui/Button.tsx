@@ -41,6 +41,7 @@ const StyledButton = styled.button(
     color: whitesmoke;
     font-size: 1.8rem;
     letter-spacing: 2px;
+    outline: 0;
     text-transform: uppercase;
     padding: ${padding[size]};
     background: ${adjustLightness(buttonColors[color], 0)};
@@ -88,6 +89,7 @@ const StyledButton = styled.button(
     &:active {
       background: ${adjustLightness(buttonColors[color], -3)};
       transform: translate(0em, 0.75rem);
+      outline: none;
 
       &::before {
         transform: translate3d(0, 0, -1rem);
@@ -97,6 +99,9 @@ const StyledButton = styled.button(
 
     }
   }
+
+  button:focus {outline:0;}
+
 
   `
 );

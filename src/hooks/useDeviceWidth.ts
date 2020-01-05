@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react';
 
 interface Sizes {
-    isProbablyMobile: boolean
-    isLarge: boolean
-}
-
-interface initSizes {
     innerWidth: number
     innerHeight: number
 }
@@ -16,7 +11,7 @@ const sizes = () => ({
 })
 
 export function useDeviceWidth() {
-    const [windowSize, setWindowSize] = useState<initSizes>(sizes())
+    const [windowSize, setWindowSize] = useState<Sizes>(sizes())
 
     function resize() {
         setWindowSize(sizes())
@@ -28,12 +23,9 @@ export function useDeviceWidth() {
         return () => window.removeEventListener('resize', resize)
     }, [])
 
-    const isProbablyMobile = windowSize.innerWidth < 600
-    const isLarge = windowSize.innerWidth > 600
 
     return {
-        isProbablyMobile,
-        isLarge
-    } as Sizes
+        windowSize
+    }
 
 };

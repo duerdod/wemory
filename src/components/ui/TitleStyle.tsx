@@ -10,9 +10,12 @@ export const TitleStyle = css`
   color: ${theme.titleColor};
   font-family: ${theme.fontFamily};
   cursor: pointer;
-  text-shadow: ${coolShadow(theme.titleTextShadow, 13)};
   transition: all ${theme.transition};
   margin-top: 2rem;
+
+  &.with-shadow {
+    text-shadow: ${coolShadow(theme.titleTextShadow, 13)};
+  }
 
   &:hover {
     text-shadow: ${coolShadow(theme.titleTextShadow, 6)};

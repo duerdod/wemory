@@ -58,7 +58,6 @@ export const foodEmojis: Emoji = {
     pot_of_food: '🍲',
     poultry_leg: '🍗',
     oden: '🍢',
-    red_apple: '🍎',
     rice_ball: '🍙',
     rice_cracker: '🍘',
     roasted_sweet_potato: '🍠',
