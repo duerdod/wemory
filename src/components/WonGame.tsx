@@ -4,7 +4,6 @@ import {
   config,
   useTransition,
   useChain,
-  useSpring,
   animated,
   interpolate
 } from 'react-spring';
@@ -13,6 +12,8 @@ import { StyledCard } from './Card';
 import { theme } from '../Theme';
 import { Button } from './ui/Button';
 import { adjustLightness, coolShadow } from '../utils/index';
+
+import { UseWonGameAnimationText } from './animations/UseWonGameAnimationText';
 
 // The complete component is bull crap.
 
@@ -97,37 +98,12 @@ export const WonGame: React.FC<{
   const [wonCards, setWonCards] = useState(cards);
   const [showCongrats, setShowCongrats] = useState(false);
 
-  const firstSpringRef = useRef();
-  //@ts-ignore
-  const { opacity, rotate, scale } = useSpring({
-    ref: firstSpringRef,
-    config: { ...config.molasses, duration: 3000 },
-    from: {
-      rotate: 0,
-      scale: '0'
-    },
-    to: {
-      rotate: 10,
-      scale: '1.3'
-    },
-    delay: cards.length * 20
-  });
+  const [
+    { firstSpringRef, secondSpringRef },
+    { firstSpring, secondSpring }
+  ] = UseWonGameAnimationText();
 
-  const secondSpringRef = useRef();
-  //@ts-ignore
-  const secondSpring = useSpring({
-    ref: secondSpringRef,
-    config: { ...config.wobbly, friction: 6 },
-    from: {
-      opacity: 0,
-      transform: 'scale(0.1)'
-    },
-    to: {
-      opacity: 1,
-      transform: 'scale(1)'
-    },
-    delay: 2000
-  });
+  const { opacity, rotate, scale } = firstSpring;
 
   const transitionRef = useRef();
   //@ts-ignore
