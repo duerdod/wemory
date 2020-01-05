@@ -1,12 +1,6 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import {
-  config,
-  useTransition,
-  useChain,
-  animated,
-  interpolate
-} from 'react-spring';
+import { useChain, animated, interpolate } from 'react-spring';
 import { useMemoryState, useMemoryDispatch } from '../context/memory-context';
 import { StyledCard } from './Card';
 import { theme } from '../Theme';
@@ -14,20 +8,9 @@ import { Button } from './ui/Button';
 import { adjustLightness, coolShadow } from '../utils/index';
 
 import { UseWonGameAnimationText } from './animations/UseWonGameAnimationText';
+import { useWonGameCardsAnimation } from './animations/useWonGameCardsAnimation';
 
 // The complete component is bull crap.
-
-const random = (offset: number) => {
-  let int = Math.floor(
-    Math.floor(offset + Math.random() * (offset * 3 - offset + 1))
-  );
-
-  if (int % 2 === 0) {
-    int = -int;
-  }
-
-  return int;
-};
 
 const CongratsContainer = styled.div`
   grid-column: 1 / 8;
@@ -94,42 +77,18 @@ export const WonGame: React.FC<{
 }> = ({ grid }): any => {
   const { cards, cardType } = useMemoryState();
   const dispatch = useMemoryDispatch();
-  const { clientHeight, clientWidth } = grid.current;
-  const [wonCards, setWonCards] = useState(cards);
-  const [showCongrats, setShowCongrats] = useState(false);
 
   const [
     { firstSpringRef, secondSpringRef },
-    { firstSpring, secondSpring }
+    {
+      firstSpring: { opacity, rotate, scale },
+      secondSpring
+    }
   ] = UseWonGameAnimationText();
 
-  const { opacity, rotate, scale } = firstSpring;
-
-  const transitionRef = useRef();
-  //@ts-ignore
-  const transition: any = useTransition(
-    !showCongrats
-      ? wonCards.map(card => ({
-          ...card,
-          transform: [random(clientWidth), random(clientHeight), random(20)]
-        }))
-      : [],
-    card => card.uniqueId,
-    {
-      ref: transitionRef,
-      initial: { transform: `translate3d(0px, 0px, 0px)` },
-      // @ts-ignore
-      leave: item => async next => {
-        const [x, y, z] = item.transform;
-        await next({
-          transform: `translate3d(${x}px, ${y}px, ${z}px)`
-        });
-      },
-      onDestroyed: () => setShowCongrats(true),
-      config: { ...config.wobbly },
-      trail: 30
-    }
-  );
+  const { transitionRef, transition, showCongrats } = useWonGameCardsAnimation({
+    grid
+  });
 
   const handleClick = useCallback(() => {
     dispatch({
@@ -138,12 +97,6 @@ export const WonGame: React.FC<{
     });
   }, [cards.length, cardType, dispatch]);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => setWonCards([]), 400);
-    return () => clearTimeout(timeout);
-  }, []);
-
-  //@ts-ignore
   useChain([transitionRef, firstSpringRef, secondSpringRef]);
 
   return (
@@ -190,7 +143,7 @@ export const WonGame: React.FC<{
           item: { bgColor, isOpen, isCollected, identifier },
           key,
           props
-        }: TransitionProps): any => {
+        }: TransitionProps) => {
           return (
             <StyledCard
               key={key}

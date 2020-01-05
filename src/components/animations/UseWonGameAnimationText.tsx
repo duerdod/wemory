@@ -1,12 +1,12 @@
-import { useRef } from 'react';
-import { config, useSpring } from 'react-spring';
+import { useRef, MutableRefObject } from 'react';
+import { config, useSpring, UseSpringBaseProps } from 'react-spring';
 import { useMemoryState } from '../../context/memory-context';
 
+// SPECIFICS!
 export const UseWonGameAnimationText = (): any => {
   const { cards } = useMemoryState();
 
-  const firstSpringRef = useRef();
-  //@ts-ignore
+  const firstSpringRef: MutableRefObject<any> = useRef();
   const firstSpring = useSpring({
     ref: firstSpringRef,
     config: { ...config.molasses, duration: 3000 },
@@ -21,8 +21,7 @@ export const UseWonGameAnimationText = (): any => {
     delay: cards.length * 20
   });
 
-  const secondSpringRef = useRef();
-  //@ts-ignore
+  const secondSpringRef: MutableRefObject<any> = useRef();
   const secondSpring = useSpring({
     ref: secondSpringRef,
     config: { ...config.wobbly, friction: 6 },
@@ -40,5 +39,14 @@ export const UseWonGameAnimationText = (): any => {
   return [
     { firstSpringRef, secondSpringRef },
     { firstSpring, secondSpring }
+  ] as [
+    {
+      firstSpringRef?: MutableRefObject<any>;
+      secondSpringRef?: MutableRefObject<any>;
+    },
+    {
+      firstSpring: UseSpringBaseProps;
+      secondSpring: UseSpringBaseProps;
+    }
   ];
 };
