@@ -2,19 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { TitleStyle } from './ui/TitleStyle';
 import { useSpring, animated } from 'react-spring';
-import { wait } from '../utils/index';
+import { wait, coolShadow } from '../utils/index';
 import { theme } from '../Theme';
 import { useDeviceWidth } from '../hooks/useDeviceWidth';
 
-interface IShadowCalc {
-  color: string;
-  number: number;
-  negative?: boolean;
-}
-
-interface IChain {
+interface IAnimationCalc {
   transform: string;
-  textShadow?: (options: IShadowCalc) => string;
+  // Why no params?
+  textShadow: () => string;
 }
 
 const TitleContainer = styled.div`
@@ -27,22 +22,6 @@ const TitleContainer = styled.div`
 const M = styled(animated.h1)`
   ${TitleStyle}
 `;
-
-// Craycray = Rewrite.
-export const shadow = ({ color, number, negative = false }: IShadowCalc) =>
-  Array(number)
-    .fill(color)
-    .reduce((string, current, index) => {
-      const properShadowPixel = index + 1;
-      return (
-        string +
-        `${properShadowPixel}px ${
-          negative ? '-' : ''
-        }${properShadowPixel}px 0px ${current} ${
-          number === properShadowPixel ? '' : ','
-        }`
-      );
-    }, '');
 
 const text = 'MEMORY';
 const { titleTextShadow } = theme;
@@ -58,26 +37,21 @@ export const Title = (): any => {
   const { textShadow, transform } = useSpring({
     from: {
       transform: 'rotateX(0deg) translate(-1px, 1px)',
-      textShadow: shadow({ color: titleTextShadow, number: shadowCount })
+      textShadow: coolShadow(titleTextShadow, shadowCount)
     },
-    to: async (next: ({ transform, textShadow }: IChain) => Promise<void>) => {
+    to: async (
+      next: ({ transform, textShadow }: IAnimationCalc) => Promise<void>
+    ) => {
       while (1) {
         await wait(2000);
         await next({
-          transform: 'rotateX(180deg) translate(2px, 6px)',
-          textShadow: shadow({
-            color: titleTextShadow,
-            number: shadowCount,
-            negative: true
-          })
+          transform: 'rotateX(180deg) translate(0px, 6px)',
+          textShadow: coolShadow(titleTextShadow, shadowCount, true)
         });
         await wait(13000);
         await next({
           transform: 'rotateX(0deg) translate(-1px, 1px)',
-          textShadow: shadow({
-            color: titleTextShadow,
-            number: shadowCount
-          })
+          textShadow: coolShadow(titleTextShadow, shadowCount)
         });
       }
     },
@@ -90,7 +64,7 @@ export const Title = (): any => {
       {[...text].map((letter, i) => (
         <M
           key={i}
-          style={i === 0 ? { textShadow, transform, marginRight: '2px' } : {}}
+          style={i === 0 ? { textShadow, transform } : {}}
           className={i === 0 ? '' : 'with-shadow'}
         >
           {letter}

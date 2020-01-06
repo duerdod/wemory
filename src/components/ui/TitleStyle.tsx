@@ -30,7 +30,7 @@ export const TitleStyle = css`
     margin-top: 1rem;
     letter-spacing: 4px;
     transform: none;
-    font-size: 6rem;
+    font-size: 5.5rem;
     text-shadow: ${coolShadow(theme.titleTextShadow, 6)};
 
     &.with-shadow {

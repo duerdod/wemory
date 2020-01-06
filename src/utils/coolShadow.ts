@@ -1,30 +1,14 @@
-
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-export const coolShadow = (color: string, number: number) =>
+export const coolShadow = (color: string, number: number, negative = false) =>
     Array(number)
         .fill(color)
-        .reduce(
-            (string, current, index) => {
-                const properShadowPixel = index + 1
-                return string + `${properShadowPixel}px ${properShadowPixel}px 0px ${current} ${number === properShadowPixel ? ';' : ','}`
-            }, '');
-
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!! reduce me
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
-// EASY TO READ HUH!!!!
+        .reduce((string, color, index) => {
+            const properShadowPixel = index + 1;
+            return string +
+                `
+            ${properShadowPixel}px
+            ${negative ? -properShadowPixel : properShadowPixel}px
+            0px
+            ${color}
+            ${number === properShadowPixel ? '' : ','}
+            `
+        }, '');
