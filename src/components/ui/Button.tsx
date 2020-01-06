@@ -48,9 +48,8 @@ const StyledButton = styled.button(
     box-shadow: inset 0 0 0 2px ${adjustLightness(buttonColors[color], 7)};
     border-radius: 0.55rem;
     transform-style: preserve-3d;
-    transition: transform 150ms ${theme.transition}, filter 150ms ${
-    theme.transition
-  };
+    transition: transform 150ms ${theme.transition},
+      filter 150ms ${theme.transition};
 
     &::before {
       content: 'HUGS ME';
@@ -68,10 +67,8 @@ const StyledButton = styled.button(
       filter: drop-shadow(
         2px 2px 6px ${adjustLightness(buttonColors[color], 1)}
       );
-      transition: transform 150ms ${theme.transition}, filter 150ms ${
-    theme.transition
-  };
-
+      transition: transform 150ms ${theme.transition},
+        filter 150ms ${theme.transition};
     }
 
     &:hover {
@@ -81,9 +78,9 @@ const StyledButton = styled.button(
       &::before {
         transform: translate3d(0, 0.5rem, -1rem);
         filter: drop-shadow(
-        2px 1px 4px ${adjustLightness(buttonColors[color], 1)}
-      );
-
+          2px 1px 4px ${adjustLightness(buttonColors[color], 1)}
+        );
+      }
     }
 
     &:active {
@@ -94,15 +91,10 @@ const StyledButton = styled.button(
       &::before {
         transform: translate3d(0, 0, -1rem);
         filter: drop-shadow(
-        0px 0px 0px ${adjustLightness(buttonColors[color], 1)}
-      );
-
+          0px 0px 0px ${adjustLightness(buttonColors[color], 1)}
+        );
+      }
     }
-  }
-
-  button:focus {outline:0;}
-
-
   `
 );
 

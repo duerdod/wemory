@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { useChain, animated, interpolate } from 'react-spring';
 import { useMemoryState, useMemoryDispatch } from '../context/memory-context';
 import { StyledCard } from './Card';
-import { theme } from '../Theme';
+import { theme, deviceWidth } from '../Theme';
 import { Button } from './ui/Button';
 import { adjustLightness, coolShadow } from '../utils/index';
 
 import { UseWonGameAnimationText } from './animations/UseWonGameAnimationText';
 import { useWonGameCardsAnimation } from './animations/useWonGameCardsAnimation';
 
-// The complete component is bull crap.
+// The complete component is bullcrap.
 
 const CongratsContainer = styled.div`
   grid-column: 1 / 8;
@@ -38,26 +38,26 @@ const Congrats = styled(animated.h2)`
     padding-bottom: 1.5rem;
     padding-top: 0;
     color: ${theme.titleColor};
-    text-shadow: ${coolShadow(adjustLightness(theme.titleColor, 20), 6)};
+    text-shadow: ${coolShadow(adjustLightness(theme.titleColor, 20), 3)};
   }
 
-  @media screen and (max-width: 40em) {
+  ${deviceWidth.smallDown`
     font-size: 3rem;
     &.second {
       font-size: 1.5rem;
     }
-  }
+    `}
 `;
 
 const ButtonContainer = styled(animated.div)`
-  @media screen and (max-width: 40em) {
+  ${deviceWidth.smallDown`
     font-size: 1rem;
     padding: 0;
     button {
       white-space: nowrap;
       font-size: 1rem;
     }
-  }
+  `}
 `;
 
 interface TransitionProps {

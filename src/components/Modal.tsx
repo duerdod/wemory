@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useTransition, animated, config } from 'react-spring';
 import styled from 'styled-components';
+import { deviceWidth } from '../Theme';
 
 const Backdrop = styled.div`
   position: absolute;
@@ -33,7 +34,7 @@ const ModalContainer = styled(animated.div)`
     background: black;
     opacity: 0.2;
   }
-  @media screen and (max-width: 40em) {
+  ${deviceWidth.smallDown`
     left: 0%;
     right: 0%;
     top: 15%;
@@ -42,8 +43,8 @@ const ModalContainer = styled(animated.div)`
     }
     &.center {
       top: 50%;
-    }
-  }
+    }  
+  `}
 `;
 
 export interface ModalState {

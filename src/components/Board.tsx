@@ -8,6 +8,7 @@ import {
 } from '../context/memory-context';
 
 import { WonGame } from './WonGame';
+import { deviceWidth } from '../Theme';
 
 const Container = styled.div`
   position: relative;
@@ -19,9 +20,9 @@ const Container = styled.div`
   grid-gap: 0.9rem;
   justify-content: center;
   grid-template-columns: repeat(6, 1fr);
-  @media screen and (max-width: 35em) {
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  }
+  ${deviceWidth.smallDown`
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  `}
 `;
 
 export const Board: React.FC = () => {

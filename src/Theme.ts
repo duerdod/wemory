@@ -1,5 +1,32 @@
 import { createGlobalStyle } from 'styled-components';
 
+const deviceWidths = {
+  smallDown: 'max-width: 40em',
+  largeUp: 'min-width: 40em'
+}
+
+type ValidSize = 'smallDown' | 'largeUp'
+
+interface IDeviceWidths {
+  [key: string]: (css: string | TemplateStringsArray) => string
+}
+
+// Rewwrite to expect the css helper (eg. a fn?). 
+// I think it's needed to get syntax highlight...
+export const deviceWidth = Object.keys(deviceWidths).reduce((widths, currentWidth) => {
+  // Object property returns a function which wraps the params in a media query.
+  widths[currentWidth as ValidSize] = css => `
+    @media (${deviceWidths[currentWidth as ValidSize]}) {
+      ${css}
+    }
+  `
+  return widths
+}, {} as IDeviceWidths)
+
+// Call it either with or without ()
+// ie deviceWidth.smallDown(``) or deviceWidth.smallDown``
+
+
 export const theme = {
   fontFamily: 'Passion One, Baloo Bhai, sans-serif',
   secondFont: 'Baloo Bhai, sans-serif',
@@ -11,7 +38,7 @@ export const theme = {
   titleTextShadow: 'hsl(335, 85%, 55%)',
   secondaryColor: 'hsl(49.8, 100%, 64.1%)',
   transition: '150ms cubic-bezier(0, 0, 0.58, 1)',
-};
+}
 
 export const GlobalStyle = createGlobalStyle`
 

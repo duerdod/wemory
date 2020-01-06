@@ -26,14 +26,6 @@ const TitleContainer = styled.div`
 
 const M = styled(animated.h1)`
   ${TitleStyle}
-  display: inline-block;
-  font-size: 9rem;
-  will-change: transform, text-shadow;
-
-  @media screen and (max-width: 40em) {
-    font-size: 5rem;
-    /* letter-spacing: inherit; */
-  }
 `;
 
 // Craycray = Rewrite.
@@ -58,40 +50,39 @@ const { titleTextShadow } = theme;
 // ReactNode? Element[]? JSX.Element?!
 export const Title = (): any => {
   const { windowSize } = useDeviceWidth();
+
+  // This isn't really working because the spring isn't updated.
   const shadowCount = windowSize.innerWidth > 600 ? 13 : 6;
 
   // @ts-ignore
   const { textShadow, transform } = useSpring({
     from: {
-      transform: 'rotateX(0deg) translate(0px, -4px)',
+      transform: 'rotateX(0deg) translate(-1px, 1px)',
       textShadow: shadow({ color: titleTextShadow, number: shadowCount })
     },
     to: async (next: ({ transform, textShadow }: IChain) => Promise<void>) => {
-      // @ts-ignore
       while (1) {
-        // await wait(1000);
         await wait(2000);
         await next({
-          transform: 'rotateX(180deg) translate(0px, 8px)',
+          transform: 'rotateX(180deg) translate(2px, 6px)',
           textShadow: shadow({
             color: titleTextShadow,
             number: shadowCount,
             negative: true
           })
         });
-        await wait(15000);
-        // await wait(1000);
+        await wait(13000);
         await next({
-          transform: 'rotateX(0deg) translate(0px, 0px)',
+          transform: 'rotateX(0deg) translate(-1px, 1px)',
           textShadow: shadow({
             color: titleTextShadow,
-            number: shadowCount,
-            negative: false
+            number: shadowCount
           })
         });
       }
     },
     config: { tension: 240, friction: 8 }
+    // delay: 200000
   });
 
   return (
@@ -108,24 +99,3 @@ export const Title = (): any => {
     </TitleContainer>
   );
 };
-
-/*
-
-    <div style={{ textAlign: 'center' }}>
-      <M style={{ transform }}>M</M>
-      <StyledTitle
-        // size="9rem"
-        onClick={() =>
-          dispatch({
-            type: 'INIT',
-            payload: { cardType, cardCount: cards.length }
-          })
-        }
-      >
-{title}
-        Emory
-      </StyledTitle>
-    </div>
-
-
-*/

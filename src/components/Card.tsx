@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, ReactNode } from 'react';
 import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
-import { theme } from '../Theme';
+import { theme, deviceWidth } from '../Theme';
 import {
   MemoryCard,
   useMemoryDispatch,
@@ -52,13 +52,12 @@ export const StyledCard = styled(animated.button)<StyledCardProps>`
     /* padding: 5px; */
   }
 
-  @media screen and (max-width: 35em) {
+  ${deviceWidth.smallDown`
     height: 60px;
-    span {
-      font-size: 2.7rem;
-    }
-    /* height: 100%; */
-  }
+      span {
+        font-size: 2.7rem;
+      }
+  `}
 `;
 
 interface CardContentProps {
