@@ -84,7 +84,7 @@ export const Card = (card: IMemoryCard) => {
 
   useEffect(() => {
     if (hasLength(selectedCards, 2)) {
-      wait(600).then((): void =>
+      wait(500).then((): void =>
         dispatch({ type: 'CLOSE_CARDS', payload: { selectedCards } })
       );
     }

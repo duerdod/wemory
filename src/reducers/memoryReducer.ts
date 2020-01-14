@@ -10,10 +10,11 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
         case 'INIT': {
             const { cardCount, cardType } = action.payload;
             return {
-                cardType,
                 cards: generateCards(cardCount, cardType),
                 selectedCards: [],
-                isGameWon: false
+                isGameWon: false,
+                moves: 0,
+                cardType,
             }
         }
 
@@ -35,16 +36,16 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
             const { cards, selectedCards } = state
             const openCards = cards.filter(card => card.isOpen)
 
-            // Null check and prevent selecting the same card over and over.
-            if (!card || card.isCollected || card.isOpen) {
-                return state;
-            }
-
-            if (openCards.length >= 2) {
+            if (hasLength(openCards, 2)) {
                 return {
                     ...state,
                     selectedCards: []
                 }
+            }
+
+            // Null check and prevent selecting the same card over and over.
+            if (!card || card.isCollected || card.isOpen) {
+                return state;
             }
 
             const openCard = cards.map(c => {
@@ -57,7 +58,8 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
             return {
                 ...state,
                 cards: openCard,
-                selectedCards: [...selectedCards, card]
+                selectedCards: [...selectedCards, card],
+                moves: state.moves + 1
             }
 
         case 'CHECK_MATCH': {
@@ -124,7 +126,8 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                 ...state,
                 cards: cards.map(c => ({ ...c, isOpen: false, isCollected: false })),
                 selectedCards: [],
-                isGameWon: false
+                isGameWon: false,
+                moves: 0
             }
         }
 

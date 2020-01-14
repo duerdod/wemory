@@ -42,10 +42,6 @@ export const theme = {
 
 export const GlobalStyle = createGlobalStyle`
 
-/* @import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css?family=&display=swap'); */
-@import url('https://fonts.googleapis.com/css?family=Passion+One:400,900|Baloo+Bhai&display=swap');
-
 @keyframes anim {
 	from { background-position: 0 0px; }
 	to { background-position: 100% 0px; }

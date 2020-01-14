@@ -27,6 +27,7 @@ export type MemoryState = {
   cards: MemoryCard[];
   selectedCards: MemoryCard[];
   isGameWon: boolean;
+  moves: number;
   cardType: EmojiType;
 };
 
@@ -43,6 +44,7 @@ export const initialState: MemoryState = {
   cards: generateCards(18, 'animals'),
   selectedCards: [],
   isGameWon: false,
+  moves: 0,
   cardType: 'animals'
 };
 

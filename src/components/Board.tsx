@@ -30,8 +30,6 @@ export const Board: React.FC = () => {
   const dispatch = useMemoryDispatch();
   const gridRef = useRef<HTMLDivElement | null>(null);
 
-  // useEffect(() => )
-
   useEffect(() => {
     if (selectedCards.length >= 2) {
       dispatch({ type: 'TRY_WIN' });
