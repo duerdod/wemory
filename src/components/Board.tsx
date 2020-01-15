@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import styled from 'styled-components';
 import { Card, CardContent } from './Card';
 import {
@@ -25,7 +25,7 @@ const Container = styled.div`
   `}
 `;
 
-export const Board: React.FC = () => {
+const Board: React.FC = () => {
   const { cards, selectedCards, isGameWon } = useMemoryState();
   const dispatch = useMemoryDispatch();
   const gridRef = useRef<HTMLDivElement | null>(null);
@@ -50,3 +50,5 @@ export const Board: React.FC = () => {
     </Container>
   );
 };
+
+export default memo(Board);

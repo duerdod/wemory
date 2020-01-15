@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Board } from './components/Board';
+import Board from './components/Board';
 import { Title } from './components/Title';
 import { Settings, ShowModalButton } from './components/Settings';
 
