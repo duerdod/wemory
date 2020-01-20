@@ -10,6 +10,8 @@ import {
 import { WonGame } from './WonGame';
 import { deviceWidth } from '../Theme';
 
+import { wait, hasLength, adjustLightness, coolShadow } from '../utils/index';
+
 const Container = styled.div`
   position: relative;
   /* overflow: hidden; */
@@ -31,10 +33,26 @@ const Board: React.FC = () => {
   const gridRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (selectedCards.length >= 2) {
-      dispatch({ type: 'TRY_WIN' });
+    if (hasLength(selectedCards, 2)) {
+      wait(500).then((): void => {
+        dispatch({ type: 'CHECK_MATCH', payload: { selectedCards } });
+        dispatch({ type: 'TRY_WIN' });
+      });
     }
-  }, [selectedCards, dispatch]);
+  }, [selectedCards, cards]);
+
+  const selectCard = React.useCallback(
+    (e, card) => {
+      e.preventDefault();
+      dispatch({
+        type: 'SELECT',
+        payload: {
+          selectedCard: card
+        }
+      });
+    },
+    [cards, dispatch]
+  );
 
   return (
     <Container ref={gridRef}>
@@ -42,7 +60,12 @@ const Board: React.FC = () => {
         <WonGame grid={gridRef} />
       ) : (
         cards.map((card: MemoryCard) => (
-          <Card key={card.uniqueId} card={card} {...card}>
+          <Card
+            key={card.uniqueId}
+            card={card}
+            selectCard={selectCard}
+            {...card}
+          >
             <CardContent {...card} />
           </Card>
         ))

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Board from './components/Board';
-import { Title } from './components/Title';
 import { Settings, ShowModalButton } from './components/Settings';
+import { Title } from './components/Title';
 
 const App: React.FC = () => {
   const [showModal, setShowModal] = useState(false);

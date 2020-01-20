@@ -4,8 +4,9 @@ import { Action } from './actions'
 
 const isEqual = (itemOne: string | number, itemTwo: string | number) => itemOne === itemTwo
 
-export function memoryReducer(state: MemoryState, action: Action): MemoryState {
+const isMatch = (firstCard: any, secondCard: any) => firstCard.memoryId === secondCard.memoryId;
 
+export function memoryReducer(state: MemoryState, action: Action): MemoryState {
     switch (action.type) {
         case 'INIT': {
             const { cardCount, cardType } = action.payload;
@@ -39,7 +40,6 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
             if (hasLength(openCards, 2)) {
                 return {
                     ...state,
-                    selectedCards: []
                 }
             }
 
@@ -68,15 +68,15 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
 
             if (hasLength(selectedCards, 2)) {
                 const [c1, c2] = selectedCards;
-                if (isEqual(c1.memoryId, c2.memoryId) && !isEqual(c1.uniqueId, c2.uniqueId)) {
-                    // Match!
-                    const collectedCards = cards.map(c => {
-                        if (isEqual(c1.uniqueId, c.uniqueId) || isEqual(c2.uniqueId, c.uniqueId)) {
-                            c.isCollected = true
-                        }
-                        c.isOpen = false;
-                        return c;
-                    })
+
+                if (isMatch(c1, c2)) {
+                    const collectedCards = cards.map(c => ({
+                        ...c,
+                        isOpen: false,
+                        isCollected: isEqual(c1.uniqueId, c.uniqueId) || isEqual(c2.uniqueId, c.uniqueId)
+                            ? true
+                            : c.isCollected
+                    }))
 
                     return {
                         ...state,
@@ -86,38 +86,16 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
 
                 }
             }
-            // Otherwise
-            return {
-                ...state,
-                selectedCards: []
-            }
-        }
 
-        case 'CLOSE_CARDS': {
-            // This could be rewritten.
-            const { cards } = state;
-            const { selectedCards } = action.payload
-            const [c1, c2] = selectedCards;
-
-            // Match. Do nothing.
-            if (isEqual(c1.memoryId, c2.memoryId) && !isEqual(c1.uniqueId, c2.uniqueId)) {
-                return state
-            }
-
-            const allButCollected = cards.map(card => {
-                if (card.isCollected) {
-                    card.isOpen = true
-                }
-
-                card.isOpen = false;
-                return card
-            })
+            // Flip back all cards if no match.
+            const flipAllButCollected = cards.map(card => ({ ...card, isOpen: false }))
 
             return {
                 ...state,
-                cards: allButCollected,
+                cards: flipAllButCollected,
                 selectedCards: []
             }
+
         }
 
         case 'RESET': {

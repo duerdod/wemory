@@ -66,14 +66,16 @@ interface CardContentProps {
   identifier: string[] | null;
 }
 
-interface IMemoryCard extends MemoryCard {
-  children?: React.ReactNode;
+interface CardProps extends MemoryCard {
+  children: React.ReactNode;
+  selectCard: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    card: MemoryCard
+  ) => void;
 }
 
-export const Card = (card: IMemoryCard) => {
-  const dispatch = useMemoryDispatch();
-  const { selectedCards } = useMemoryState();
-  const { isCollected, isOpen, bgColor } = card;
+export const Card = (card: CardProps) => {
+  const { isCollected, isOpen, bgColor, selectCard, children } = card;
 
   const { transform } = useSpring({
     transform: `perspective(600px) rotateX(${
@@ -82,45 +84,18 @@ export const Card = (card: IMemoryCard) => {
     config: { tension: 240, friction: 12 }
   });
 
-  useEffect(() => {
-    if (hasLength(selectedCards, 2)) {
-      wait(500).then((): void =>
-        dispatch({ type: 'CLOSE_CARDS', payload: { selectedCards } })
-      );
-    }
-  }, [selectedCards, dispatch]);
-
-  useEffect(() => {
-    if (hasLength(selectedCards, 2)) {
-      dispatch({ type: 'CHECK_MATCH', payload: { selectedCards } });
-    }
-  }, [selectedCards, dispatch]);
-
-  const selectCard = useCallback(
-    e => {
-      e.preventDefault();
-      dispatch({
-        type: 'SELECT',
-        payload: {
-          selectedCard: card
-        }
-      });
-    },
-    [card, dispatch]
-  );
-
   return (
     <StyledCard
       discovered={isCollected || isOpen}
       background={bgColor}
-      onClick={selectCard}
+      onClick={e => selectCard(e, card)}
       style={{
         transform: transform.interpolate(
           transform => `${transform} rotateX(180deg)`
         )
       }}
     >
-      {card.children}
+      {children}
     </StyledCard>
   );
 };

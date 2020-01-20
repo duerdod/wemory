@@ -1,9 +1,4 @@
-import React, {
-  useContext,
-  createContext,
-  useReducer,
-  FunctionComponent
-} from 'react';
+import React, { useContext, createContext, useReducer } from 'react';
 
 import { generateCards } from '../utils/generateCards';
 import { memoryReducer } from '../reducers/memoryReducer';
@@ -41,15 +36,16 @@ const MemoryDispatchContext = createContext<MemoryDispatch | undefined>(
 );
 
 export const initialState: MemoryState = {
-  cards: generateCards(18, 'animals'),
+  cards: generateCards(6, 'animals'),
   selectedCards: [],
   isGameWon: false,
   moves: 0,
   cardType: 'animals'
 };
 
-const MemoryProvider: FunctionComponent = ({ children }) => {
+const MemoryProvider: React.FC = ({ children }) => {
   const [memoryState, memoryDispatch] = useReducer(memoryReducer, initialState);
+
   return (
     <MemoryStateContext.Provider value={memoryState}>
       <MemoryDispatchContext.Provider value={memoryDispatch}>
@@ -61,10 +57,12 @@ const MemoryProvider: FunctionComponent = ({ children }) => {
 
 function useMemoryState() {
   const state = useContext(MemoryStateContext);
-  if (!state) {
+  const memState = React.useMemo(() => ({ ...state }), [state]) as MemoryState;
+
+  if (!memState) {
     throw new Error('UseMemoryState is not inside MemoryProvider');
   }
-  return state;
+  return memState;
 }
 
 function useMemoryDispatch() {
