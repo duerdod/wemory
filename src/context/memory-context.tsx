@@ -1,8 +1,10 @@
 import React, { useContext, createContext, useReducer } from 'react';
 
-import { generateCards } from '../utils/generateCards';
+import { generateCards, isDev } from '../utils/index';
 import { memoryReducer } from '../reducers/memoryReducer';
 import { Action } from '../reducers/actions';
+
+const CARD_COUNT = isDev() ? 6 : 16;
 
 export interface MemoryCard {
   memoryId: number;
@@ -32,7 +34,7 @@ const MemoryDispatchContext = createContext<MemoryDispatch | undefined>(
 );
 
 export const initialState: MemoryState = {
-  cards: generateCards(18, 'animals'),
+  cards: generateCards(CARD_COUNT, 'animals'),
   selectedCards: [],
   isGameWon: false,
   moves: 0,

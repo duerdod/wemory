@@ -4,3 +4,4 @@ export { shuffle } from './shuffle';
 export { generateCards } from './generateCards';
 export { adjustLightness } from './adjustLightness';
 export { coolShadow } from './coolShadow';
+export { isDev } from './isDev';

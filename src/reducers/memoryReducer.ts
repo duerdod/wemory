@@ -1,10 +1,10 @@
-import { MemoryState } from '../context/memory-context'
+import { MemoryState, MemoryCard } from '../context/memory-context'
 import { hasLength, generateCards } from '../utils/index'
 import { Action } from './actions'
 
 const isEqual = (itemOne: string | number, itemTwo: string | number) => itemOne === itemTwo
 
-const isMatch = (firstCard: any, secondCard: any) => firstCard.memoryId === secondCard.memoryId;
+const isMatch = (firstCard: MemoryCard, secondCard: MemoryCard) => firstCard.memoryId === secondCard.memoryId;
 
 export function memoryReducer(state: MemoryState, action: Action): MemoryState {
     switch (action.type) {
@@ -48,12 +48,12 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                 return state;
             }
 
-            const openCard = cards.map(c => {
-                if (isEqual(c.uniqueId, card.uniqueId)) {
-                    c.isOpen = true;
-                }
-                return c;
-            })
+            const openCard = cards.map(c => ({
+                ...c,
+                isOpen: isEqual(c.uniqueId, card.uniqueId)
+                    ? true
+                    : c.isOpen
+            }))
 
             return {
                 ...state,
