@@ -30,26 +30,11 @@ export const TitleStyle = css`
     margin-top: 1rem;
     letter-spacing: 4px;
     transform: none;
-    font-size: 5.5rem;
+    font-size: 5rem;
     text-shadow: ${coolShadow(theme.titleTextShadow, 6)};
 
     &.with-shadow {
       text-shadow: ${coolShadow(theme.titleTextShadow, 6)};
     }
   `)}
-
-    
-/*
-  @media screen and (max-width: 40em) {
-     margin-top: 1rem;
-    letter-spacing: 4px;
-    transform: none;
-    font-size: 6rem;
-    text-shadow: ${coolShadow(theme.titleTextShadow, 6)};
-
-    &.with-shadow {
-      text-shadow: ${coolShadow(theme.titleTextShadow, 6)};
-    } 
-  }
-  */
 `;

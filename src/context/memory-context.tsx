@@ -4,7 +4,7 @@ import { generateCards, isDev } from '../utils/index';
 import { memoryReducer } from '../reducers/memoryReducer';
 import { Action } from '../reducers/actions';
 
-const CARD_COUNT = isDev() ? 6 : 16;
+const CARD_COUNT = isDev() ? 2 : 16;
 
 export interface MemoryCard {
   memoryId: number;

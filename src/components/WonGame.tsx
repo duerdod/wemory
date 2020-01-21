@@ -29,9 +29,6 @@ const Congrats = styled(animated.h2)`
   transition: text-shadow ${theme.transition};
   color: ${theme.secondaryColor};
   text-shadow: ${coolShadow(adjustLightness(theme.secondaryColor, 20), 11)};
-  &:hover {
-    text-shadow: ${coolShadow(adjustLightness(theme.secondaryColor, 20), 110)};
-  }
 
   &.second {
     font-size: 2.5rem;
@@ -79,10 +76,11 @@ export const WonGame: React.FC<{
   const dispatch = useMemoryDispatch();
 
   const [
-    { firstSpringRef, secondSpringRef },
+    { firstSpringRef, secondSpringRef, thirdSpringRef },
     {
       firstSpring: { opacity, rotate, scale },
-      secondSpring
+      secondSpring,
+      thirdSpring: { textShadow }
     }
   ] = UseWonGameAnimationText();
 
@@ -97,7 +95,7 @@ export const WonGame: React.FC<{
     });
   }, [cards.length, cardType, dispatch]);
 
-  useChain([transitionRef, firstSpringRef, secondSpringRef]);
+  useChain([transitionRef, firstSpringRef, secondSpringRef, thirdSpringRef]);
 
   return (
     <>
@@ -106,6 +104,13 @@ export const WonGame: React.FC<{
           <Congrats
             style={{
               opacity,
+              textShadow: textShadow.interpolate(
+                (amount: number) =>
+                  `${coolShadow(
+                    adjustLightness(theme.secondaryColor, 20),
+                    Math.trunc(amount)
+                  )}`
+              ),
               transform: interpolate(
                 [rotate, scale],
                 (r, s) => `rotate(-${r}turn) scale(${s})`

@@ -36,17 +36,32 @@ export const UseWonGameAnimationText = (): any => {
     delay: 2000
   });
 
+  const thirdSpringRef: MutableRefObject<any> = useRef();
+  const thirdSpring = useSpring({
+    ref: thirdSpringRef,
+    config: { ...config.stiff, duration: 400 },
+    from: {
+      textShadow: 11
+    },
+    to: {
+      textShadow: 110
+    },
+    delay: 2700
+  });
+
   return [
-    { firstSpringRef, secondSpringRef },
-    { firstSpring, secondSpring }
+    { firstSpringRef, secondSpringRef, thirdSpringRef },
+    { firstSpring, secondSpring, thirdSpring }
   ] as [
     {
       firstSpringRef?: MutableRefObject<any>;
       secondSpringRef?: MutableRefObject<any>;
+      thirdSpringRef?: MutableRefObject<any>;
     },
     {
       firstSpring: UseSpringBaseProps;
       secondSpring: UseSpringBaseProps;
+      thirdSpring: UseSpringBaseProps;
     }
   ];
 };
