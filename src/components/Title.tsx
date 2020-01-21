@@ -1,10 +1,9 @@
 import React from 'react';
+import { animated, useSpring } from 'react-spring';
 import styled from 'styled-components';
-import { TitleStyle } from './ui/TitleStyle';
-import { useSpring, animated } from 'react-spring';
-import { wait, coolShadow } from '../utils/index';
 import { theme } from '../Theme';
-import { useDeviceWidth } from '../hooks/useDeviceWidth';
+import { coolShadow, wait } from '../utils/index';
+import { TitleStyle } from './ui/TitleStyle';
 
 interface IAnimationCalc {
   transform: string;
@@ -28,16 +27,11 @@ const { titleTextShadow } = theme;
 
 // ReactNode? Element[]? JSX.Element?!
 export const Title = (): any => {
-  const { windowSize } = useDeviceWidth();
-
-  // This isn't really working because the spring isn't updated.
-  const shadowCount = windowSize.innerWidth > 600 ? 13 : 6;
-
   // @ts-ignore
   const { textShadow, transform } = useSpring({
     from: {
       transform: 'rotateX(0deg) translate(-1px, 1px)',
-      textShadow: coolShadow(titleTextShadow, shadowCount)
+      textShadow: coolShadow(titleTextShadow, 10)
     },
     to: async (
       next: ({ transform, textShadow }: IAnimationCalc) => Promise<void>
@@ -46,12 +40,12 @@ export const Title = (): any => {
         await wait(2000);
         await next({
           transform: 'rotateX(180deg) translate(0px, 6px)',
-          textShadow: coolShadow(titleTextShadow, shadowCount, true)
+          textShadow: coolShadow(titleTextShadow, 10, true)
         });
         await wait(13000);
         await next({
           transform: 'rotateX(0deg) translate(-1px, 1px)',
-          textShadow: coolShadow(titleTextShadow, shadowCount)
+          textShadow: coolShadow(titleTextShadow, 10)
         });
       }
     },

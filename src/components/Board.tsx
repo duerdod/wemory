@@ -36,7 +36,7 @@ const Board: React.FC = () => {
         dispatch({ type: 'TRY_WIN' });
       });
     }
-  }, [selectedCards, cards]);
+  }, [selectedCards, cards, dispatch]);
 
   const selectCard = React.useCallback(
     (e, card) => {
@@ -48,7 +48,7 @@ const Board: React.FC = () => {
         }
       });
     },
-    [cards, dispatch]
+    [dispatch]
   );
 
   return (

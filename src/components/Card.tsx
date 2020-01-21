@@ -1,14 +1,9 @@
-import React, { useEffect, useCallback, ReactNode } from 'react';
+import React from 'react';
+import { animated, useSpring } from 'react-spring';
 import styled from 'styled-components';
-import { useSpring, animated } from 'react-spring';
-import { theme, deviceWidth } from '../Theme';
-import {
-  MemoryCard,
-  useMemoryDispatch,
-  useMemoryState
-} from '../context/memory-context';
-
-import { wait, hasLength, adjustLightness, coolShadow } from '../utils/index';
+import { MemoryCard } from '../context/memory-context';
+import { deviceWidth, theme } from '../Theme';
+import { adjustLightness, coolShadow } from '../utils/index';
 
 interface StyledCardProps {
   background: string;

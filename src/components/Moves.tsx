@@ -6,10 +6,12 @@ import { useTransition, animated, useSpring, config } from 'react-spring';
 import { coolShadow } from '../utils/coolShadow';
 
 const MovesContainer = styled.div`
-  position: absolute;
-  bottom: -10px;
-  right: 40px;
   z-index: 1;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const MovesValue = styled(animated.h3)`
@@ -17,6 +19,16 @@ const MovesValue = styled(animated.h3)`
   font-size: 3.1rem;
   letter-spacing: 3px;
   text-shadow: ${coolShadow('lightgrey', 3)};
+  line-height: 19px;
+`;
+
+const Text = styled(animated.p)`
+  font-size: 2rem;
+  text-shadow: none;
+  color: whitesmoke;
+  transition: opacity 0.2s ease;
+  position: absolute;
+  /* top: 65px; */
 `;
 
 const Moves = () => {
@@ -28,15 +40,20 @@ const Moves = () => {
     config: { duration: 150 }
   });
 
-  const gameWonSpring = useSpring({
+  const transform = useSpring({
     from: {
       transform: 'scale(1) rotateY(0deg)'
     },
     to: {
-      transform: `scale(2.7) rotateY(${36e2})`
+      transform: `scale(3.2) rotateY(${36e2})`
     },
     config: { ...config.wobbly, duration: 1500 },
     delay: 3000
+  });
+
+  const opacity = useSpring({
+    from: { top: 0, opacity: 0 },
+    to: { top: 65, opacity: 1 }
   });
 
   return (
@@ -48,7 +65,10 @@ const Moves = () => {
           </MovesValue>
         ))
       ) : (
-        <MovesValue style={gameWonSpring}>{moves}</MovesValue>
+        <>
+          <MovesValue style={transform}>{moves}</MovesValue>
+          <Text style={opacity}>moves</Text>
+        </>
       )}
     </MovesContainer>
   );

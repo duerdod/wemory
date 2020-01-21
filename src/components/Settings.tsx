@@ -96,13 +96,11 @@ const ModalButton = styled.button`
 `;
 
 export const ShowModalButton = React.memo(({ setShowModal }: ModalState) => (
-  <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-    <ModalButton onClick={() => setShowModal(true)}>
-      <span role="img" aria-label="settings">
-        ⚙
-      </span>
-    </ModalButton>
-  </div>
+  <ModalButton onClick={() => setShowModal(true)}>
+    <span role="img" aria-label="settings">
+      ⚙
+    </span>
+  </ModalButton>
 ));
 
 const ranges = [6, 12, 18, 24, 30, 36];

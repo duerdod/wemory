@@ -21,7 +21,7 @@ export function useDeviceWidth() {
         window.addEventListener('resize', resize)
 
         return () => window.removeEventListener('resize', resize)
-    }, [])
+    }, [windowSize])
 
 
     return {

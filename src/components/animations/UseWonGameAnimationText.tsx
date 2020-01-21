@@ -46,7 +46,7 @@ export const UseWonGameAnimationText = (): any => {
     to: {
       textShadow: 110
     },
-    delay: 2700
+    delay: 3200
   });
 
   return [

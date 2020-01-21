@@ -18,7 +18,7 @@ export const TitleStyle = css`
   transform: translate3d(7px, 2px, 2px) skew(0deg, 0deg);
 
   &.with-shadow {
-    text-shadow: ${coolShadow(theme.titleTextShadow, 13)};
+    text-shadow: ${coolShadow(theme.titleTextShadow, 10)};
   }
 
   &:hover {
@@ -28,13 +28,13 @@ export const TitleStyle = css`
 
   ${deviceWidth.smallDown(`
     margin-top: 1rem;
-    letter-spacing: 4px;
+    letter-spacing: 10px;
     transform: none;
-    font-size: 5rem;
-    text-shadow: ${coolShadow(theme.titleTextShadow, 6)};
+    font-size: 4.5rem;
+    text-shadow: ${coolShadow(theme.titleTextShadow, 10)};
 
     &.with-shadow {
-      text-shadow: ${coolShadow(theme.titleTextShadow, 6)};
+      text-shadow: ${coolShadow(theme.titleTextShadow, 10)};
     }
   `)}
 `;

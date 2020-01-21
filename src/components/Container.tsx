@@ -1,13 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
+import { MaxWidth } from './ui/MaxWidth';
 
-const StyledContainer = styled.section`
-  padding: 0 2rem;
-  margin: 0 auto;
-  max-width: 80rem;
-  position: relative;
+const StyledContainer = styled.div`
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > * {
+    margin: 1rem;
+  }
 `;
 
-export const Container: React.FC = ({ children }) => {
-  return <StyledContainer>{children}</StyledContainer>;
-};
+export const Container: React.FC = ({ children }) => (
+  <MaxWidth>
+    <StyledContainer>{children}</StyledContainer>
+  </MaxWidth>
+);

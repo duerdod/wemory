@@ -13,8 +13,8 @@ const App: React.FC = () => {
     <>
       <Title />
       <Container>
-        <Moves />
         <ShowModalButton {...modalProps} />
+        <Moves />
       </Container>
       {showModal && <Settings {...modalProps} />}
       <Board />
