@@ -2,21 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 import { useMemoryState } from '../context/memory-context';
 import { useTransition, animated } from 'react-spring';
+import { theme } from '../Theme';
+
+import { coolShadow } from '../utils/coolShadow';
 
 const MovesContainer = styled.div`
   position: absolute;
   bottom: -10px;
   right: 30px;
+  z-index: 1;
 `;
 
 const MovesValue = styled(animated.h3)`
   text-align: center;
   color: whitesmoke;
   font-size: 3.1rem;
-  /* color: ${({ theme }) => theme.titleColor}; */
+  letter-spacing: 3px;
+  text-shadow: ${coolShadow('lightgrey', 3)};
 `;
 
-export const Moves = () => {
+const Moves = () => {
   const { moves } = useMemoryState();
   const spring = useTransition(moves, moves, {
     unique: true,
@@ -28,13 +33,13 @@ export const Moves = () => {
 
   return (
     <MovesContainer>
-      {spring.map(({ item, props, key }) => {
-        return (
-          <MovesValue key={key} style={props}>
-            {item}
-          </MovesValue>
-        );
-      })}
+      {spring.map(({ item, props, key }) => (
+        <MovesValue key={key} style={props}>
+          {item}
+        </MovesValue>
+      ))}
     </MovesContainer>
   );
 };
+
+export default React.memo(Moves);

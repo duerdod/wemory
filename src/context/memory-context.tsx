@@ -4,10 +4,6 @@ import { generateCards } from '../utils/generateCards';
 import { memoryReducer } from '../reducers/memoryReducer';
 import { Action } from '../reducers/actions';
 
-// In order to have number of cards as a setting,
-// the reducer payload must be of type MemoryCard.
-// ie. the MemoryCard inteface have to include itself...?
-// Or maybe be extended?
 export interface MemoryCard {
   memoryId: number;
   bgColor: string;
@@ -57,12 +53,11 @@ const MemoryProvider: React.FC = ({ children }) => {
 
 function useMemoryState() {
   const state = useContext(MemoryStateContext);
-  const memState = React.useMemo(() => ({ ...state }), [state]) as MemoryState;
 
-  if (!memState) {
+  if (!state) {
     throw new Error('UseMemoryState is not inside MemoryProvider');
   }
-  return memState;
+  return state;
 }
 
 function useMemoryDispatch() {

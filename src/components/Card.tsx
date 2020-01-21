@@ -30,6 +30,7 @@ export const StyledCard = styled(animated.button)<StyledCardProps>`
   display: flex;
   justify-content: center;
   align-content: center;
+  z-index: 2;
 
   ${({ discovered, background }) =>
     discovered

@@ -1,20 +1,17 @@
-import React, { useEffect, useRef, memo } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Card, CardContent } from './Card';
 import {
-  useMemoryState,
   MemoryCard,
-  useMemoryDispatch
+  useMemoryDispatch,
+  useMemoryState
 } from '../context/memory-context';
-
-import { WonGame } from './WonGame';
 import { deviceWidth } from '../Theme';
-
-import { wait, hasLength, adjustLightness, coolShadow } from '../utils/index';
+import { hasLength, wait } from '../utils/index';
+import { Card, CardContent } from './Card';
+import { WonGame } from './WonGame';
 
 const Container = styled.div`
   position: relative;
-  /* overflow: hidden; */
   padding: 1rem 2rem;
   max-width: 80em;
   margin: 0 auto;
@@ -60,12 +57,7 @@ const Board: React.FC = () => {
         <WonGame grid={gridRef} />
       ) : (
         cards.map((card: MemoryCard) => (
-          <Card
-            key={card.uniqueId}
-            card={card}
-            selectCard={selectCard}
-            {...card}
-          >
+          <Card key={card.uniqueId} card={card} {...{ selectCard, ...card }}>
             <CardContent {...card} />
           </Card>
         ))

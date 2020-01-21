@@ -95,7 +95,7 @@ const ModalButton = styled.button`
   }
 `;
 
-export const ShowModalButton = ({ setShowModal }: ModalState) => (
+export const ShowModalButton = React.memo(({ setShowModal }: ModalState) => (
   <div style={{ textAlign: 'center', marginTop: '1rem' }}>
     <ModalButton onClick={() => setShowModal(true)}>
       <span role="img" aria-label="settings">
@@ -103,7 +103,7 @@ export const ShowModalButton = ({ setShowModal }: ModalState) => (
       </span>
     </ModalButton>
   </div>
-);
+));
 
 const ranges = [6, 12, 18, 24, 30, 36];
 
