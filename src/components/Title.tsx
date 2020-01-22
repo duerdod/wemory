@@ -50,7 +50,6 @@ export const Title = (): any => {
       }
     },
     config: { tension: 240, friction: 8 }
-    // delay: 200000
   });
 
   return (

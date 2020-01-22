@@ -1,9 +1,8 @@
 import React from 'react';
+import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components';
 import { useMemoryState } from '../context/memory-context';
-import { useTransition, animated, useSpring } from 'react-spring';
-
-import { coolShadow } from '../utils/coolShadow';
+import { coolShadow, wait } from '../utils/index';
 
 const MovesContainer = styled.div`
   z-index: 1;
@@ -14,20 +13,28 @@ const MovesContainer = styled.div`
   flex-direction: column;
 `;
 
-const MovesValue = styled(animated.h3)`
+interface MovesValueProps {
+  won?: boolean;
+}
+
+const MovesValue = styled(animated.h3)<MovesValueProps>`
   color: whitesmoke;
   font-size: 3.8rem;
   letter-spacing: 3px;
   text-shadow: ${coolShadow('lightgrey', 3)};
   line-height: 19px;
-`;
 
-const Text = styled(animated.p)`
-  font-size: 2rem;
-  text-shadow: none;
-  color: whitesmoke;
-  transition: opacity 0.2s ease;
-  position: absolute;
+  /* &.won {
+    position: relative;
+    &::after {
+      position: absolute;
+      transition: opacity 2s ease;
+      right: -65px;
+      content: 'moves';
+      font-size: 1rem;
+      opacity: ${p => (p.won ? '1' : '0')};
+    }
+  } */
 `;
 
 const Moves = () => {
@@ -45,21 +52,27 @@ const Moves = () => {
     from: {
       transform: 'scale(1) rotateY(0deg)'
     },
-    enter: {
-      transform: 'scale(3.2) rotateY(720deg)'
+    // @ts-ignore
+    enter: () => async next => {
+      await wait(4000);
+      await next({ transform: 'scale(3.2) rotateY(720deg)' });
     },
     leave: {
       transform: 'scale(0) rotateY(720deg)',
       opacity: 0,
       position: 'absolute'
     },
-    delay: 3000
+    config: { friction: 12, tension: 420 }
   });
 
+  /*
   const opacity = useSpring({
-    from: { top: '0px', opacity: isGameWon ? '1' : '0' },
-    to: { top: '65px', opacity: isGameWon ? '1' : '0' }
+    to: { top: isGameWon ? '65px' : '0px', opacity: isGameWon ? '1' : '0' },
+    config: { duration: 200 },
+    delay: 4000
   });
+
+  */
 
   return (
     <MovesContainer>
@@ -71,12 +84,12 @@ const Moves = () => {
         ))}
       {isGameWon && (
         <>
-          {transform.map(({ item, key, props }) => (
-            <MovesValue key={key} style={props}>
+          {transform.map(({ item, key, props }: any) => (
+            <MovesValue key={key} style={props} className="won" won={isGameWon}>
               {moves}
             </MovesValue>
           ))}
-          <Text style={opacity}>moves</Text>
+          {/* <Text style={opacity}>moves</Text> */}
         </>
       )}
     </MovesContainer>
