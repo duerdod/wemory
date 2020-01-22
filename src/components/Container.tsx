@@ -5,7 +5,7 @@ import { MaxWidth } from './ui/MaxWidth';
 const StyledContainer = styled.div`
   margin: 1rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 
   > * {

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useMemoryState } from '../context/memory-context';
-import { useTransition, animated, useSpring, config } from 'react-spring';
+import { useTransition, animated, useSpring } from 'react-spring';
 
 import { coolShadow } from '../utils/coolShadow';
 
@@ -16,7 +16,7 @@ const MovesContainer = styled.div`
 
 const MovesValue = styled(animated.h3)`
   color: whitesmoke;
-  font-size: 3.1rem;
+  font-size: 3.8rem;
   letter-spacing: 3px;
   text-shadow: ${coolShadow('lightgrey', 3)};
   line-height: 19px;
@@ -28,45 +28,54 @@ const Text = styled(animated.p)`
   color: whitesmoke;
   transition: opacity 0.2s ease;
   position: absolute;
-  /* top: 65px; */
 `;
 
 const Moves = () => {
   const { moves, isGameWon } = useMemoryState();
   const spring = useTransition(moves, null, {
-    from: { transform: 'translate3d(0, 40px, 0) scale(0.8)' },
-    enter: { transform: 'translate3d(0, 0, 0) scale(1)' },
-    leave: { transform: 'translate3d(0, 0, 0) scale(1)' },
+    unique: true,
+    from: { transform: 'scaleY(0.2)' },
+    enter: { transform: 'scaleY(1)' },
+    leave: { transform: 'scaleY(1)' },
     config: { duration: 150 }
   });
 
-  const transform = useSpring({
+  const transform = useTransition(isGameWon, null, {
+    unique: true,
     from: {
       transform: 'scale(1) rotateY(0deg)'
     },
-    to: {
-      transform: `scale(3.2) rotateY(${36e2})`
+    enter: {
+      transform: 'scale(3.2) rotateY(720deg)'
     },
-    config: { ...config.wobbly, duration: 1500 },
+    leave: {
+      transform: 'scale(0) rotateY(720deg)',
+      opacity: 0,
+      position: 'absolute'
+    },
     delay: 3000
   });
 
   const opacity = useSpring({
-    from: { top: 0, opacity: 0 },
-    to: { top: 65, opacity: 1 }
+    from: { top: '0px', opacity: isGameWon ? '1' : '0' },
+    to: { top: '65px', opacity: isGameWon ? '1' : '0' }
   });
 
   return (
     <MovesContainer>
-      {!isGameWon ? (
+      {!isGameWon &&
         spring.map(({ item, props, key }) => (
-          <MovesValue key={key} style={props}>
+          <MovesValue key={key} style={props} className="prupp">
             {item}
           </MovesValue>
-        ))
-      ) : (
+        ))}
+      {isGameWon && (
         <>
-          <MovesValue style={transform}>{moves}</MovesValue>
+          {transform.map(({ item, key, props }) => (
+            <MovesValue key={key} style={props}>
+              {moves}
+            </MovesValue>
+          ))}
           <Text style={opacity}>moves</Text>
         </>
       )}
@@ -74,4 +83,4 @@ const Moves = () => {
   );
 };
 
-export default React.memo(Moves);
+export default Moves;

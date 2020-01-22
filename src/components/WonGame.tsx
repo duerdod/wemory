@@ -26,6 +26,7 @@ const Congrats = styled(animated.h2)`
   padding: 0 0 1rem 0;
   cursor: auto;
   text-align: center;
+  z-index: 98;
   transition: text-shadow ${theme.transition};
   color: ${theme.secondaryColor};
   text-shadow: ${coolShadow(adjustLightness(theme.secondaryColor, 20), 11)};
@@ -34,6 +35,7 @@ const Congrats = styled(animated.h2)`
     font-size: 2.5rem;
     padding-bottom: 1.5rem;
     padding-top: 0;
+    z-index: 99;
     color: ${theme.titleColor};
     text-shadow: ${coolShadow(adjustLightness(theme.titleColor, 20), 3)};
   }
@@ -47,6 +49,7 @@ const Congrats = styled(animated.h2)`
 `;
 
 const ButtonContainer = styled(animated.div)`
+  z-index: 999;
   ${deviceWidth.smallDown`
     font-size: 1rem;
     padding: 0;
