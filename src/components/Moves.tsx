@@ -20,21 +20,23 @@ interface MovesValueProps {
 const MovesValue = styled(animated.h3)<MovesValueProps>`
   color: whitesmoke;
   font-size: 3.8rem;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
   text-shadow: ${coolShadow('lightgrey', 3)};
   line-height: 19px;
 
-  /* &.won {
+  &.won {
     position: relative;
     &::after {
       position: absolute;
       transition: opacity 2s ease;
-      right: -65px;
       content: 'moves';
       font-size: 1rem;
       opacity: ${p => (p.won ? '1' : '0')};
+      text-shadow: ${coolShadow('lightgrey', 1)};
+      top: 24px;
+      left: -9px;
     }
-  } */
+  }
 `;
 
 const Moves = () => {
@@ -50,29 +52,20 @@ const Moves = () => {
   const transform = useTransition(isGameWon, null, {
     unique: true,
     from: {
-      transform: 'scale(1) rotateY(0deg)'
+      transform: 'scale(1)'
     },
     // @ts-ignore
     enter: () => async next => {
-      await wait(4000);
-      await next({ transform: 'scale(3.2) rotateY(720deg)' });
+      await wait(500);
+      await next({ transform: 'scale(3.2)' });
     },
     leave: {
-      transform: 'scale(0) rotateY(720deg)',
+      transform: 'scale(0)',
       opacity: 0,
       position: 'absolute'
     },
-    config: { friction: 12, tension: 420 }
+    config: { friction: 14, tension: 420 }
   });
-
-  /*
-  const opacity = useSpring({
-    to: { top: isGameWon ? '65px' : '0px', opacity: isGameWon ? '1' : '0' },
-    config: { duration: 200 },
-    delay: 4000
-  });
-
-  */
 
   return (
     <MovesContainer>
@@ -89,11 +82,10 @@ const Moves = () => {
               {moves}
             </MovesValue>
           ))}
-          {/* <Text style={opacity}>moves</Text> */}
         </>
       )}
     </MovesContainer>
   );
 };
 
-export default Moves;
+export default React.memo(Moves);

@@ -12,7 +12,7 @@ import { WonGame } from './WonGame';
 
 const Container = styled.div`
   position: relative;
-  padding: 1rem 2rem;
+  padding: 1.5rem 2rem;
   max-width: 80em;
   margin: 0 auto;
   display: grid;
