@@ -23,6 +23,7 @@ const MovesValue = styled(animated.h3)<MovesValueProps>`
   letter-spacing: 1px;
   text-shadow: ${coolShadow('lightgrey', 3)};
   line-height: 19px;
+  width: 100px;
 
   &.won {
     position: relative;
@@ -39,6 +40,7 @@ const MovesValue = styled(animated.h3)<MovesValueProps>`
   }
 `;
 
+// TODO: Add types.
 const Moves = () => {
   const { moves, isGameWon } = useMemoryState();
   const spring = useTransition(moves, null, {
@@ -77,7 +79,7 @@ const Moves = () => {
         ))}
       {isGameWon && (
         <>
-          {transform.map(({ item, key, props }: any) => (
+          {transform.map(({ key, props }: any) => (
             <MovesValue key={key} style={props} className="won" won={isGameWon}>
               {moves}
             </MovesValue>
