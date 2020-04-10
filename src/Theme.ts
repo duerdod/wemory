@@ -61,6 +61,14 @@ export const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
   }
 
+  body {
+    &.scroll-lock {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+    }
+  }
+
   html, body, #root  {
     background: ${theme.backgroundColor};
   }

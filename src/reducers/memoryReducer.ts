@@ -19,19 +19,6 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
             }
         }
 
-        case 'TRY_WIN': {
-            const isGameWon = state.cards.every(card => card.isCollected)
-
-            if (!isGameWon) {
-                return state;
-            }
-
-            return {
-                ...state,
-                isGameWon: true
-            }
-        }
-
         case 'SELECT':
             const { card } = action.payload.selectedCard
             const { cards, selectedCards } = state
@@ -59,7 +46,7 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                 ...state,
                 cards: openCard,
                 selectedCards: [...selectedCards, card],
-                moves: state.moves + 1
+                moves: state.moves + 1,
             }
 
         case 'CHECK_MATCH': {
@@ -78,10 +65,13 @@ export function memoryReducer(state: MemoryState, action: Action): MemoryState {
                             : c.isCollected
                     }))
 
+                    const isGameWon = collectedCards.every(card => card.isCollected)
+
                     return {
                         ...state,
                         cards: collectedCards,
-                        selectedCards: []
+                        selectedCards: [],
+                        isGameWon
                     }
 
                 }

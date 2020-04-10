@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { useChain, animated, interpolate } from 'react-spring';
 import { useMemoryState, useMemoryDispatch } from '../context/memory-context';
@@ -83,18 +83,18 @@ export const WonGame: React.FC<{
     {
       firstSpring: { opacity, rotate, scale },
       secondSpring,
-      thirdSpring: { textShadow }
-    }
+      thirdSpring: { textShadow },
+    },
   ] = UseWonGameAnimationText();
 
   const { transitionRef, transition, showCongrats } = useWonGameCardsAnimation({
-    grid
+    grid,
   });
 
   const handleClick = useCallback(() => {
     dispatch({
       type: 'INIT',
-      payload: { cardCount: cards.length, cardType }
+      payload: { cardCount: cards.length, cardType },
     });
   }, [cards.length, cardType, dispatch]);
 
@@ -117,23 +117,25 @@ export const WonGame: React.FC<{
               transform: interpolate(
                 [rotate, scale],
                 (r, s) => `rotate(-${r}turn) scale(${s})`
-              )
+              ),
             }}
           >
             WINNER!!!
           </Congrats>
-          <Congrats
-            className="second"
-            style={{
-              opacity,
-              transform: interpolate(
-                [rotate, scale],
-                (r, s) => `rotateY(${r + 10}turn) scale(${s})`
-              )
-            }}
-          >
-            YOU ARE AMAZING
-          </Congrats>
+          <ButtonContainer>
+            <Congrats
+              className="second"
+              style={{
+                opacity,
+                transform: interpolate(
+                  [rotate, scale],
+                  (r, s) => `rotateY(${r + 10}turn) scale(${s})`
+                ),
+              }}
+            >
+              YOU ARE AMAZING
+            </Congrats>
+          </ButtonContainer>
           <ButtonContainer style={secondSpring}>
             <Button
               size="large"
@@ -150,7 +152,7 @@ export const WonGame: React.FC<{
         ({
           item: { bgColor, isOpen, isCollected, identifier },
           key,
-          props
+          props,
         }: TransitionProps) => {
           return (
             <StyledCard

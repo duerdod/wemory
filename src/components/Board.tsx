@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   MemoryCard,
   useMemoryDispatch,
-  useMemoryState
+  useMemoryState,
 } from '../context/memory-context';
 import { deviceWidth } from '../Theme';
 import { hasLength, wait } from '../utils/index';
@@ -33,7 +33,6 @@ const Board: React.FC = () => {
     if (hasLength(selectedCards, 2)) {
       wait(500).then((): void => {
         dispatch({ type: 'CHECK_MATCH', payload: { selectedCards } });
-        dispatch({ type: 'TRY_WIN' });
       });
     }
   }, [selectedCards, cards, dispatch]);
@@ -44,12 +43,23 @@ const Board: React.FC = () => {
       dispatch({
         type: 'SELECT',
         payload: {
-          selectedCard: card
-        }
+          selectedCard: card,
+        },
       });
     },
     [dispatch]
   );
+
+  useEffect(() => {
+    // Because this never unmounts.
+    if (isGameWon) {
+      document.body.classList.add('scroll-lock');
+    } else {
+      document.body.classList.remove('scroll-lock');
+    }
+
+    return () => document.body.classList.remove('scroll-lock');
+  }, [isGameWon]);
 
   return (
     <Container ref={gridRef}>

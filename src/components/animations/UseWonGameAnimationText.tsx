@@ -12,13 +12,13 @@ export const UseWonGameAnimationText = (): any => {
     config: { ...config.molasses, duration: 3000 },
     from: {
       rotate: 0,
-      scale: '0'
+      scale: '0',
     },
     to: {
       rotate: 10,
-      scale: '1.3'
+      scale: '1.3',
     },
-    delay: cards.length * 20
+    delay: cards.length * 20,
   });
 
   const secondSpringRef: MutableRefObject<any> = useRef();
@@ -27,13 +27,13 @@ export const UseWonGameAnimationText = (): any => {
     config: { ...config.wobbly, friction: 6 },
     from: {
       opacity: 0,
-      transform: 'scale(0.1)'
+      transform: 'scale(0.1)',
     },
     to: {
       opacity: 1,
-      transform: 'scale(1)'
+      transform: 'scale(1)',
     },
-    delay: 2000
+    delay: 2000,
   });
 
   const thirdSpringRef: MutableRefObject<any> = useRef();
@@ -41,17 +41,17 @@ export const UseWonGameAnimationText = (): any => {
     ref: thirdSpringRef,
     config: { ...config.stiff, duration: 400 },
     from: {
-      textShadow: 11
+      textShadow: 11,
     },
     to: {
-      textShadow: 110
+      textShadow: 110,
     },
-    delay: 3200
+    delay: 3200,
   });
 
   return [
     { firstSpringRef, secondSpringRef, thirdSpringRef },
-    { firstSpring, secondSpring, thirdSpring }
+    { firstSpring, secondSpring, thirdSpring },
   ] as [
     {
       firstSpringRef?: MutableRefObject<any>;

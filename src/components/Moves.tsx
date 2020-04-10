@@ -27,12 +27,13 @@ const MovesValue = styled(animated.h3)<MovesValueProps>`
 
   &.won {
     position: relative;
+    left: 95px;
     &::after {
       position: absolute;
       transition: opacity 2s ease;
       content: 'moves';
       font-size: 1rem;
-      opacity: ${p => (p.won ? '1' : '0')};
+      opacity: ${(p) => (p.won ? '1' : '0')};
       text-shadow: ${coolShadow('lightgrey', 1)};
       top: 24px;
       left: -9px;
@@ -48,32 +49,32 @@ const Moves = () => {
     from: { transform: 'scaleY(0.2)' },
     enter: { transform: 'scaleY(1)' },
     leave: { transform: 'scaleY(1)' },
-    config: { duration: 150 }
+    config: { duration: 150 },
   });
 
   const transform = useTransition(isGameWon, null, {
     unique: true,
     from: {
-      transform: 'scale(1)'
+      transform: 'scale(1)',
     },
     // @ts-ignore
-    enter: () => async next => {
+    enter: () => async (next) => {
       await wait(500);
       await next({ transform: 'scale(3.2)' });
     },
     leave: {
       transform: 'scale(0)',
       opacity: 0,
-      position: 'absolute'
+      position: 'absolute',
     },
-    config: { friction: 14, tension: 420 }
+    config: { friction: 14, tension: 420 },
   });
 
   return (
     <MovesContainer>
       {!isGameWon &&
         spring.map(({ item, props, key }) => (
-          <MovesValue key={key} style={props} className="prupp">
+          <MovesValue key={key} style={props}>
             {item}
           </MovesValue>
         ))}
