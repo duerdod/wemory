@@ -4,6 +4,8 @@ Exploring Typescript, still.
 
 ### 🎰🎯🎳 Memory available at https://wemory.okbry.cool/
 
-### Todo
+### Using
 
-1. Types, types, types, types
+XState
+Styled Components
+React Spring
