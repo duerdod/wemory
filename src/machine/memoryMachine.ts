@@ -87,6 +87,7 @@ const checkMatch = assign<MemoryState>({
 
 interface MemorySchema {
     states: {
+        idle: {}
         playing: {
             states: {
                 first: {};
@@ -103,11 +104,16 @@ export const MemoryMachine = Machine<MemoryState, MemorySchema, MemoryEvents>({
     initial: 'playing',
     context: { ...initialState },
     states: {
+        idle: {
+            on: {
+                '': 'playing'
+            }
+        },
         playing: {
             on: {
                 '': {
-                    target: 'gameWon',
                     cond: 'isGameWon',
+                    target: 'gameWon',
                 }
             },
             initial: 'first',
@@ -131,10 +137,11 @@ export const MemoryMachine = Machine<MemoryState, MemorySchema, MemoryEvents>({
                     }
                 },
                 checking: {
+                    onEntry: 'checkMatch',
                     after: {
-                        500: {
+                        700: {
                             target: '#Memory.playing',
-                            actions: ['checkMatch', 'flipAllButCollected']
+                            actions: 'flipAllButCollected'
                         }
                     }
                 }
