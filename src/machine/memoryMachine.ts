@@ -87,32 +87,6 @@ const actions = {
     })
 }
 
-const checkMatch = assign<MemoryState>({
-    cards: (context) => {
-        const { cards, selectedCards }: { cards: MemoryCard[], selectedCards: MemoryCard[] } = context;
-
-        // Could this be a guard instead?
-        if (hasLength(selectedCards, 2)) {
-            const [c1, c2] = selectedCards;
-
-            if (isMatch(c1, c2)) {
-                const collectedCards = cards.map(c => ({
-                    ...c,
-                    isOpen: false,
-                    isCollected: isEqual(c1.uniqueId, c.uniqueId) || isEqual(c2.uniqueId, c.uniqueId)
-                        ? true
-                        : c.isCollected
-                }))
-
-                return collectedCards
-
-            }
-        }
-        // else
-        return cards
-    }
-})
-
 interface MemorySchema {
     states: {
         idle: {}
