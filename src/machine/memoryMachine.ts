@@ -1,6 +1,7 @@
 import { MemoryState, MemoryCard } from '../context/memory-context'
 import { hasLength, generateCards, isDev } from '../utils'
 import { Machine, assign, AnyEventObject } from 'xstate'
+import { Action as MemoryEvents } from './actions'
 
 const CARD_COUNT = isDev() ? 2 : 18;
 
@@ -97,7 +98,7 @@ interface MemorySchema {
     }
 }
 
-export const MemoryMachine = Machine<MemoryState, MemorySchema>({
+export const MemoryMachine = Machine<MemoryState, MemorySchema, MemoryEvents>({
     id: 'Memory',
     initial: 'playing',
     context: { ...initialState },

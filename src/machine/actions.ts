@@ -2,7 +2,7 @@ import { MemoryCard, EmojiType } from '../context/memory-context'
 
 export type Action =
     | {
-        type: 'SELECT';
+        type: 'SELECT_CARD';
         payload: { selectedCard: MemoryCard };
     }
     | {
