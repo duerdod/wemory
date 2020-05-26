@@ -1,4 +1,5 @@
-import React, { memo, useEffect, useRef } from 'react';
+// @ts-nocheck
+import React, { memo, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import {
   MemoryCard,
@@ -6,7 +7,6 @@ import {
   useMemoryState,
 } from '../context/memory-context';
 import { deviceWidth } from '../Theme';
-import { hasLength, wait } from '../utils/index';
 import { Card, CardContent } from './Card';
 import { WonGame } from './WonGame';
 
@@ -25,37 +25,19 @@ const Container = styled.div`
 `;
 
 const Board: React.FC = () => {
-  const { cards, selectedCards, isGameWon } = useMemoryState();
-  const dispatch = useMemoryDispatch();
+  const { cards, isGameWon } = useMemoryState();
+  const send = useMemoryDispatch();
+
   const gridRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    if (hasLength(selectedCards, 2)) {
-      wait(500).then((): void => {
-        dispatch({ type: 'CHECK_MATCH', payload: { selectedCards } });
-      });
-    }
-  }, [selectedCards, cards, dispatch]);
-
-  const selectCard = React.useCallback(
-    (e, card) => {
-      e.preventDefault();
-      dispatch({
-        type: 'SELECT',
-        payload: {
-          selectedCard: card,
-        },
-      });
-    },
-    [dispatch]
+  const selectCard = useCallback(
+    (_, card) => send({ type: 'SELECT_CARD', card }),
+    [send]
   );
 
   useEffect(() => {
-    // Because this never unmounts.
     if (isGameWon) {
       document.body.classList.add('scroll-lock');
-    } else {
-      document.body.classList.remove('scroll-lock');
     }
 
     return () => document.body.classList.remove('scroll-lock');

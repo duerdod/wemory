@@ -1,10 +1,7 @@
-import React, { useContext, createContext, useReducer } from 'react';
-
-import { generateCards, isDev } from '../utils/index';
-import { memoryReducer } from '../reducers/memoryReducer';
-import { Action } from '../reducers/actions';
-
-const CARD_COUNT = isDev() ? 2 : 18;
+import { useMachine } from '@xstate/react';
+import React, { createContext, useContext } from 'react';
+import { Action } from '../machine/actions';
+import { MemoryMachine } from '../machine/memoryMachine';
 
 export interface MemoryCard {
   memoryId: number;
@@ -19,34 +16,33 @@ export interface MemoryCard {
 export type MemoryState = {
   cards: MemoryCard[];
   selectedCards: MemoryCard[];
-  isGameWon: boolean;
   moves: number;
   cardType: EmojiType;
 };
+
+interface ExtendedMemoryState extends MemoryState {
+  isGameWon: boolean;
+}
 
 export type EmojiType = 'foods' | 'animals' | null;
 
 type MemoryDispatch = (action: Action) => void;
 
-const MemoryStateContext = createContext<MemoryState | undefined>(undefined);
+const MemoryStateContext = createContext<ExtendedMemoryState | undefined>(
+  undefined
+);
 const MemoryDispatchContext = createContext<MemoryDispatch | undefined>(
   undefined
 );
 
-export const initialState: MemoryState = {
-  cards: generateCards(CARD_COUNT, 'animals'),
-  selectedCards: [],
-  isGameWon: false,
-  moves: 0,
-  cardType: 'animals'
-};
-
 const MemoryProvider: React.FC = ({ children }) => {
-  const [memoryState, memoryDispatch] = useReducer(memoryReducer, initialState);
+  const [current, send] = useMachine(MemoryMachine);
+
+  const isGameWon = current.matches('gameWon');
 
   return (
-    <MemoryStateContext.Provider value={memoryState}>
-      <MemoryDispatchContext.Provider value={memoryDispatch}>
+    <MemoryStateContext.Provider value={{ ...current.context, isGameWon }}>
+      <MemoryDispatchContext.Provider value={send}>
         {children}
       </MemoryDispatchContext.Provider>
     </MemoryStateContext.Provider>
@@ -63,11 +59,11 @@ function useMemoryState() {
 }
 
 function useMemoryDispatch() {
-  const dispatch = useContext(MemoryDispatchContext);
-  if (!dispatch) {
+  const send = useContext(MemoryDispatchContext);
+  if (!send) {
     throw new Error('UseMemoryDispatch is not inside MemoryProvider');
   }
-  return dispatch;
+  return send;
 }
 
 export { MemoryProvider, useMemoryState, useMemoryDispatch };

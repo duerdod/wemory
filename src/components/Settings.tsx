@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   useMemoryDispatch,
   useMemoryState,
-  EmojiType
+  EmojiType,
 } from '../context/memory-context';
 import { Modal, ModalState } from './Modal';
 
@@ -79,7 +79,7 @@ const Range = styled.span<{ range: number; current: number }>`
     font-family: inherit;
     font-size: 2.1rem;
     transition: all ${theme.transition};
-    content: '${p => p.range}';
+    content: '${(p) => p.range}';
     ${({ current, range }) =>
       current === range ? `color: ${theme.titleColor};` : 'opacity: 0.4'}
   }
@@ -111,29 +111,29 @@ interface ISettings {
 }
 
 export const Settings = ({ showModal, setShowModal }: ModalState) => {
-  const dispatch = useMemoryDispatch();
+  const send = useMemoryDispatch();
   const { cards, cardType } = useMemoryState();
 
   const [settings, setSettings] = useState<ISettings>({
     cardCount: cards.length,
-    cardType: cardType as EmojiType
+    cardType: cardType as EmojiType,
   });
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLFormElement>) => {
     setSettings({
       cardCount: Number(e.currentTarget.cardCount.value),
-      cardType: e.currentTarget.cardType.value
+      cardType: e.currentTarget.cardType.value,
     });
   }, []);
 
   const handleSumbit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch({
-      type: 'INIT',
-      payload: {
+    send({
+      type: 'RESET',
+      gameSettings: {
         cardCount: Number(e.currentTarget.cardCount.value),
-        cardType: e.currentTarget.cardType.value
-      }
+        cardType: e.currentTarget.cardType.value,
+      },
     });
     setShowModal(false);
   };
@@ -194,7 +194,7 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
           <FormSection>
             <Title>How many cards?</Title>
             <Ranges>
-              {ranges.map(range => (
+              {ranges.map((range) => (
                 <Range range={range} key={range} current={settings.cardCount} />
               ))}
             </Ranges>

@@ -76,7 +76,8 @@ export const WonGame: React.FC<{
   grid: React.MutableRefObject<any>;
 }> = ({ grid }): any => {
   const { cards, cardType } = useMemoryState();
-  const dispatch = useMemoryDispatch();
+
+  const send = useMemoryDispatch();
 
   const [
     { firstSpringRef, secondSpringRef, thirdSpringRef },
@@ -91,12 +92,14 @@ export const WonGame: React.FC<{
     grid,
   });
 
-  const handleClick = useCallback(() => {
-    dispatch({
-      type: 'INIT',
-      payload: { cardCount: cards.length, cardType },
-    });
-  }, [cards.length, cardType, dispatch]);
+  const handleClick = useCallback(
+    () =>
+      send({
+        type: 'RESET',
+        gameSettings: { cardCount: cards.length, cardType },
+      }),
+    [send, cards, cardType]
+  );
 
   useChain([transitionRef, firstSpringRef, secondSpringRef, thirdSpringRef]);
 
