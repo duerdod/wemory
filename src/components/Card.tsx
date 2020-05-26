@@ -1,14 +1,14 @@
-import React from 'react';
-import { animated, useSpring } from 'react-spring';
-import styled from 'styled-components';
-import { MemoryCard } from '../context/memory-context';
-import { deviceWidth, theme } from '../Theme';
-import { adjustLightness, coolShadow } from '../utils/index';
+import React from 'react'
+import { animated, useSpring } from 'react-spring'
+import styled from 'styled-components'
+import { MemoryCard } from '../context/memory-context'
+import { deviceWidth, theme } from '../Theme'
+import { adjustLightness, coolShadow } from '../utils/index'
 
 interface StyledCardProps {
-  background: string;
-  discovered: boolean;
-  className?: string;
+  background: string
+  discovered: boolean
+  className?: string
 }
 
 export const StyledCard = styled(animated.button)<StyledCardProps>`
@@ -54,52 +54,49 @@ export const StyledCard = styled(animated.button)<StyledCardProps>`
         font-size: 2.7rem;
       }
   `}
-`;
+`
 
 interface CardContentProps {
-  isOpen: boolean;
-  isCollected: boolean;
-  identifier: string[] | null;
+  isOpen: boolean
+  isCollected: boolean
+  identifier: string[] | null
 }
 
 interface CardProps extends MemoryCard {
-  children: React.ReactNode;
-  selectCard: (
-    e: React.MouseEvent<HTMLButtonElement>,
-    card: MemoryCard
-  ) => void;
+  children: React.ReactNode
+  selectCard: (e: React.MouseEvent<HTMLButtonElement>, card: MemoryCard) => void
 }
 
 export const Card = (card: CardProps) => {
-  const { isCollected, isOpen, bgColor, selectCard, children } = card;
+  const { isCollected, isOpen, bgColor, selectCard, children } = card
 
   const { transform } = useSpring({
     transform: `perspective(600px) rotateX(${
       isOpen || isCollected ? 180 : 0
     }deg)`,
-    config: { tension: 240, friction: 12 }
-  });
+    config: { tension: 240, friction: 12 },
+  })
 
   return (
     <StyledCard
       discovered={isCollected || isOpen}
       background={bgColor}
-      onClick={e => selectCard(e, card)}
+      onClick={(e) => selectCard(e, card)}
       style={{
         transform: transform.interpolate(
-          transform => `${transform} rotateX(180deg)`
-        )
+          (transform) => `${transform} rotateX(180deg)`
+        ),
       }}
     >
       {children}
     </StyledCard>
-  );
-};
+  )
+}
 
 export const CardContent = ({
   isOpen,
   isCollected,
-  identifier
+  identifier,
 }: CardContentProps) => {
-  return identifier && <span>{(isOpen || isCollected) && identifier}</span>;
-};
+  return identifier && <span>{(isOpen || isCollected) && identifier}</span>
+}

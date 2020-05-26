@@ -1,8 +1,8 @@
-import React from 'react';
-import { animated, useTransition } from 'react-spring';
-import styled from 'styled-components';
-import { useMemoryState } from '../context/memory-context';
-import { coolShadow, wait } from '../utils/index';
+import React, { CSSProperties } from 'react'
+import { animated, useTransition } from 'react-spring'
+import styled from 'styled-components'
+import { useMemoryState } from '../context/memory-context'
+import { coolShadow, wait } from '../utils/index'
 
 const MovesContainer = styled.div`
   z-index: 1;
@@ -11,10 +11,10 @@ const MovesContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-`;
+`
 
 interface MovesValueProps {
-  won?: boolean;
+  won?: boolean
 }
 
 const MovesValue = styled(animated.h3)<MovesValueProps>`
@@ -39,18 +39,18 @@ const MovesValue = styled(animated.h3)<MovesValueProps>`
       left: -9px;
     }
   }
-`;
+`
 
 // TODO: Add types.
 const Moves = () => {
-  const { moves, isGameWon } = useMemoryState();
+  const { moves, isGameWon } = useMemoryState()
   const spring = useTransition(moves, null, {
     unique: true,
     from: { transform: 'scaleY(0.2)' },
     enter: { transform: 'scaleY(1)' },
     leave: { transform: 'scaleY(1)' },
     config: { duration: 150 },
-  });
+  })
 
   const transform = useTransition(isGameWon, null, {
     unique: true,
@@ -59,8 +59,8 @@ const Moves = () => {
     },
     // @ts-ignore
     enter: () => async (next) => {
-      await wait(500);
-      await next({ transform: 'scale(3.2)' });
+      await wait(500)
+      await next({ transform: 'scale(3.2)' })
     },
     leave: {
       transform: 'scale(0)',
@@ -68,7 +68,7 @@ const Moves = () => {
       position: 'absolute',
     },
     config: { friction: 14, tension: 420 },
-  });
+  })
 
   return (
     <MovesContainer>
@@ -88,7 +88,7 @@ const Moves = () => {
         </>
       )}
     </MovesContainer>
-  );
-};
+  )
+}
 
-export default React.memo(Moves);
+export default React.memo(Moves)

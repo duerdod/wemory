@@ -1,40 +1,40 @@
-import React, { ReactNode, CSSProperties, MutableRefObject } from 'react';
-import styled, { css } from 'styled-components';
-import { theme } from '../../Theme';
-import { adjustLightness } from '../../utils/index';
+import React, { ReactNode, CSSProperties, MutableRefObject } from 'react'
+import styled, { css } from 'styled-components'
+import { theme } from '../../Theme'
+import { adjustLightness } from '../../utils/index'
 
 // This is all crap.
-type Type = 'submit' | 'button';
+type Type = 'submit' | 'button'
 
-type Color = 'success' | 'disappointment' | 'neutral';
+type Color = 'success' | 'disappointment' | 'neutral'
 
 interface ButtonProps {
-  children: string | ReactNode;
-  type: Type;
-  color?: Color;
-  size: keyof typeof padding;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  style?: CSSProperties;
-  ref?: MutableRefObject<any>;
+  children: string | ReactNode
+  type: Type
+  color?: Color
+  size: keyof typeof padding
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
+  style?: CSSProperties
+  ref?: MutableRefObject<any>
 }
 
 interface StyledButtonProps {
-  size: keyof typeof padding;
-  color: keyof typeof buttonColors;
-  hsl?: (hsl: string, string: string) => string;
+  size: keyof typeof padding
+  color: keyof typeof buttonColors
+  hsl?: (hsl: string, string: string) => string
 }
 
 const buttonColors = {
   success: theme.titleColor,
   disappointment: theme.backgroundColor,
-  neutral: theme.secondaryColor
-};
+  neutral: theme.secondaryColor,
+}
 
 const padding = {
   small: '0.9rem 0.8rem',
   medium: '0.9rem 1rem',
-  large: '0.9rem 3.4rem'
-};
+  large: '0.9rem 3.4rem',
+}
 
 const StyledButton = styled.button(
   ({ size, color }: StyledButtonProps) => css`
@@ -96,7 +96,7 @@ const StyledButton = styled.button(
       }
     }
   `
-);
+)
 
 export const Button = ({
   children,
@@ -104,7 +104,7 @@ export const Button = ({
   onClick,
   style,
   size = 'medium',
-  color = 'success'
+  color = 'success',
 }: ButtonProps) => {
   return (
     <StyledButton
@@ -116,5 +116,5 @@ export const Button = ({
     >
       {children}
     </StyledButton>
-  );
-};
+  )
+}

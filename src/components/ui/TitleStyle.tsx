@@ -1,6 +1,6 @@
-import { css } from 'styled-components';
-import { theme, deviceWidth } from '../../Theme';
-import { coolShadow } from '../../utils/coolShadow';
+import { css } from 'styled-components'
+import { theme, deviceWidth } from '../../Theme'
+import { coolShadow } from '../../utils/coolShadow'
 
 export const TitleStyle = css`
   max-width: 600px;
@@ -37,4 +37,4 @@ export const TitleStyle = css`
       text-shadow: ${coolShadow(theme.titleTextShadow, 10)};
     }
   `)}
-`;
+`

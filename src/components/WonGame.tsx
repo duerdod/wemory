@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect } from 'react';
-import styled from 'styled-components';
-import { useChain, animated, interpolate } from 'react-spring';
-import { useMemoryState, useMemoryDispatch } from '../context/memory-context';
-import { StyledCard } from './Card';
-import { theme, deviceWidth } from '../Theme';
-import { Button } from './ui/Button';
-import { adjustLightness, coolShadow } from '../utils/index';
+import React, { useCallback, useEffect } from 'react'
+import styled from 'styled-components'
+import { useChain, animated, interpolate } from 'react-spring'
+import { useMemoryState, useMemoryDispatch } from '../context/memory-context'
+import { StyledCard } from './Card'
+import { theme, deviceWidth } from '../Theme'
+import { Button } from './ui/Button'
+import { adjustLightness, coolShadow } from '../utils/index'
 
-import { UseWonGameAnimationText } from './animations/UseWonGameAnimationText';
-import { useWonGameCardsAnimation } from './animations/useWonGameCardsAnimation';
+import { UseWonGameAnimationText } from './animations/UseWonGameAnimationText'
+import { useWonGameCardsAnimation } from './animations/useWonGameCardsAnimation'
 
 // The complete component is bullcrap.
 
@@ -19,7 +19,7 @@ const CongratsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-`;
+`
 
 const Congrats = styled(animated.h2)`
   font-size: 5rem;
@@ -46,7 +46,7 @@ const Congrats = styled(animated.h2)`
       font-size: 1.5rem;
     }
     `}
-`;
+`
 
 const ButtonContainer = styled(animated.div)`
   z-index: 999;
@@ -58,26 +58,26 @@ const ButtonContainer = styled(animated.div)`
       font-size: 1rem;
     }
   `}
-`;
+`
 
 interface TransitionProps {
   item: {
-    bgColor: string;
-    isOpen: boolean;
-    isCollected: boolean;
-    identifier: string;
-  };
-  key: string;
-  props: {};
+    bgColor: string
+    isOpen: boolean
+    isCollected: boolean
+    identifier: string
+  }
+  key: string
+  props: {}
 }
 
 // TODO: Add types.
 export const WonGame: React.FC<{
-  grid: React.MutableRefObject<any>;
+  grid: React.MutableRefObject<any>
 }> = ({ grid }): any => {
-  const { cards, cardType } = useMemoryState();
+  const { cards, cardType } = useMemoryState()
 
-  const send = useMemoryDispatch();
+  const send = useMemoryDispatch()
 
   const [
     { firstSpringRef, secondSpringRef, thirdSpringRef },
@@ -86,11 +86,11 @@ export const WonGame: React.FC<{
       secondSpring,
       thirdSpring: { textShadow },
     },
-  ] = UseWonGameAnimationText();
+  ] = UseWonGameAnimationText()
 
   const { transitionRef, transition, showCongrats } = useWonGameCardsAnimation({
     grid,
-  });
+  })
 
   const handleClick = useCallback(
     () =>
@@ -99,9 +99,9 @@ export const WonGame: React.FC<{
         gameSettings: { cardCount: cards.length, cardType },
       }),
     [send, cards, cardType]
-  );
+  )
 
-  useChain([transitionRef, firstSpringRef, secondSpringRef, thirdSpringRef]);
+  useChain([transitionRef, firstSpringRef, secondSpringRef, thirdSpringRef])
 
   return (
     <>
@@ -168,9 +168,9 @@ export const WonGame: React.FC<{
                 <span>{(isOpen || isCollected) && identifier}</span>
               )}
             </StyledCard>
-          );
+          )
         }
       )}
     </>
-  );
-};
+  )
+}

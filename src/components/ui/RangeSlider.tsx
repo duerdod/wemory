@@ -1,5 +1,5 @@
-import { css } from 'styled-components';
-import { theme } from '../../Theme';
+import { css } from 'styled-components'
+import { theme } from '../../Theme'
 
 // This is crap, too.
 
@@ -89,4 +89,4 @@ export const rangeSliderStyle = css`
   &:focus::-ms-fill-upper {
     background: ${theme.cardColor};
   }
-`;
+`

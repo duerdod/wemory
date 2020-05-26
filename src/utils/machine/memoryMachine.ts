@@ -98,7 +98,7 @@ const actions = {
             isOpen: false,
             isCollected:
               isEqual(c1.uniqueId, c.uniqueId) ||
-                isEqual(c2.uniqueId, c.uniqueId)
+              isEqual(c2.uniqueId, c.uniqueId)
                 ? true
                 : c.isCollected,
           }))

@@ -1,14 +1,14 @@
-import React from 'react';
-import { animated, useSpring } from 'react-spring';
-import styled from 'styled-components';
-import { theme } from '../Theme';
-import { coolShadow, wait } from '../utils/index';
-import { TitleStyle } from './ui/TitleStyle';
+import React from 'react'
+import { animated, useSpring } from 'react-spring'
+import styled from 'styled-components'
+import { theme } from '../Theme'
+import { coolShadow, wait } from '../utils/index'
+import { TitleStyle } from './ui/TitleStyle'
 
 interface IAnimationCalc {
-  transform: string;
+  transform: string
   // Why no params?
-  textShadow: () => string;
+  textShadow: () => string
 }
 
 const TitleContainer = styled.div`
@@ -16,14 +16,14 @@ const TitleContainer = styled.div`
   text-align: center;
   padding-top: 1rem;
   transform: skew(0deg, -2deg);
-`;
+`
 
 const M = styled(animated.h1)`
   ${TitleStyle}
-`;
+`
 
-const text = 'MEMORY';
-const { titleTextShadow } = theme;
+const text = 'MEMORY'
+const { titleTextShadow } = theme
 
 // ReactNode? Element[]? JSX.Element?!
 export const Title = (): any => {
@@ -31,26 +31,26 @@ export const Title = (): any => {
   const { textShadow, transform } = useSpring({
     from: {
       transform: 'rotateX(0deg) translate(-1px, 1px)',
-      textShadow: coolShadow(titleTextShadow, 10)
+      textShadow: coolShadow(titleTextShadow, 10),
     },
     to: async (
       next: ({ transform, textShadow }: IAnimationCalc) => Promise<void>
     ) => {
       while (1) {
-        await wait(2000);
+        await wait(2000)
         await next({
           transform: 'rotateX(180deg) translate(0px, 6px)',
-          textShadow: coolShadow(titleTextShadow, 10, true)
-        });
-        await wait(13000);
+          textShadow: coolShadow(titleTextShadow, 10, true),
+        })
+        await wait(13000)
         await next({
           transform: 'rotateX(0deg) translate(-1px, 1px)',
-          textShadow: coolShadow(titleTextShadow, 10)
-        });
+          textShadow: coolShadow(titleTextShadow, 10),
+        })
       }
     },
-    config: { tension: 240, friction: 8 }
-  });
+    config: { tension: 240, friction: 8 },
+  })
 
   return (
     <TitleContainer>
@@ -64,5 +64,5 @@ export const Title = (): any => {
         </M>
       ))}
     </TitleContainer>
-  );
-};
+  )
+}

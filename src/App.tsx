@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import Board from './components/Board';
-import { Container } from './components/Container';
-import Moves from './components/Moves';
-import { Settings, ShowModalButton } from './components/Settings';
-import { Title } from './components/Title';
+import React, { useState } from 'react'
+import Board from './components/Board'
+import { Container } from './components/Container'
+import Moves from './components/Moves'
+import { Settings, ShowModalButton } from './components/Settings'
+import { Title } from './components/Title'
 
 const App: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
-  const modalProps = { showModal, setShowModal };
+  const [showModal, setShowModal] = useState(false)
+  const modalProps = { showModal, setShowModal }
 
   return (
     <>
@@ -19,7 +19,7 @@ const App: React.FC = () => {
       {showModal && <Settings {...modalProps} />}
       <Board />
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App

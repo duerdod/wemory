@@ -1,8 +1,8 @@
-import React, { ReactNode, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import { useTransition, animated, config } from 'react-spring';
-import styled from 'styled-components';
-import { deviceWidth } from '../Theme';
+import React, { ReactNode, useEffect } from 'react'
+import { createPortal } from 'react-dom'
+import { useTransition, animated, config } from 'react-spring'
+import styled from 'styled-components'
+import { deviceWidth } from '../Theme'
 
 const Backdrop = styled.div`
   position: absolute;
@@ -13,7 +13,7 @@ const Backdrop = styled.div`
   opacity: 0.2;
   top: 0;
   bottom: 0;
-`;
+`
 
 const ModalContainer = styled(animated.div)`
   background: whitesmoke;
@@ -45,41 +45,41 @@ const ModalContainer = styled(animated.div)`
       top: 50%;
     }  
   `}
-`;
+`
 
 export interface ModalState {
-  showModal?: boolean;
-  show?: boolean;
-  setShowModal: (state: boolean) => void;
+  showModal?: boolean
+  show?: boolean
+  setShowModal: (state: boolean) => void
 }
 
 interface ModalInterface extends ModalState {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export const Modal = ({
   children,
   showModal,
-  setShowModal
+  setShowModal,
 }: ModalInterface) => {
-  const root = document.getElementById('root') as HTMLElement;
+  const root = document.getElementById('root') as HTMLElement
   const transition = useTransition(showModal, null, {
     config: { ...config.wobbly, tension: 200 },
     from: { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 },
     enter: { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
-    leave: { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 }
-  });
+    leave: { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 },
+  })
 
   function hideModal() {
-    setShowModal(false);
+    setShowModal(false)
   }
 
   /* eslint-disable */
   useEffect(() => {
-    root.classList.add('scroll-lock');
+    root.classList.add('scroll-lock')
 
-    return () => root.classList.remove('scroll-lock');
-  }, [showModal]);
+    return () => root.classList.remove('scroll-lock')
+  }, [showModal])
 
   return showModal
     ? createPortal(
@@ -91,11 +91,11 @@ export const Modal = ({
                   <div>{children}</div>
                 </ModalContainer>
               )
-            );
+            )
           })}
           {showModal && <Backdrop onClick={hideModal} />}
         </>,
         root
       )
-    : null;
-};
+    : null
+}

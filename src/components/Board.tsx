@@ -1,14 +1,13 @@
-// @ts-nocheck
-import React, { memo, useEffect, useRef, useCallback } from 'react';
-import styled from 'styled-components';
+import React, { memo, useEffect, useRef, useCallback } from 'react'
+import styled from 'styled-components'
 import {
   MemoryCard,
   useMemoryDispatch,
   useMemoryState,
-} from '../context/memory-context';
-import { deviceWidth } from '../Theme';
-import { Card, CardContent } from './Card';
-import { WonGame } from './WonGame';
+} from '../context/memory-context'
+import { deviceWidth } from '../Theme'
+import { Card, CardContent } from './Card'
+import { WonGame } from './WonGame'
 
 const Container = styled.div`
   position: relative;
@@ -22,26 +21,26 @@ const Container = styled.div`
   ${deviceWidth.smallDown`
       grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   `}
-`;
+`
 
 const Board: React.FC = () => {
-  const { cards, isGameWon } = useMemoryState();
-  const send = useMemoryDispatch();
+  const { cards, isGameWon } = useMemoryState()
+  const send = useMemoryDispatch()
 
-  const gridRef = useRef<HTMLDivElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null)
 
   const selectCard = useCallback(
     (_, card) => send({ type: 'SELECT_CARD', card }),
     [send]
-  );
+  )
 
   useEffect(() => {
     if (isGameWon) {
-      document.body.classList.add('scroll-lock');
+      document.body.classList.add('scroll-lock')
     }
 
-    return () => document.body.classList.remove('scroll-lock');
-  }, [isGameWon]);
+    return () => document.body.classList.remove('scroll-lock')
+  }, [isGameWon])
 
   return (
     <Container ref={gridRef}>
@@ -55,7 +54,7 @@ const Board: React.FC = () => {
         ))
       )}
     </Container>
-  );
-};
+  )
+}
 
-export default memo(Board);
+export default memo(Board)

@@ -1,21 +1,21 @@
-import React, { useState, useCallback, FormEvent } from 'react';
-import styled from 'styled-components';
+import React, { useState, useCallback, FormEvent } from 'react'
+import styled from 'styled-components'
 import {
   useMemoryDispatch,
   useMemoryState,
   EmojiType,
-} from '../context/memory-context';
-import { Modal, ModalState } from './Modal';
+} from '../context/memory-context'
+import { Modal, ModalState } from './Modal'
 
-import { Button } from './ui/Button';
-import { rangeSliderStyle } from './ui/RangeSlider';
+import { Button } from './ui/Button'
+import { rangeSliderStyle } from './ui/RangeSlider'
 
-import { theme } from '../Theme';
+import { theme } from '../Theme'
 
 const Container = styled.div`
   font-family: ${theme.secondFont};
   color: ${theme.cardColor};
-`;
+`
 
 const Title = styled.h2`
   text-align: center;
@@ -24,17 +24,17 @@ const Title = styled.h2`
   font-size: 2.3rem;
   letter-spacing: 2px;
   margin: 1rem 0;
-`;
+`
 
 const StyledForm = styled.form`
   max-width: 400px;
   margin: 1rem auto 1rem auto;
   text-align: center;
-`;
+`
 
 const FormSection = styled.section`
   margin: 1.5rem 0;
-`;
+`
 
 const LabelContainer = styled.div`
   display: flex;
@@ -64,7 +64,7 @@ const LabelContainer = styled.div`
       border-radius: 100%;
     }
   }
-`;
+`
 
 const Ranges = styled.div`
   display: flex;
@@ -72,7 +72,7 @@ const Ranges = styled.div`
   span {
     margin: 0 12px;
   }
-`;
+`
 
 const Range = styled.span<{ range: number; current: number }>`
   &::after {
@@ -83,17 +83,17 @@ const Range = styled.span<{ range: number; current: number }>`
     ${({ current, range }) =>
       current === range ? `color: ${theme.titleColor};` : 'opacity: 0.4'}
   }
-`;
+`
 
 const RangeInput = styled.input`
   ${rangeSliderStyle}
-`;
+`
 
 const ModalButton = styled.button`
   span {
     font-size: 3rem;
   }
-`;
+`
 
 export const ShowModalButton = React.memo(({ setShowModal }: ModalState) => (
   <ModalButton onClick={() => setShowModal(true)}>
@@ -101,44 +101,44 @@ export const ShowModalButton = React.memo(({ setShowModal }: ModalState) => (
       ⚙
     </span>
   </ModalButton>
-));
+))
 
-const ranges = [6, 12, 18, 24, 30, 36];
+const ranges = [6, 12, 18, 24, 30, 36]
 
 interface ISettings {
-  cardCount: number;
-  cardType: EmojiType;
+  cardCount: number
+  cardType: EmojiType
 }
 
 export const Settings = ({ showModal, setShowModal }: ModalState) => {
-  const send = useMemoryDispatch();
-  const { cards, cardType } = useMemoryState();
+  const send = useMemoryDispatch()
+  const { cards, cardType } = useMemoryState()
 
   const [settings, setSettings] = useState<ISettings>({
     cardCount: cards.length,
     cardType: cardType as EmojiType,
-  });
+  })
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLFormElement>) => {
     setSettings({
       cardCount: Number(e.currentTarget.cardCount.value),
       cardType: e.currentTarget.cardType.value,
-    });
-  }, []);
+    })
+  }, [])
 
   const handleSumbit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     send({
       type: 'RESET',
       gameSettings: {
         cardCount: Number(e.currentTarget.cardCount.value),
         cardType: e.currentTarget.cardType.value,
       },
-    });
-    setShowModal(false);
-  };
+    })
+    setShowModal(false)
+  }
 
-  const modalProps = { showModal, setShowModal };
+  const modalProps = { showModal, setShowModal }
 
   return (
     <Modal {...modalProps}>
@@ -215,5 +215,5 @@ export const Settings = ({ showModal, setShowModal }: ModalState) => {
         </StyledForm>
       </Container>
     </Modal>
-  );
-};
+  )
+}
