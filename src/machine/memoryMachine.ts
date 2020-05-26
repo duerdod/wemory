@@ -12,6 +12,20 @@ const initialState: MemoryState = {
     cardType: 'animals',
 };
 
+interface MemorySchema {
+    states: {
+        idle: {}
+        playing: {
+            states: {
+                first: {};
+                second: {};
+                checking: {}
+            }
+        };
+        gameWon: {}
+    }
+}
+
 const isEqual = (itemOne: string | number, itemTwo: string | number) =>
     itemOne === itemTwo
 
@@ -22,10 +36,11 @@ const isGameWon = (context: MemoryState) =>
     context.cards.every(card => card.isCollected)
 
 // Prevents selecting the same card over and over
-const isNotSelected = (context: MemoryState, event: AnyEventObject) => {
-    const openCards = context.cards.filter(c => c.isOpen);
-    return openCards.find((c: MemoryCard) => c.uniqueId === event.card.uniqueId) ? false : true;
-}
+const isNotSelected = (context: MemoryState, event: AnyEventObject) =>
+    context.cards
+        .filter(c => c.isOpen)
+        .find((c: MemoryCard) => c.uniqueId === event.card.uniqueId) ? false : true;
+
 
 const actions = {
     resetGame: assign<MemoryState>({
@@ -87,21 +102,7 @@ const actions = {
     })
 }
 
-interface MemorySchema {
-    states: {
-        idle: {}
-        playing: {
-            states: {
-                first: {};
-                second: {};
-                checking: {}
-            }
-        };
-        gameWon: {}
-    }
-}
-
-export const MemoryMachine = Machine<MemoryState, MemorySchema, MemoryEvents>({
+const MemoryMachine = Machine<MemoryState, MemorySchema, MemoryEvents>({
     id: 'Memory',
     initial: 'playing',
     context: { ...initialState },
@@ -114,12 +115,6 @@ export const MemoryMachine = Machine<MemoryState, MemorySchema, MemoryEvents>({
             }
         },
         playing: {
-            on: {
-                '': {
-                    cond: 'isGameWon',
-                    target: 'gameWon',
-                }
-            },
             initial: 'first',
             states: {
                 first: {
@@ -146,13 +141,21 @@ export const MemoryMachine = Machine<MemoryState, MemorySchema, MemoryEvents>({
                     // Otherwise you'll have to wait until the timer below is finished, even if it's a match. 
                     // Which is kind of frustrating.
                     after: {
+                        // Arbitrary could be added settings
                         700: {
                             target: '#Memory.playing',
                             actions: 'flipAllButCollected'
                         }
                     }
                 }
-            }
+            },
+            // When in playing state, always conditionally fire this event.
+            on: {
+                '': {
+                    cond: 'isGameWon',
+                    target: 'gameWon',
+                }
+            },
         },
         gameWon: {
             on: {
@@ -178,3 +181,5 @@ export const MemoryMachine = Machine<MemoryState, MemorySchema, MemoryEvents>({
         isNotSelected,
     }
 })
+
+export { MemoryMachine }
